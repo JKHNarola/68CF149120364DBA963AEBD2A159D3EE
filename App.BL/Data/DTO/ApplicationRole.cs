@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace App.BAL.Data.DTO
+namespace App.BL.Data.DTO
 {
     public class ApplicationRole : IdentityRole
     {

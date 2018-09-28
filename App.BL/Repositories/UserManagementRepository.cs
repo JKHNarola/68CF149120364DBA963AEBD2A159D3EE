@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using App.BAL.Data.DTO;
+using App.BL.Data.DTO;
 using App.BL.Interfaces;
-using App.BAL.Data;
+using App.BL.Data;
 
 namespace App.BL.Repositories
 {

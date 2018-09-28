@@ -1,5 +1,5 @@
-using App.BAL.Data;
-using App.BAL.Data.DTO;
+using App.BL.Data;
+using App.BL.Data.DTO;
 using App.BL;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

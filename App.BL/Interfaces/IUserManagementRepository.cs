@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using App.BAL.Data.DTO;
+using App.BL.Data.DTO;
 
 namespace App.BL.Interfaces
 {

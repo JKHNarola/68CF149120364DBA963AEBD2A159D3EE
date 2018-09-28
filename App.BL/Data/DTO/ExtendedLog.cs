@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
-namespace App.BAL.Data.DTO
+namespace App.BL.Data.DTO
 {
     public class ExtendedLog : Log
     {

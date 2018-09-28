@@ -1,4 +1,4 @@
-﻿using App.BAL.Data;
+﻿using App.BL.Data;
 using App.BL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

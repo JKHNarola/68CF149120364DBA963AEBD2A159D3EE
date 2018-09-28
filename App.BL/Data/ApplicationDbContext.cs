@@ -1,4 +1,4 @@
-﻿using App.BAL.Data.DTO;
+﻿using App.BL.Data.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using ZNetCS.AspNetCore.Logging.EntityFrameworkCore;
 
-namespace App.BAL.Data
+namespace App.BL.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {

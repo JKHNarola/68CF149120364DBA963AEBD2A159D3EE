@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace App.BAL.Data.DTO
+namespace App.BL.Data.DTO
 {
     public class ApplicationUserRole : IdentityUserRole<string>
     {
