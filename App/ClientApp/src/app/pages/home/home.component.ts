@@ -6,7 +6,9 @@ import { AuthService } from '../../services/app.auth.service';
     templateUrl: './home.component.html',
 })
 export class HomeComponent {
+    fullName: string = "";
     constructor(private authService: AuthService) {
-        this.authService.getToken();
+        let currUser = this.authService.getCurrentUser();
+        this.fullName = currUser.firstName + " " + currUser.lastName;
     }
 }
