@@ -231,7 +231,3 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-
-# App Settings File
-appsettigns.json
-appsettigns.Development.json
