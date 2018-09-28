@@ -1,0 +1,55 @@
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="shadow-sm card border-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0 my-2">Sign In</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" autocomplete="off">
+                                <div class="form-group">
+                                    <label for="inputUsername">Username</label>
+                                    <input type="text" id="inputUsername" placeholder="Username" formControlName="userName"
+                                           class="form-control" [ngClass]="{ 'is-invalid': (f.userName.dirty || f.userName.touched) && f.userName.errors }">
+                                    <div *ngIf="(f.userName.dirty || f.userName.touched) && f.userName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.userName.errors.required">Username is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPasswd">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="inputPasswd" #inputPasswd
+                                               placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': (f.password.dirty || f.password.touched) && f.password.errors }">
+                                        <div class="input-group-append">
+                                            <button type="button" (click)="inputPasswd.type=inputPasswd.type=='password'?'text':'password'"
+                                                    class="btn btn-default">
+                                                <i *ngIf="inputPasswd.type=='text'" class="fa fa-eye-slash" aria-hidden="true"></i>
+                                                <i *ngIf="inputPasswd.type=='password'" class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="(f.password.dirty || f.password.touched) && f.password.errors" class="invalid-feedback">
+                                            <div *ngIf="f.password.errors.required">Password is required</div>
+                                            <div *ngIf="f.password.errors.minlength">
+                                                Password must be at least 8
+                                                characters
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button [disabled]="loading" type="submit" class="btn btn-primary float-right">
+                                        <span *ngIf="loading"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>LOGIN
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <p class="m-2 text-center">Forgot your password? <a [routerLink]="['/forgotpassword']">Click here</a></p>
+                    <p class="m-2 text-center">New user? <a [routerLink]="['/register']">Register here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

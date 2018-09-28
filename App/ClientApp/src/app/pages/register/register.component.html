@@ -1,0 +1,63 @@
+<div class="container py-5">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="shadow-sm card border-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0 my-2">Sign Up</h3>
+                        </div>
+                        <div class="card-body" *ngIf="!isConfirmEmailSent">
+                            <form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()" autocomplete="off">
+                                <div class="form-group">
+                                    <label for="inputFirstName">First name</label>
+                                    <input type="text" id="inputFirstName" placeholder="First name" formControlName="firstName"
+                                        class="form-control" [ngClass]="{ 'is-invalid': (f.firstName.dirty || f.firstName.touched) && f.firstName.errors }">
+                                    <div *ngIf="(f.firstName.dirty || f.firstName.touched) && f.firstName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.firstName.errors.required">First name is required</div>
+                                        <div *ngIf="f.firstName.errors.maxlength">First name cannot be more than 60
+                                            characters</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputLastName">Last name</label>
+                                    <input type="text" id="inputLastName" placeholder="Last name" formControlName="lastName"
+                                        class="form-control" [ngClass]="{ 'is-invalid': (f.lastName.dirty || f.lastName.touched) && f.lastName.errors }">
+                                    <div *ngIf="(f.lastName.dirty || f.lastName.touched) && f.lastName.errors" class="invalid-feedback">
+                                        <div *ngIf="f.lastName.errors.required">Last name is required</div>
+                                        <div *ngIf="f.lastName.errors.maxlength">Last name cannot be more than 60
+                                            characters</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail">Email</label>
+                                    <input type="text" id="inputEmail" placeholder="Email" formControlName="email"
+                                        class="form-control" [ngClass]="{ 'is-invalid': (f.email.dirty || f.email.touched) && f.email.errors }">
+                                    <div *ngIf="(f.email.dirty || f.email.touched) && f.email.errors" class="invalid-feedback">
+                                        <div *ngIf="f.email.errors.required">Email is required</div>
+                                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button [disabled]="loading||registerForm.invalid" type="submit" class="btn btn-primary float-right"><span
+                                            *ngIf="loading"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>REGISTER</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body text-center" *ngIf="isConfirmEmailSent">
+                            <div>
+                                <h4>Just about there...</h4>
+                            </div>
+                            <div>
+                                Please check your inbox to confirm your account
+                            </div>
+                        </div>
+                    </div>
+                    <p *ngIf="!isConfirmEmailSent" class="text-center mt-2">Already a user? <a [routerLink]="['/login']">Sign
+                            in here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
