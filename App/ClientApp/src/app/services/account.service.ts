@@ -62,4 +62,8 @@ export class AccountService {
     public resetPassword(model: ResetPasswordModel): Observable<ApiRes> {
         return this.apiservice.postWithoutAuth("/api/account/resetpassword", model);
     }
+
+    public logout(): Observable<ApiRes> {
+        return this.apiservice.getWithoutAuth("/api/account/logout");
+    }
 }
