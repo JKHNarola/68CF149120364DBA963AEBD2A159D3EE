@@ -16,3 +16,18 @@ export const pageSlideUpAnimation =
             )
         ]),
     ]);
+
+export const pageFadeInAnimation =
+    trigger('pageFadeInAnimation', [
+        transition(':enter', [
+            style({
+                opacity: 0,
+            }),
+            animate(
+                '.2s ease-in',
+                style({
+                    opacity: 1,
+                })
+            )
+        ]),
+    ]);

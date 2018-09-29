@@ -3,11 +3,13 @@ import { AuthService } from '../../services/app.auth.service';
 import { ApiService } from '../../services/apiservice';
 import { AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
+import { pageFadeInAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
-    providers: [ApiService, AccountService]
+    providers: [ApiService, AccountService],
+    animations: [pageFadeInAnimation]
 })
 export class HomeComponent {
     fullName: string = "";
