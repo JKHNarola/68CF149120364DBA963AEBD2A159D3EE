@@ -36,7 +36,7 @@ export class PrintService {
         </html>
         `;
         
-        console.log(content);
+        // console.log(content);
         popupWin.document.write(content);
         popupWin.document.close();
     }
