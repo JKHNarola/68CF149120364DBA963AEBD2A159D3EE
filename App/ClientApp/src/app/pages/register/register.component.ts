@@ -1,25 +1,19 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/apiservice';
 import { RegisterModel } from '../../models/account/register.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { routerTransition } from '../../misc/page.animation';
+import { pageSlideUpAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'register',
     templateUrl: './register.component.html',
     providers: [ApiService, AccountService],
-    animations: [routerTransition]
-
+    animations: [pageSlideUpAnimation]
 })
 export class RegisterComponent implements OnInit {
-    @HostBinding("@routerTransition")
-    routeAnimation = true;
-    @HostBinding("style.display")
-    display = "block";
-
     registerForm: FormGroup;
     loading = false;
     isConfirmEmailSent = false;

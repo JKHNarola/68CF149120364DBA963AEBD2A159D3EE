@@ -1,24 +1,19 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/app.auth.service";
 import { Router } from "@angular/router";
 import { ApiService } from "../../services/apiservice";
 import { ToastrService } from "ngx-toastr";
-import { routerTransition } from "../../misc/page.animation";
+import { pageSlideUpAnimation } from "../../misc/page.animation";
 
 @Component({
     selector: "login",
     templateUrl: "./login.component.html",
     providers: [ApiService, AccountService],
-    animations: [routerTransition]
+    animations: [pageSlideUpAnimation]
 })
 export class LoginComponent implements OnInit {
-    @HostBinding("@routerTransition")
-    routeAnimation = true;
-    @HostBinding("style.display")
-    display = "block";
-
     loginForm: FormGroup;
     loading = false;
 

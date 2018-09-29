@@ -1,19 +1,18 @@
-import { trigger, transition, query, group, style, animate } from "@angular/animations";
+import { trigger, animate, transition, style } from '@angular/animations';
 
-export const routerTransition = [
-    trigger("routerTransition", [
-        transition("* <=> *", [
-            query(":enter, :leave", style({ position: "fixed", opacity: 1 })),
-            group([
-                query(":enter", [
-                    style({ opacity: 0 }),
-                    animate("1000ms ease-in-out", style({ opacity: 1 }))
-                ]),
-                query(":leave", [
-                    style({ opacity: 1 }),
-                    animate("1000ms ease-in-out", style({ opacity: 0 }))
-                ])
-            ])
-        ])
-    ])
-];
+export const pageSlideUpAnimation =
+    trigger('pageSlideUpAnimation', [
+        transition(':enter', [
+            style({
+                opacity: 0,
+                transform: 'translateY(10px)'
+            }),
+            animate(
+                '.3s cubic-bezier(0.680, -0.100, 0.265, 1.50)',
+                style({
+                    opacity: 1,
+                    transform: 'translateY(0)'
+                })
+            )
+        ]),
+    ]);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/apiservice';
@@ -6,12 +6,14 @@ import { AuthService } from '../../services/app.auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SetPasswordModel } from '../../models/account/setpassword.model';
+import { pageSlideUpAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'set-password',
     templateUrl: './setpassword.component.html',
     styleUrls: ['./setpassword.component.scss'],
-    providers: [ApiService, AccountService]
+    providers: [ApiService, AccountService],
+    animations: [pageSlideUpAnimation]
 })
 export class SetPasswordComponent implements OnInit {
     setpasswordForm: FormGroup;

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/apiservice';
+import { pageSlideUpAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'forgot-password',
     templateUrl: './forgotpassword.component.html',
-    providers: [ApiService, AccountService]
+    providers: [ApiService, AccountService],
+    animations: [pageSlideUpAnimation]
 })
 export class ForgotPasswordComponent implements OnInit {
     forgotPassForm: FormGroup;

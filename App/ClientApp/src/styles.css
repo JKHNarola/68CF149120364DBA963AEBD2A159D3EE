@@ -1,4 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-body {
+/* body {
     background-color: rgb(240, 240, 240);
+} */
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgb(240, 240, 240);
+    /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom right, 
+    rgb(226, 230, 245), 
+    rgb(250, 245, 231));
+    /* Standard syntax (must be last) */
+
 }

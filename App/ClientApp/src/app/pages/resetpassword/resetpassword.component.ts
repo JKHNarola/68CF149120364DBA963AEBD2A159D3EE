@@ -6,11 +6,13 @@ import { AuthService } from '../../services/app.auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResetPasswordModel } from '../../models/account/resetpassword.model';
+import { pageSlideUpAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'reset-password',
     templateUrl: './resetpassword.component.html',
-    providers: [ApiService, AccountService]
+    providers: [ApiService, AccountService],
+    animations: [pageSlideUpAnimation]
 })
 export class ResetPasswordComponent implements OnInit {
     resetpasswordForm: FormGroup;
