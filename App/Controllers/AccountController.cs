@@ -272,7 +272,7 @@ namespace App.Controllers
                 return OtherResult(HttpStatusCode.BadRequest, "Email is required.");
 
             var user = await _userManager.FindByEmailAsync(email);
-            if(user == null)
+            if (user == null)
                 return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
 
             var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -305,11 +305,37 @@ namespace App.Controllers
                 await _userManager.UpdateSecurityStampAsync(user);
                 var loginRes = await PerformLogin(new LoginModel() { UserName = user.UserName, Password = model.NewPassword });
                 if (loginRes != null)
-                    return OKResult(1, "password successfully changed. login successfull", loginRes);
+                    return OKResult(1, "password successfully reset. login successfull", loginRes);
             }
             return OKResult(2, "link expired");
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return InvalidModelStateResult(ModelState);
+
+            var userid = User.GetUserId();
+            if (string.IsNullOrEmpty(userid))
+                return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
+
+            var user = await _userRepo.GetSingleAsync(x => x.Id == userid);
+            if (user == null)
+                return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                await _userManager.UpdateSecurityStampAsync(user);
+                var loginRes = await PerformLogin(new LoginModel() { UserName = user.UserName, Password = model.NewPassword });
+                if (loginRes != null)
+                    return OKResult(1, "password successfully changed. login successfull", loginRes);
+            }
+            return OKResult(2, "change password falied", result.Errors);
+        }
 
         [HttpGet]
         [Route("logout")]

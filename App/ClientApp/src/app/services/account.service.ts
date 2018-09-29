@@ -7,6 +7,7 @@ import { RegisterModel } from "../models/account/register.model";
 import { KeyValuePair } from "./models/keyvalue.model";
 import { SetPasswordModel } from "../models/account/setpassword.model";
 import { ResetPasswordModel } from "../models/account/resetpassword.model";
+import { ChangePasswordModel } from "../models/account/changepassword.model";
 
 @Injectable()
 export class AccountService {
@@ -61,6 +62,10 @@ export class AccountService {
 
     public resetPassword(model: ResetPasswordModel): Observable<ApiRes> {
         return this.apiservice.postWithoutAuth("/api/account/resetpassword", model);
+    }
+
+    public changePassword(model: ChangePasswordModel): Observable<ApiRes> {
+        return this.apiservice.post("/api/account/changepassword", model);
     }
 
     public logout(): Observable<ApiRes> {

@@ -50,6 +50,7 @@ import { Page3Component } from './pages/page3/page3.component';
 import { Page4Component } from './pages/page4/page4.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.component';
+import { ChangePasswordComponent } from './pages/changepassword/changepassword.component';
 
 @NgModule({
     declarations: [
@@ -64,7 +65,8 @@ import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.comp
         Page3Component,
         Page4Component,
         ForgotPasswordComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        ChangePasswordComponent
     ],
     imports: [
         BrowserModule,

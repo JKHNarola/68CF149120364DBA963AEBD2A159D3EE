@@ -13,6 +13,7 @@ import { Page3Component } from './pages/page3/page3.component';
 import { Page4Component } from './pages/page4/page4.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.component';
+import { ChangePasswordComponent } from './pages/changepassword/changepassword.component';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -54,6 +55,10 @@ export const routes: Routes = [
             {
                 path: 'page4',
                 component: Page4Component
+            },
+            {
+                path: 'changepassword',
+                component: ChangePasswordComponent
             },
         ]
     },

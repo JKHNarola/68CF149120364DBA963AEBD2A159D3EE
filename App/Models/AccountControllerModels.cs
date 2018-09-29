@@ -76,4 +76,15 @@ namespace App.Models
         [Required(ErrorMessage = "Code is required.")]
         public string Code { get; set; }
     }
+
+    public class ChangePasswordModel
+    {
+        [Required(ErrorMessage = "New password is required.")]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+
+        [Required(ErrorMessage = "Current password is required.")]
+        [DataType(DataType.Password)]
+        public string CurrentPassword { get; set; }
+    }
 }
