@@ -69,7 +69,7 @@ export class ChangePasswordComponent implements OnInit {
                         for (let x of res.jsonData) {
                             msg += x.description + "<br>";
                         }
-                        msg += "<br>Please try again."
+                        msg += "<br>Please try again.";
                         this.toastrService.error(msg);
                     }
                 }
