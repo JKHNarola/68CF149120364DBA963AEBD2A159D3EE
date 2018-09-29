@@ -5,11 +5,38 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ToastrModule } from 'ngx-toastr';
 import { routes, AuthGuardService } from './app.router';
 import { AuthService } from './services/app.auth.service';
 import { JwtInterceptor } from './misc/JwtInterceptor';
 import { ErrorInterceptor } from './misc/errorinterceptor';
+
+import { ToastrModule } from 'ngx-toastr';
+import { FusionChartsModule } from 'angular-fusioncharts';
+import FusionCharts from 'fusioncharts/core';
+import Column2D from 'fusioncharts/viz/column2d';
+import Doughnut2d from 'fusioncharts/viz/doughnut2d';
+import MsLine from 'fusioncharts/viz/msline';
+import Bubble from 'fusioncharts/viz/bubble';
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import * as CandyTheme from 'fusioncharts/themes/fusioncharts.theme.candy';
+import * as CarbonTheme from 'fusioncharts/themes/fusioncharts.theme.carbon';
+import * as GammelTheme from 'fusioncharts/themes/fusioncharts.theme.gammel';
+import * as OceanTheme from 'fusioncharts/themes/fusioncharts.theme.ocean';
+import * as ZuneTheme from 'fusioncharts/themes/fusioncharts.theme.zune';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
+FusionChartsModule.fcRoot(
+    FusionCharts,
+    Column2D,
+    Doughnut2d,
+    MsLine,
+    Bubble,
+    FusionTheme,
+    CandyTheme,
+    GammelTheme,
+    CarbonTheme,
+    OceanTheme,
+    ZuneTheme,
+    FintTheme);
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -54,7 +81,8 @@ import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.comp
             preventDuplicates: true,
             resetTimeoutOnDuplicate: true,
             closeButton: true
-        })
+        }),
+        FusionChartsModule
     ],
     providers: [
         AuthService,
@@ -68,7 +96,7 @@ import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.comp
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorInterceptor,
             multi: true,
-        },
+        }
     ],
     bootstrap: [AppComponent]
 })

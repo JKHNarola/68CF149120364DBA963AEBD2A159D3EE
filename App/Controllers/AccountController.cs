@@ -401,7 +401,10 @@ namespace App.Controllers
                 "<a " +
                 "href='[verifyaccounturl]' " +
                 "target='_blank' " +
-                ">VERIFY ACCOUNT</a>";
+                ">[verifyaccounturl]</a>" +
+                "<div style='margin-top:30px;'>Regards,</div>" +
+                "<div>Admin</div>"
+                ;
             try
             {
                 var emailTemplatefile = AppCommon.ConfirmEmailTemplateFilePath;
@@ -444,7 +447,9 @@ namespace App.Controllers
                 "<a " +
                 "href='[setpasswordurl]' " +
                 "target='_blank' " +
-                ">SET USERNAME & PASSWORD</a>";
+                ">SET USERNAME & PASSWORD</a>" +
+                "<div style='margin-top:30px;'>Regards,</div>" +
+                "<div>Admin</div>";
             try
             {
                 var emailTemplatefile = AppCommon.SetPasswordEmailTemplateFilePath;
@@ -487,7 +492,9 @@ namespace App.Controllers
                 "<a " +
                 "href='[resetpasswordurl]' " +
                 "target='_blank' " +
-                ">RESET PASSWORD</a>";
+                ">RESET PASSWORD</a>" +
+                "<div style='margin-top:30px;'>Regards,</div>" +
+                "<div>Admin</div>";
             try
             {
                 var emailTemplatefile = AppCommon.ResetPasswordEmailTemplateFilePath;
