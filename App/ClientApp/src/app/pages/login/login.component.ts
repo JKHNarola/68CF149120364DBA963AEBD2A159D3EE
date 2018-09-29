@@ -1,17 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../../services/account.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/app.auth.service';
-import { Router } from '@angular/router';
-import { ApiService } from '../../services/apiservice';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, HostBinding } from "@angular/core";
+import { AccountService } from "../../services/account.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../services/app.auth.service";
+import { Router } from "@angular/router";
+import { ApiService } from "../../services/apiservice";
+import { ToastrService } from "ngx-toastr";
+import { routerTransition } from "../../misc/page.animation";
 
 @Component({
-    selector: 'login',
-    templateUrl: './login.component.html',
-    providers: [ApiService, AccountService]
+    selector: "login",
+    templateUrl: "./login.component.html",
+    providers: [ApiService, AccountService],
+    animations: [routerTransition]
 })
 export class LoginComponent implements OnInit {
+    @HostBinding("@routerTransition")
+    routeAnimation = true;
+    @HostBinding("style.display")
+    display = "block";
+
     loginForm: FormGroup;
     loading = false;
 
@@ -20,17 +27,19 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthService,
         private toastrService: ToastrService,
-        private router: Router) {
-    }
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
-            userName: ['', [Validators.required]],
-            password: ['', [Validators.required, Validators.minLength(8)]]
+            userName: ["", [Validators.required]],
+            password: ["", [Validators.required, Validators.minLength(8)]]
         });
     }
 
-    get f() { return this.loginForm.controls; }
+    get f() {
+        return this.loginForm.controls;
+    }
 
     onLogin() {
         this.loading = true;
@@ -47,15 +56,15 @@ export class LoginComponent implements OnInit {
             res => {
                 if (res.status === 1) {
                     this.authService.setCurrentUser(res.jsonData);
-                    this.router.navigate(['/home']);
-                }
-                else if (res.status === 0) {
+                    this.router.navigate(["/home"]);
+                } else if (res.status === 0) {
                     this.toastrService.error("Invalid email or password!!");
                 }
                 this.loading = false;
             },
             err => {
                 this.loading = false;
-            });
+            }
+        );
     }
 }

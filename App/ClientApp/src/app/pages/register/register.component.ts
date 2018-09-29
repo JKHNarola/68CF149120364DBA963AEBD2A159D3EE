@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { ApiService } from '../../services/apiservice';
 import { RegisterModel } from '../../models/account/register.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { routerTransition } from '../../misc/page.animation';
 
 @Component({
     selector: 'register',
     templateUrl: './register.component.html',
-    providers: [ApiService, AccountService]
+    providers: [ApiService, AccountService],
+    animations: [routerTransition]
+
 })
 export class RegisterComponent implements OnInit {
+    @HostBinding("@routerTransition")
+    routeAnimation = true;
+    @HostBinding("style.display")
+    display = "block";
+
     registerForm: FormGroup;
     loading = false;
     isConfirmEmailSent = false;
@@ -46,7 +54,7 @@ export class RegisterComponent implements OnInit {
         model.firstName = this.registerForm.value.firstName;
         model.lastName = this.registerForm.value.lastName;
 
-        model = new RegisterModel();
+        // model = new RegisterModel();
 
         this.accountService.register(model).subscribe(
             res => {

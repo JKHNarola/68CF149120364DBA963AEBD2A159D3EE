@@ -31,6 +31,7 @@ export class ConfirmEmailComponent implements OnInit {
                     if (result.status === 0) {
                         this.contentTitle = "Link Expired!!";
                         this.contentHeading = "The link you are trying to access is expired!!";
+                        this.contentMessage = "";
                     } else if (result.status === 1) {
                         this.contentTitle = "Email Confirmed";
                         this.contentHeading = "Final step..";
