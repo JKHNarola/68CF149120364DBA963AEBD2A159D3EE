@@ -34,21 +34,14 @@ namespace App.BL
             else return source.ToString();
         }
 
-        public static string ToSerializedJsonString(this object src)
+        public static string ToSerializedJsonString<T>(this T obj)
         {
-            try
-            {
-                return JsonConvert.SerializeObject(src, AppCommon.SerializerSettings);
-            }
-            catch
-            {
-                return string.Empty;
-            }
+            return JsonConvert.SerializeObject(obj, AppCommon.SerializerSettings);
         }
 
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Sid).Value;
+            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         public static string GetEmail(this ClaimsPrincipal principal)
