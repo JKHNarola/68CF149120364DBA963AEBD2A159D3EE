@@ -68,6 +68,18 @@ namespace App.BL
             }
         }
 
+        public static string ExceptionEmailTemplateFilePath
+        {
+            get
+            {
+                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, emailTemplatesFolderName, "ExceptionEmailTemplate.html");
+                if (File.Exists(filePath))
+                    return filePath;
+                else
+                    return "";
+            }
+        }
+
         public static string SendEmailResponseTemplateFilePath
         {
             get

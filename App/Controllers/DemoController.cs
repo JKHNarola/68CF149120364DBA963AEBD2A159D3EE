@@ -5,10 +5,10 @@ using System.Net;
 
 namespace App.Controllers
 {
-    [Authorize]
     [Route("api/test")]
     public class DemoController : BaseController
     {
+        [Authorize]
         [HttpGet]
         public IActionResult Get()
         {
@@ -19,11 +19,26 @@ namespace App.Controllers
             return OKResult(1, "Authorized user", new { Id = userId, Email = email, Username = username, Role = role.ToString() });
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("auth/role")]
+        public IActionResult RoleTest()
+        {
+            var userId = User.GetUserId();
+            var email = User.GetEmail();
+            var username = User.GetUsername();
+            var role = User.GetRole();
+            return OKResult(1, "Authorized admin", new { Id = userId, Email = email, Username = username, Role = role.ToString() });
+        }
+
+        [Authorize]
         [HttpGet]
         [Route("error")]
         public IActionResult TestError()
         {
-            return OtherResult(HttpStatusCode.InternalServerError, "error in data", new { x = 50 });
+            var m = 100;
+            var x = m / 0;
+            return OtherResult(HttpStatusCode.InternalServerError, "error in data", new { x });
         }
 
         [HttpGet]

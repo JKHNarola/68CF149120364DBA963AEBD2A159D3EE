@@ -15,7 +15,7 @@ namespace App.BL.Data.DTO
 
             Browser = browser;
             Host = accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-            User = accessor.HttpContext?.User?.Identity?.Name;
+            User = accessor.HttpContext?.User?.GetEmail();
             Path = accessor.HttpContext?.Request.Path;
         }
 

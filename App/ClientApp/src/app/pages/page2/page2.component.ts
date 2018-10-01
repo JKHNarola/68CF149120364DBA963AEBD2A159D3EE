@@ -13,5 +13,9 @@ export class Page2Component {
         this.apiService.get("api/test").subscribe(res => {
             console.log(res);
         });
+
+        this.apiService.get("api/test/error").subscribe(res => {
+            console.log(res);
+        });
     }
 }

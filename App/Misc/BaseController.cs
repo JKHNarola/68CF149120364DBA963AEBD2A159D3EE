@@ -1,4 +1,5 @@
 ﻿using App.BL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,6 +10,14 @@ namespace App
 {
     public class BaseController : Controller
     {
+        private readonly IHttpContextAccessor _httpContext;
+
+        public BaseController(IHttpContextAccessor httpContext)
+        {
+            _httpContext = httpContext;
+        }
+        public BaseController() { }
+
         #region Api Result Helpers
         public IActionResult OKResult()
         {
@@ -141,6 +150,21 @@ namespace App
             return resObj;
         }
         #endregion
+
+        public string GetCurrHost()
+        {
+            if(_httpContext != null)
+            {
+                var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
+                var currHost = _httpContext.HttpContext.Request.Host.Value;
+                var currHostUrl = currHttpScheme + "://" + currHost;
+                return currHostUrl;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {

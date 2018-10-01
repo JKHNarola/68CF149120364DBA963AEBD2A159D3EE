@@ -126,15 +126,18 @@ namespace App
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.ConfigureExceptionHandler(Configuration);
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
+                app.ConfigureExceptionHandler(Configuration);
+
+                //For using https and ssl
                 app.UseHsts();
             }
 
-            //app.ConfigureExceptionHandler();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
