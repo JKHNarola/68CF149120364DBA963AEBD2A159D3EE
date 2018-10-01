@@ -117,6 +117,7 @@ namespace App
 
             return res;
         }
+
         public IActionResult InvalidModelStateResult(ModelStateDictionary modelState)
         {
             var res = new JsonResult(PrepareResultObject(null, null, modelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList()), AppCommon.SerializerSettings)

@@ -56,7 +56,7 @@ namespace App.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[action]")]
+        [HttpPost]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel userModel)
         {
@@ -90,9 +90,12 @@ namespace App.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, user.Id.ToString())
+                        new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Role, roles[0])
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(60),
+                    Expires = DateTime.UtcNow.AddSeconds(_appSetting.TokenAliveTime),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Startup.SymmetricSecurityKey),
                         SecurityAlgorithms.HmacSha256Signature)
                 };
