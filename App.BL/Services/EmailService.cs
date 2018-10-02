@@ -13,6 +13,10 @@ namespace App.BL.Services
         {
             _settings = settings.Value;
         }
+        public EmailService(EmailSettings settings)
+        {
+            _settings = settings;
+        }
 
         public async Task SendMailAsync(string toDisplayName, string toAdr, string ccAdr, string subject, string bodyText, string attachmentFileName)
         {

@@ -34,25 +34,31 @@ namespace App.BL
             else return source.ToString();
         }
 
-        public static string ToSerializedJsonString(this object src)
+        public static string ToSerializedJsonString<T>(this T obj)
         {
-            try
-            {
-                return JsonConvert.SerializeObject(src, AppCommon.SerializerSettings);
-            }
-            catch
-            {
-                return string.Empty;
-            }
+            return JsonConvert.SerializeObject(obj, AppCommon.SerializerSettings);
         }
 
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            if (principal == null)
-                throw new ArgumentNullException(nameof(principal));
+            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+        }
 
-            //return principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            return principal.Identities.FirstOrDefault().Name;
+        public static string GetEmail(this ClaimsPrincipal principal)
+        {
+            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Email).Value;
+        }
+
+        public static string GetUsername(this ClaimsPrincipal principal)
+        {
+            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Name).Value;
+        }
+
+        public static Role GetRole(this ClaimsPrincipal principal)
+        {
+            var roleStr = principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Role).Value;
+            var role = Enum.Parse<Role>(roleStr);
+            return role;
         }
     }
 }

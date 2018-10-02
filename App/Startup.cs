@@ -83,16 +83,13 @@ namespace App
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(SymmetricSecurityKey),
+                    RequireExpirationTime = true,
+                    ValidateLifetime = true,
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
-
-            //services.AddAuthentication().AddGoogle(googleOptions =>
-            //{
-            //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
 
             services.AddAuthorization(options =>
             {
@@ -129,18 +126,23 @@ namespace App
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.ConfigureExceptionHandler(Configuration);
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
+                app.ConfigureExceptionHandler(Configuration);
+
+                //For using https and ssl
                 app.UseHsts();
             }
 
-            //app.ConfigureExceptionHandler();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

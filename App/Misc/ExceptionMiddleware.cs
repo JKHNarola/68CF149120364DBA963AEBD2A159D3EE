@@ -1,15 +1,20 @@
 ﻿using App.BL;
+using App.BL.Services;
+using App.Misc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace App
 {
     public static class ExceptionMiddleware
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, IConfiguration config)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -21,6 +26,8 @@ namespace App
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
+                        await SendExceptionEmail(context, contextFeature, config);
+
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(
                             new ApiResult<object>
                             {
@@ -29,6 +36,27 @@ namespace App
                     }
                 });
             });
+
+        }
+
+        private static async Task SendExceptionEmail(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
+        {
+            var path = context.Request.Path;
+            var userId = context.User?.GetUserId();
+            var email = context.User?.GetEmail();
+            var remoteIp = context.Connection?.RemoteIpAddress?.ToString();
+            var exception = contextFeature.Error;
+            var errorMsg = exception.Message;
+            var date = DateTime.UtcNow;
+
+            var emailSettings = new EmailSettings();
+            config.GetSection("EmailSettings").Bind(emailSettings);
+            var appSettings = new AppSettings();
+            config.GetSection("AppSettings").Bind(appSettings);
+
+            var emailService = new EmailService(emailSettings);
+            var body = await EmailBodyCreator.CreateExceptionEmailBody(exception, errorMsg, path, userId, email, remoteIp, date);
+            await emailService.SendMailAsync(appSettings.ExceptionEmailSendToName, appSettings.ExceptionEmailSendTo, null, "App - Exception", body, null);
         }
     }
 }

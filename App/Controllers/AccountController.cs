@@ -18,6 +18,7 @@ using App.Models;
 using App.BL.Services;
 using App.BL;
 using App.BL.Interfaces;
+using App.Misc;
 
 namespace App.Controllers
 {
@@ -44,7 +45,7 @@ namespace App.Controllers
             IOptions<EmailSettings> emailSettings,
             IOptions<AppSettings> appSettings,
             IUserManagementRepository userRepo
-            )
+            ) : base(httpContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -57,7 +58,7 @@ namespace App.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("[action]")]
+        [HttpPost]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel userModel)
         {
@@ -91,9 +92,12 @@ namespace App.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, user.Id.ToString())
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Role, roles[0])
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(60),
+                    Expires = DateTime.UtcNow.AddSeconds(_appSetting.TokenAliveTime),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Startup.SymmetricSecurityKey),
                         SecurityAlgorithms.HmacSha256Signature)
                 };
@@ -171,7 +175,7 @@ namespace App.Controllers
                 }
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var fullname = user.FirstName + " " + user.LastName;
-                var mailContent = await PrepareConfirmEmailTemplate(fullname, user.Email, code);
+                var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(GetCurrHost(), fullname, user.Email, code);
                 var fullName = user.FirstName + " " + user.LastName;
                 try
                 {
@@ -226,7 +230,7 @@ namespace App.Controllers
             {
                 var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var fullname = user.FirstName + " " + user.LastName;
-                var mailContent = await PrepareSetPasswordEmailTemplate(fullname, user.Email, resetCode);
+                var mailContent = await EmailBodyCreator.CreateSetPasswordEmailBody(GetCurrHost(), fullname, user.Email, resetCode);
                 var fullName = user.FirstName + " " + user.LastName;
                 await _emailService.SendMailAsync(fullName, user.Email, "", AppCommon.AppName + " - Set Username & Password", mailContent, "");
 
@@ -276,7 +280,7 @@ namespace App.Controllers
 
             var resetCode = await _userManager.GeneratePasswordResetTokenAsync(user);
             var fullname = user.FirstName + " " + user.LastName;
-            var mailContent = await PrepareResetPasswordEmailTemplate(fullname, user.Email, resetCode);
+            var mailContent = await EmailBodyCreator.CreateResetPasswordEmailBody(GetCurrHost(), fullname, user.Email, resetCode);
             var fullName = user.FirstName + " " + user.LastName;
             await _emailService.SendMailAsync(fullName, user.Email, "", AppCommon.AppName + " - Reset Password", mailContent, "");
 
@@ -360,7 +364,7 @@ namespace App.Controllers
         [Route("sendemail")]
         public async Task<IActionResult> SendEmailAsync(string name, string email)
         {
-            var mailContent = await PrepareConfirmEmailTemplate(name, null, null);
+            var mailContent = await EmailBodyCreator.CreateResetPasswordEmailBody(GetCurrHost(), name, null, null);
 
             var color = "";
             var content = "";
@@ -398,144 +402,5 @@ namespace App.Controllers
                 Content = responseStr
             };
         }
-
-        #region Prepare email
-        private async Task<string> PrepareConfirmEmailTemplate(string fullname, string email, string code)
-        {
-            var templateStr = "";
-
-            var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
-            var currHost = _httpContext.HttpContext.Request.Host.Value;
-            var currHostUrl = currHttpScheme + "://" + currHost;
-
-            var confirmEmailRouteUrlPart = "/confirmemail?email=[email]&code=[code]";
-
-            var callbackUrl = "javascript:void(0)";
-            if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(email))
-            {
-                callbackUrl =
-                    currHostUrl +
-                    confirmEmailRouteUrlPart
-                        .Replace("[email]", WebUtility.UrlEncode(email))
-                        .Replace("[code]", WebUtility.UrlEncode(code));
-            }
-
-            templateStr =
-                "Thanks for signing up with " + AppCommon.AppName + "! <br>" +
-                "We encountered some issue generating proper email. But you can still verify your email account by clicking on following link.<br><br>" +
-                "<a " +
-                "href='[verifyaccounturl]' " +
-                "target='_blank' " +
-                ">[verifyaccounturl]</a>" +
-                "<div style='margin-top:30px;'>Regards,</div>" +
-                "<div>Admin</div>"
-                ;
-            try
-            {
-                var emailTemplatefile = AppCommon.ConfirmEmailTemplateFilePath;
-
-                using (var reader = new StreamReader(emailTemplatefile))
-                    templateStr = await reader.ReadToEndAsync();
-            }
-            catch { }
-
-            templateStr =
-                templateStr
-                .Replace("[verifyaccounturl]", callbackUrl)
-                .Replace("[fullname]", fullname);
-
-            return templateStr;
-        }
-        private async Task<string> PrepareSetPasswordEmailTemplate(string fullname, string email, string code)
-        {
-            var templateStr = "";
-
-            var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
-            var currHost = _httpContext.HttpContext.Request.Host.Value;
-            var currHostUrl = currHttpScheme + "://" + currHost;
-
-            var setPasswordRouteUrlPart = "/setpassword?email=[email]&code=[code]";
-
-            var callbackUrl = "javascript:void(0)";
-            if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(email))
-            {
-                callbackUrl =
-                    currHostUrl +
-                    setPasswordRouteUrlPart
-                        .Replace("[email]", WebUtility.UrlEncode(email))
-                        .Replace("[code]", WebUtility.UrlEncode(code));
-            }
-
-            templateStr =
-                "Thanks for confirming your email! <br>" +
-                "We encountered some issue generating proper email. But you can still continue next step for setting your username and password by clicking on the following link.<br><br>" +
-                "<a " +
-                "href='[setpasswordurl]' " +
-                "target='_blank' " +
-                ">SET USERNAME & PASSWORD</a>" +
-                "<div style='margin-top:30px;'>Regards,</div>" +
-                "<div>Admin</div>";
-            try
-            {
-                var emailTemplatefile = AppCommon.SetPasswordEmailTemplateFilePath;
-
-                using (var reader = new StreamReader(emailTemplatefile))
-                    templateStr = await reader.ReadToEndAsync();
-            }
-            catch { }
-
-            templateStr =
-                templateStr
-                .Replace("[setpasswordurl]", callbackUrl)
-                .Replace("[fullname]", fullname);
-
-            return templateStr;
-        }
-        private async Task<string> PrepareResetPasswordEmailTemplate(string fullname, string email, string code)
-        {
-            var templateStr = "";
-
-            var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
-            var currHost = _httpContext.HttpContext.Request.Host.Value;
-            var currHostUrl = currHttpScheme + "://" + currHost;
-
-            var resetPasswordRouteUrlPart = "/resetpassword?email=[email]&code=[code]";
-
-            var callbackUrl = "javascript:void(0)";
-            if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(email))
-            {
-                callbackUrl =
-                    currHostUrl +
-                    resetPasswordRouteUrlPart
-                        .Replace("[email]", WebUtility.UrlEncode(email))
-                        .Replace("[code]", WebUtility.UrlEncode(code));
-            }
-
-            templateStr =
-                "We have got a request to reset your password for App.<br>" +
-                "We encountered some issue generating proper email. But you can still continue next step for resetting your password by clicking on the following link.<br><br>" +
-                "<a " +
-                "href='[resetpasswordurl]' " +
-                "target='_blank' " +
-                ">RESET PASSWORD</a>" +
-                "<div style='margin-top:30px;'>Regards,</div>" +
-                "<div>Admin</div>";
-            try
-            {
-                var emailTemplatefile = AppCommon.ResetPasswordEmailTemplateFilePath;
-
-                using (var reader = new StreamReader(emailTemplatefile))
-                    templateStr = await reader.ReadToEndAsync();
-            }
-            catch { }
-
-            templateStr =
-                templateStr
-                .Replace("[resetpasswordurl]", callbackUrl)
-                .Replace("[fullname]", fullname);
-
-            return templateStr;
-        }
-        #endregion
     }
 }
