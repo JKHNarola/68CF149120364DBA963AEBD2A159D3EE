@@ -4,6 +4,7 @@ using App.Misc;
 using App.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace App
 {
     public static class ExceptionMiddleware
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app, IConfiguration config)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, IConfiguration config, IHostingEnvironment env)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -28,7 +29,8 @@ namespace App
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        await SendExceptionEmail(context, contextFeature, config);
+                        if (env.IsProduction())
+                            await SendExceptionEmail(context, contextFeature, config);
 
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(
                             new ApiResult<object>

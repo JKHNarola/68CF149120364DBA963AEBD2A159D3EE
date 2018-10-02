@@ -137,7 +137,9 @@ namespace App
                 //For using https and ssl
                 app.UseHsts();
             }
-            app.ConfigureExceptionHandler(Configuration);
+
+
+            app.ConfigureExceptionHandler(Configuration, env);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
