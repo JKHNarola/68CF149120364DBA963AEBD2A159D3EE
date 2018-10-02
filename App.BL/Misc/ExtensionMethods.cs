@@ -41,24 +41,28 @@ namespace App.BL
 
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            return principal.Identities.First().Claims?.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         public static string GetEmail(this ClaimsPrincipal principal)
         {
-            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Email).Value;
+            return principal.Identities.First().Claims?.First(x => x.Type == ClaimTypes.Email).Value;
         }
 
         public static string GetUsername(this ClaimsPrincipal principal)
         {
-            return principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Name).Value;
+            return principal.Identities.First().Claims?.First(x => x.Type == ClaimTypes.Name).Value;
         }
 
-        public static Role GetRole(this ClaimsPrincipal principal)
+        public static Role? GetRole(this ClaimsPrincipal principal)
         {
-            var roleStr = principal.Identities.First().Claims.First(x => x.Type == ClaimTypes.Role).Value;
-            var role = Enum.Parse<Role>(roleStr);
-            return role;
+            var roleStr = principal.Identities.First().Claims?.First(x => x.Type == ClaimTypes.Role).Value;
+            if (!string.IsNullOrEmpty(roleStr))
+            {
+                var role = Enum.Parse<Role>(roleStr);
+                return role;
+            }
+            return null;
         }
     }
 }
