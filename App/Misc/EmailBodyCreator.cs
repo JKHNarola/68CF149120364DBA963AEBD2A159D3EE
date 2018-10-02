@@ -56,10 +56,6 @@ namespace App.Misc
         {
             var templateStr = "";
 
-            //var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
-            //var currHost = _httpContext.HttpContext.Request.Host.Value;
-            //var currHostUrl = currHttpScheme + "://" + currHost;
-
             var currHostUrl = hostUrl;
 
             var setPasswordRouteUrlPart = "/setpassword?email=[email]&code=[code]";
@@ -103,10 +99,6 @@ namespace App.Misc
         {
             var templateStr = "";
 
-            //var currHttpScheme = _httpContext.HttpContext.Request.Scheme;
-            //var currHost = _httpContext.HttpContext.Request.Host.Value;
-            //var currHostUrl = currHttpScheme + "://" + currHost;
-
             var currHostUrl = hostUrl;
 
             var resetPasswordRouteUrlPart = "/resetpassword?email=[email]&code=[code]";
@@ -146,7 +138,7 @@ namespace App.Misc
 
             return templateStr;
         }
-        public static async Task<string> CreateExceptionEmailBody(Exception ex, string errorMsg, string reqPath, string userId, string email, string remoteIp, DateTime errorDateTime)
+        public static async Task<string> CreateExceptionEmailBody(Exception ex, string errorMsg, string reqPath, string reqMathod, string payload, string userId, string email, string remoteIp, DateTime errorDateTime)
         {
             var templateStr = "";
 
@@ -159,9 +151,13 @@ namespace App.Misc
             if (string.IsNullOrEmpty(remoteIp))
                 remoteIp = "N/A";
 
+            if (string.IsNullOrEmpty(payload))
+                payload = "N/A";
+
             templateStr =
                 "<b>Datetime (UTC): </b>" + errorDateTime.ToString("MMM dd, yyyy HH:mm:ss") + "<br><br>" +
-                "<b>Request path: </b>" + reqPath + "<br><br>" +
+                "<b>Request " + reqMathod + ": </b>" + reqPath + "<br><br>" +
+                "<b>Payload: </b>" + payload + "<br><br>" +
                 "<b>Userid: </b>" + userId + "<br><br>" +
                 "<b>Email: </b>" + email + "<br><br>" +
                 "<b>Remote ip: </b>" + remoteIp + "<br><br>" +
@@ -180,6 +176,8 @@ namespace App.Misc
             templateStr =
                 templateStr
                 .Replace("[reqpath]", reqPath)
+                .Replace("[reqmethod]", reqMathod)
+                .Replace("[payload]", payload)
                 .Replace("[remoteip]", remoteIp)
                 .Replace("[email]", email)
                 .Replace("[userid]", userId)

@@ -17,46 +17,15 @@
             width: 100%;
             max-width: 600px;
             padding: 5px 20px 30px 20px;
-            border: 1px solid #dedede;
-            background-color: #f7f7f7;
+            border: 1px solid #fb4d4d;
+            background-color: #fff6f6;
             border-radius: 5px;
             margin-top: 20px;
         }
 
-        .btn {
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            user-select: none;
-            border: 1px solid transparent;
-            padding: 10px 20px;
-            line-height: 1.5;
-            border-radius: 5px;
-            text-transform: none;
-            background-color: #007bff;
-            color: white;
-        }
-
-            .btn:hover {
-                background-color: #1b4b99;
-            }
-
-        .url-link {
-            color: #007bff;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-            .url-link:hover {
-                color: #1b4b99;
-            }
-
         hr {
             border: 0;
-            border-bottom: 1px solid #dedede;
+            border-bottom: 1px solid #fb4d4d;
         }
     </style>
 </head>
@@ -68,7 +37,7 @@
                 <table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <td>
-                            <h2 style="padding-top:10px;color:#fb4141;">Error occurred!!</h2>
+                            <h2 style="color:#fb4141;">Error occurred!!</h2>
                             <hr />
                         </td>
                     </tr>
@@ -82,10 +51,16 @@
                                     <td>[errdt]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px"><b>Request path</b></td>
+                                    <td style="padding-top: 20px"><b>Request</b></td>
                                 </tr>
                                 <tr>
-                                    <td>[reqpath]</td>
+                                    <td><span style="color: #36c11c;">[reqmethod]</span> - [reqpath]</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 20px"><b>Payload</b></td>
+                                </tr>
+                                <tr>
+                                    <td>[payload]</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: 20px;word-break:break-all;"><b>Remote ip</b></td>

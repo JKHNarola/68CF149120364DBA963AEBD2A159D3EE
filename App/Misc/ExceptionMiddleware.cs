@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -48,6 +49,19 @@ namespace App
             var exception = contextFeature.Error;
             var errorMsg = exception.Message;
             var date = DateTime.UtcNow;
+            var httpMethod = context.Request.Method;
+            var payload = "";
+            if (httpMethod == "POST")
+            {
+                var stream = context.Request.Body;
+                stream.Position = 0;
+                var reader = new StreamReader(stream);
+                payload = reader.ReadToEnd();
+            }
+            else if (httpMethod == "GET")
+            {
+                payload = context.Request.QueryString.Value;
+            }
 
             var emailSettings = new EmailSettings();
             config.GetSection("EmailSettings").Bind(emailSettings);
@@ -55,7 +69,7 @@ namespace App
             config.GetSection("AppSettings").Bind(appSettings);
 
             var emailService = new EmailService(emailSettings);
-            var body = await EmailBodyCreator.CreateExceptionEmailBody(exception, errorMsg, path, userId, email, remoteIp, date);
+            var body = await EmailBodyCreator.CreateExceptionEmailBody(exception, errorMsg, path, httpMethod, payload, userId, email, remoteIp, date);
             await emailService.SendMailAsync(appSettings.ExceptionEmailSendToName, appSettings.ExceptionEmailSendTo, null, "App - Exception", body, null);
         }
     }
