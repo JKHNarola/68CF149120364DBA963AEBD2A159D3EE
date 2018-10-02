@@ -21,6 +21,7 @@ using App.BL.Interfaces;
 
 namespace App.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/account")]
     public class AccountController : BaseController
@@ -114,7 +115,6 @@ namespace App.Controllers
             return null;
         }
 
-        [Authorize]
         [HttpGet]
         [Route("check/loggedin")]
         public IActionResult CheckAlreadyLoggedIn()
@@ -207,7 +207,6 @@ namespace App.Controllers
                 return OtherResult(HttpStatusCode.InternalServerError, "some error occured", ex.Message);
             }
         }
-
 
         [AllowAnonymous]
         [HttpGet]
@@ -311,7 +310,6 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [Route("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
         {
@@ -346,6 +344,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("check/usernameexist")]
         public async Task<IActionResult> IsUserNameExistAsync(string userName)
         {
