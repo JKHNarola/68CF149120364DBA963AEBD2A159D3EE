@@ -16,28 +16,33 @@
         .content {
             width: 100%;
             max-width: 600px;
-            padding: 5px 20px 30px 20px;
+            padding: 25px 20px;
             border: 1px solid #fb4d4d;
             background-color: #fff6f6;
             border-radius: 5px;
             margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         hr {
             border: 0;
             border-bottom: 1px solid #fb4d4d;
         }
+
+        .bodytable{
+            width: 100%;
+        }
     </style>
 </head>
 
 <body>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <table class="bodytable" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
                 <table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <td>
-                            <h2 style="color:#fb4141;">Error occurred!!</h2>
+                            <h2 style="color:#fb4141;padding-top:0px;margin-top:0px;">Error occurred!!</h2>
                             <hr />
                         </td>
                     </tr>
@@ -51,25 +56,19 @@
                                     <td>[errdt]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px"><b>Request</b></td>
+                                    <td style="padding-top: 20px;color:#fb4141;"><b>Error message</b></td>
                                 </tr>
                                 <tr>
-                                    <td><span style="color: #36c11c;">[reqmethod]</span> - [reqpath]</td>
+                                    <td style="word-break:break-all;">[errmsg]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px"><b>Payload</b></td>
+                                    <td style="padding-top: 20px;color:#fb4141;"><b>Exception</b></td>
                                 </tr>
                                 <tr>
-                                    <td>[payload]</td>
+                                    <td style="word-break:break-all;">[exception]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px;word-break:break-all;"><b>Remote ip</b></td>
-                                </tr>
-                                <tr>
-                                    <td>[remoteip]</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 20px"><b>Email</b></td>
+                                    <td style="padding-top: 20px"><b>User email</b></td>
                                 </tr>
                                 <tr>
                                     <td>[email]</td>
@@ -81,16 +80,34 @@
                                     <td>[userid]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px;color:#fb4141;"><b>Error message</b></td>
+                                    <td style="padding-top: 20px"><b>Connection id</b></td>
                                 </tr>
                                 <tr>
-                                    <td style="word-break:break-all;">[errmsg]</td>
+                                    <td>[connid]</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding-top: 20px;color:#fb4141;"><b>Exception</b></td>
+                                    <td style="padding-top: 20px"><b>Request</b></td>
                                 </tr>
                                 <tr>
-                                    <td style="word-break:break-all;">[exception]</td>
+                                    <td><span style="color: #36c11c;word-break:break-all;">[reqmethod]</span> - [reqpath]</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 20px;word-break:break-all;"><b>Payload</b></td>
+                                </tr>
+                                <tr>
+                                    <td>[payload]</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 20px"><b>Reqeust headers</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="word-break:break-all;">[reqheaders]</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 20px;"><b>Remote ip</b></td>
+                                </tr>
+                                <tr>
+                                    <td>[remoteip]</td>
                                 </tr>
                             </table>
                         </td>

@@ -1,6 +1,7 @@
 using App.BL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 
 namespace App.Controllers
@@ -34,11 +35,19 @@ namespace App.Controllers
         [Authorize]
         [HttpGet]
         [Route("error")]
-        public IActionResult TestError()
+        public IActionResult TestError([FromQuery] string m)
         {
-            var m = 100;
-            var x = m / 0;
-            return OtherResult(HttpStatusCode.InternalServerError, "error in data", new { x });
+            var x = Convert.ToInt32(m) / 0;
+            return OKResult(1, new { x });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("error/post")]
+        public IActionResult PostTestError([FromBody] Data d)
+        {
+            var x = Convert.ToInt32(d.X) / 0;
+            return OKResult(1, new { x });
         }
 
         [HttpGet]
@@ -46,6 +55,12 @@ namespace App.Controllers
         public IActionResult TestCode()
         {
             return OtherResult(HttpStatusCode.BadRequest);
+        }
+
+        public class Data
+        {
+            public string X { get; set; }
+            public string Y { get; set; }
         }
 
     }

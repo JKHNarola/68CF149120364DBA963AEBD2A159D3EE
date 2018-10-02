@@ -126,17 +126,18 @@ namespace App
         {
             if (env.IsDevelopment())
             {
+                //If calling api and some exception occures, following will return html page string as response. So, in api this will not display exception page
                 //app.UseDeveloperExceptionPage();
-                app.ConfigureExceptionHandler(Configuration);
             }
             else
             {
+                //Use this if you want to redirect to error page form asp and not from angular app
                 //app.UseExceptionHandler("/Error");
-                app.ConfigureExceptionHandler(Configuration);
 
                 //For using https and ssl
                 app.UseHsts();
             }
+            app.ConfigureExceptionHandler(Configuration);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -1,4 +1,5 @@
 ﻿using App.BL;
+using App.Models;
 using System;
 using System.IO;
 using System.Net;
@@ -138,31 +139,43 @@ namespace App.Misc
 
             return templateStr;
         }
-        public static async Task<string> CreateExceptionEmailBody(Exception ex, string errorMsg, string reqPath, string reqMathod, string payload, string userId, string email, string remoteIp, DateTime errorDateTime)
+        public static async Task<string> CreateExceptionEmailBody(ErrorDetail model)
         {
             var templateStr = "";
 
-            if (string.IsNullOrEmpty(userId))
-                userId = "N/A";
+            if (string.IsNullOrEmpty(model.Userid))
+                model.Userid = "N/A";
 
-            if (string.IsNullOrEmpty(email))
-                email = "N/A";
+            if (string.IsNullOrEmpty(model.UserEmail))
+                model.UserEmail = "N/A";
 
-            if (string.IsNullOrEmpty(remoteIp))
-                remoteIp = "N/A";
+            if (string.IsNullOrEmpty(model.RemoteIp))
+                model.RemoteIp = "N/A";
 
-            if (string.IsNullOrEmpty(payload))
-                payload = "N/A";
+            if (string.IsNullOrEmpty(model.Payload))
+                model.Payload = "N/A";
+
+            if (string.IsNullOrEmpty(model.ConnectionId))
+                model.ConnectionId = "N/A";
+
+            var reqHeaders = "";
+            foreach (var x in model.Request.Headers)
+                reqHeaders += x.Key + " = " + x.Value + "<br>";
+
+            if (string.IsNullOrEmpty(reqHeaders))
+                reqHeaders = "N/A";
 
             templateStr =
-                "<b>Datetime (UTC): </b>" + errorDateTime.ToString("MMM dd, yyyy HH:mm:ss") + "<br><br>" +
-                "<b>Request " + reqMathod + ": </b>" + reqPath + "<br><br>" +
-                "<b>Payload: </b>" + payload + "<br><br>" +
-                "<b>Userid: </b>" + userId + "<br><br>" +
-                "<b>Email: </b>" + email + "<br><br>" +
-                "<b>Remote ip: </b>" + remoteIp + "<br><br>" +
-                "<b>Error message: </b>" + errorMsg + "<br><br>" +
-                "<b>Exception: </b>" + ex.ToString();
+                "<b>Datetime (UTC): </b>" + model.DateTime.ToString("MMM dd, yyyy HH:mm:ss") + "<br><br>" +
+                "<b>Error message: </b>" + model.Ex.Message + "<br><br>" +
+                "<b>Exception: </b>" + model.Ex.ToString() +
+                "<b>Connection id: </b>" + model.ConnectionId + "<br><br>" +
+                "<b>Request " + model.RequestMethod + ": </b>" + model.RequestUrl + "<br><br>" +
+                "<b>Payload: </b>" + model.Payload + "<br><br>" +
+                "<b>Request headers: </b>" + model.Payload + "<br><br>" +
+                "<b>Userid: </b>" + model.Userid + "<br><br>" +
+                "<b>Email: </b>" + model.UserEmail + "<br><br>" +
+                "<b>Remote ip: </b>" + model.RemoteIp + "<br><br>";
 
             try
             {
@@ -175,15 +188,17 @@ namespace App.Misc
 
             templateStr =
                 templateStr
-                .Replace("[reqpath]", reqPath)
-                .Replace("[reqmethod]", reqMathod)
-                .Replace("[payload]", payload)
-                .Replace("[remoteip]", remoteIp)
-                .Replace("[email]", email)
-                .Replace("[userid]", userId)
-                .Replace("[errmsg]", errorMsg)
-                .Replace("[errdt]", errorDateTime.ToString("MMM dd, yyyy HH:mm:ss"))
-                .Replace("[exception]", ex.ToString());
+                .Replace("[reqpath]", model.RequestUrl)
+                .Replace("[reqmethod]", model.RequestMethod)
+                .Replace("[payload]", model.Payload)
+                .Replace("[connid]", model.ConnectionId)
+                .Replace("[reqheaders]", reqHeaders)
+                .Replace("[remoteip]", model.RemoteIp)
+                .Replace("[email]", model.UserEmail)
+                .Replace("[userid]", model.Userid)
+                .Replace("[errmsg]", model.Ex.Message)
+                .Replace("[errdt]", model.DateTime.ToString("MMM dd, yyyy HH:mm:ss"))
+                .Replace("[exception]", model.Ex.ToString());
 
             return templateStr;
         }

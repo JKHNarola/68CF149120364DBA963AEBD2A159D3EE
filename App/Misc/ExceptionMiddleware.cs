@@ -1,6 +1,7 @@
 ﻿using App.BL;
 using App.BL.Services;
 using App.Misc;
+using App.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -42,25 +43,47 @@ namespace App
 
         private static async Task SendExceptionEmail(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
         {
-            var path = context.Request.Path;
-            var userId = context.User?.GetUserId();
-            var email = context.User?.GetEmail();
-            var remoteIp = context.Connection?.RemoteIpAddress?.ToString();
-            var exception = contextFeature.Error;
-            var errorMsg = exception.Message;
-            var date = DateTime.UtcNow;
-            var httpMethod = context.Request.Method;
-            var payload = "";
-            if (httpMethod == "POST")
+            var model = new ErrorDetail()
             {
-                var stream = context.Request.Body;
-                stream.Position = 0;
-                var reader = new StreamReader(stream);
-                payload = reader.ReadToEnd();
+                ConnectionId = context.Connection.Id,
+                RequestUrl = context.Request.Path,
+                Userid = context.User?.GetUserId(),
+                UserEmail = context.User?.GetEmail(),
+                RemoteIp = context.Connection?.RemoteIpAddress?.ToString(),
+                Ex = contextFeature.Error,
+                DateTime = DateTime.UtcNow,
+                RequestMethod = context.Request.Method,
+                Request = context.Request
+            };
+
+            var contentType = context.Request.ContentType;
+            if (model.RequestMethod == "GET" && context.Request.QueryString.HasValue)
+            {
+                var content = context.Request.QueryString.Value;
+                if (content.Length > 3000)
+                    content = content.Substring(3000) + ".....";
+                model.Payload = content;
             }
-            else if (httpMethod == "GET")
+            else
             {
-                payload = context.Request.QueryString.Value;
+                if (string.IsNullOrEmpty(contentType) || contentType == "text/plain" || contentType == "application/json")
+                {
+                    var reader = new StreamReader(context.Request.Body);
+                    context.Request.Body.Position = 0;
+                    var content = reader.ReadToEnd();
+                    reader.Close();
+                    if (content.Length > 3000)
+                        content = content.Substring(3000) + ".....";
+                    model.Payload = content;
+                }
+                else if (contentType == "application/octet-stream")
+                {
+                    model.Payload = "File is posted with request.";
+                }
+                else
+                {
+                    model.Payload = "Data other than 'text/plain', 'application/json' and 'application/octet-stream' posted.";
+                }
             }
 
             var emailSettings = new EmailSettings();
@@ -69,7 +92,7 @@ namespace App
             config.GetSection("AppSettings").Bind(appSettings);
 
             var emailService = new EmailService(emailSettings);
-            var body = await EmailBodyCreator.CreateExceptionEmailBody(exception, errorMsg, path, httpMethod, payload, userId, email, remoteIp, date);
+            var body = await EmailBodyCreator.CreateExceptionEmailBody(model);
             await emailService.SendMailAsync(appSettings.ExceptionEmailSendToName, appSettings.ExceptionEmailSendTo, null, "App - Exception", body, null);
         }
     }
