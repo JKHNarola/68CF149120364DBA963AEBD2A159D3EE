@@ -10,9 +10,20 @@ import { KeyValuePair } from '../../services/models/keyvalue.model';
     providers: [ApiService]
 })
 export class Page2Component {
+    userId = "";
+    username = "";
+    email = "";
+    role = "";
+
     constructor(private apiService: ApiService) {
         this.apiService.get("api/test").subscribe(res => {
             console.log(res);
+            if (res.status === 1) {
+                this.userId = res.jsonData.id;
+                this.email = res.jsonData.email;
+                this.username = res.jsonData.username;
+                this.role = res.jsonData.role;
+            }
         });
 
         //let pair = new KeyValuePair();
@@ -22,15 +33,15 @@ export class Page2Component {
         //    console.log(res);
         //});
 
-        let d = new Data();
-        d.x = "25";
-        this.apiService.post("api/test/error/post", d).subscribe(res => {
-            console.log(res);
-        });
+        //let d = new Data();
+        //d.x = "25";
+        //this.apiService.post("api/test/error/post", d).subscribe(res => {
+        //    console.log(res);
+        //});
     }
 }
 
-class Data {
-    x: string;
-    y: string;
-}
+//class Data {
+//    x: string;
+//    y: string;
+//}
