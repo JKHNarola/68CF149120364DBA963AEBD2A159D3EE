@@ -15,5 +15,6 @@ namespace App.Models
         public string UserEmail { get; set; }
         public string RemoteIp { get; set; }
         public DateTime DateTime { get; set; }
+        public string TimezoneName { get; set; }
     }
 }

@@ -34,18 +34,12 @@ namespace App
                         {
                             await SendExceptionEmail(context, contextFeature, config);
                             dataToSend = JsonConvert.SerializeObject(
-                                            new ApiResult<object>
-                                            {
-                                                Message = "Some error occured while processing your request"
-                                            }, AppCommon.SerializerSettings);
+                                            new ApiResult<object> { Message = "Some error occured while processing your request." });
                         }
                         else
                         {
                             dataToSend = JsonConvert.SerializeObject(
-                                            new ApiResult<object>
-                                            {
-                                                Message = contextFeature.Error.ToString()
-                                            }, AppCommon.SerializerSettings);
+                                            new ApiResult<object> { Message = contextFeature.Error.ToString() });
                         }
                         await context.Response.WriteAsync(dataToSend);
                     }
@@ -56,6 +50,11 @@ namespace App
 
         private static async Task SendExceptionEmail(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
         {
+            var emailSettings = new EmailSettings();
+            config.GetSection("EmailSettings").Bind(emailSettings);
+            var appSettings = new AppSettings();
+            config.GetSection("AppSettings").Bind(appSettings);
+
             var model = new ErrorDetail()
             {
                 ConnectionId = context.Connection.Id,
@@ -66,9 +65,21 @@ namespace App
                 Ex = contextFeature.Error,
                 DateTime = DateTime.UtcNow,
                 RequestMethod = context.Request.Method,
-                Request = context.Request
+                Request = context.Request,
+                TimezoneName = appSettings.TimezoneName
             };
 
+            var timeZoneName = appSettings.TimezoneName;
+            var utcOffset = appSettings.UTCOffset.Replace("UTC", "").Replace("utc", "").Trim();
+            var isAdd = utcOffset.StartsWith("+");
+            var hm = utcOffset.Replace("+", "");
+            var ts = TimeSpan.Parse(hm);
+
+            if (isAdd)
+                model.DateTime = model.DateTime.Add(ts);
+            else
+                model.DateTime = model.DateTime.Subtract(ts);
+ 
             var contentType = context.Request.ContentType;
             if (model.RequestMethod == "GET" && context.Request.QueryString.HasValue)
             {
@@ -98,11 +109,6 @@ namespace App
                     model.Payload = "Data other than 'text/plain', 'application/json' and 'application/octet-stream' posted.";
                 }
             }
-
-            var emailSettings = new EmailSettings();
-            config.GetSection("EmailSettings").Bind(emailSettings);
-            var appSettings = new AppSettings();
-            config.GetSection("AppSettings").Bind(appSettings);
 
             var emailService = new EmailService(emailSettings);
             var body = await EmailBodyCreator.CreateExceptionEmailBody(model);

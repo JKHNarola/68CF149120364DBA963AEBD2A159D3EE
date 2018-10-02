@@ -166,7 +166,7 @@ namespace App.Misc
                 reqHeaders = "N/A";
 
             templateStr =
-                "<b>Datetime (UTC): </b>" + model.DateTime.ToString("MMM dd, yyyy HH:mm:ss") + "<br><br>" +
+                "<b>Datetime (" + model.TimezoneName + "): </b>" + model.DateTime.ToString("MMM dd, yyyy hh:mm:ss tt") + "<br><br>" +
                 "<b>Error message: </b>" + model.Ex.Message + "<br><br>" +
                 "<b>Exception: </b>" + model.Ex.ToString() +
                 "<b>Connection id: </b>" + model.ConnectionId + "<br><br>" +
@@ -189,6 +189,7 @@ namespace App.Misc
             templateStr =
                 templateStr
                 .Replace("[reqpath]", model.RequestUrl)
+                .Replace("[timezone]", model.TimezoneName)
                 .Replace("[reqmethod]", model.RequestMethod)
                 .Replace("[payload]", model.Payload)
                 .Replace("[connid]", model.ConnectionId)
@@ -197,7 +198,7 @@ namespace App.Misc
                 .Replace("[email]", model.UserEmail)
                 .Replace("[userid]", model.Userid)
                 .Replace("[errmsg]", model.Ex.Message)
-                .Replace("[errdt]", model.DateTime.ToString("MMM dd, yyyy HH:mm:ss"))
+                .Replace("[errdt]", model.DateTime.ToString("MMM dd, yyyy hh:mm:ss tt"))
                 .Replace("[exception]", model.Ex.ToString());
 
             return templateStr;
