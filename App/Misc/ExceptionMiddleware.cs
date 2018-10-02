@@ -29,14 +29,25 @@ namespace App
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
+                        var dataToSend = "";
                         if (env.IsProduction())
+                        {
                             await SendExceptionEmail(context, contextFeature, config);
-
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(
-                            new ApiResult<object>
-                            {
-                                Message = contextFeature.Error.Message
-                            }, AppCommon.SerializerSettings));
+                            dataToSend = JsonConvert.SerializeObject(
+                                            new ApiResult<object>
+                                            {
+                                                Message = "Some error occured while processing your request"
+                                            }, AppCommon.SerializerSettings);
+                        }
+                        else
+                        {
+                            dataToSend = JsonConvert.SerializeObject(
+                                            new ApiResult<object>
+                                            {
+                                                Message = contextFeature.Error.ToString()
+                                            }, AppCommon.SerializerSettings);
+                        }
+                        await context.Response.WriteAsync(dataToSend);
                     }
                 });
             });
