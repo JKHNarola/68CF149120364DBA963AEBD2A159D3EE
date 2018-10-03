@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -90,7 +91,7 @@ namespace App.Controllers
         public async Task<IActionResult> SendEmailAsync(string name, string email)
         {
             var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(GetCurrHost(), name, null, null);
-            await _emailService.SendMailAsync(name, email, "", AppCommon.AppName + " - Test mail", mailContent, "");
+            await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (email, name) }, null, null, AppCommon.AppName + " - Test mail", mailContent, null);
             return OKResult(1, "mail sent to " + email);
         }
     }

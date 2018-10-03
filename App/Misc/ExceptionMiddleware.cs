@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -111,7 +112,11 @@ namespace App
 
             var emailService = new EmailService(emailSettings);
             var body = await EmailBodyCreator.CreateExceptionEmailBody(model);
-            await emailService.SendMailAsync(appSettings.ExceptionEmailSendToName, appSettings.ExceptionEmailSendTo, null, "App - Exception", body, null);
+            await emailService.SendMailAsync(
+                new List<(string email, string displayName)>()
+                {
+                    (appSettings.ExceptionEmailSendTo, appSettings.ExceptionEmailSendToName)
+                }, null, null, AppCommon.AppName + " - Exception", body, null);
         }
     }
 }

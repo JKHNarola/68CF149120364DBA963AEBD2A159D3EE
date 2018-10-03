@@ -18,6 +18,7 @@ using App.BL.Services;
 using App.BL;
 using App.BL.Interfaces;
 using App.Misc;
+using System.Collections.Generic;
 
 namespace App.Controllers
 {
@@ -178,7 +179,7 @@ namespace App.Controllers
                 var fullName = user.FirstName + " " + user.LastName;
                 try
                 {
-                    await _emailService.SendMailAsync(fullName, user.Email, "", AppCommon.AppName + " - Confirm Email", mailContent, "");
+                    await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Confirm Email", mailContent, null);
                     return OKResult(1, "user successfully created, email sent");
                 }
                 catch (Exception ex)
@@ -231,7 +232,7 @@ namespace App.Controllers
                 var fullname = user.FirstName + " " + user.LastName;
                 var mailContent = await EmailBodyCreator.CreateSetPasswordEmailBody(GetCurrHost(), fullname, user.Email, resetCode);
                 var fullName = user.FirstName + " " + user.LastName;
-                await _emailService.SendMailAsync(fullName, user.Email, "", AppCommon.AppName + " - Set Username & Password", mailContent, "");
+                await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Set Username & Password", mailContent, null);
 
                 return OKResult(1, "email confirmed, mail sent for set password");
             }
@@ -281,7 +282,7 @@ namespace App.Controllers
             var fullname = user.FirstName + " " + user.LastName;
             var mailContent = await EmailBodyCreator.CreateResetPasswordEmailBody(GetCurrHost(), fullname, user.Email, resetCode);
             var fullName = user.FirstName + " " + user.LastName;
-            await _emailService.SendMailAsync(fullName, user.Email, "", AppCommon.AppName + " - Reset Password", mailContent, "");
+            await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Reset Password", mailContent, null);
 
             return OKResult(1, "email sent for resetting password");
         }
