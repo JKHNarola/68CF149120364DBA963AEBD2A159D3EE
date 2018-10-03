@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.accountService.login(username, password).subscribe(
             res => {
                 if (res.status === 1) {
-                    this.authService.setCurrentUser(res.jsonData);
+                    this.authService.setCurrentUser(res.data);
                     this.router.navigate(["/home"]);
                 } else if (res.status === 0) {
                     this.toastrService.error("Invalid email or password!!");

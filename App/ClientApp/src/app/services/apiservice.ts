@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { KeyValuePair } from "./models/keyvalue.model";
-import { ApiRes } from "./models/apires.model";
+import { KeyValuePair } from "../models/keyvalue.model";
+import { ApiRes } from "../models/apires.model";
 import { AppConsts } from "../misc/app.consts";
 
 @Injectable()

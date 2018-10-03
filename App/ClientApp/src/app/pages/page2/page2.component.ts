@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { ApiService } from '../../services/apiservice';
-import { KeyValuePair } from '../../services/models/keyvalue.model';
 
 @Component({
     selector: 'page-two',
@@ -19,10 +18,10 @@ export class Page2Component {
         this.apiService.get("api/test").subscribe(res => {
             console.log(res);
             if (res.status === 1) {
-                this.userId = res.jsonData.id;
-                this.email = res.jsonData.email;
-                this.username = res.jsonData.username;
-                this.role = res.jsonData.role;
+                this.userId = res.data.id;
+                this.email = res.data.email;
+                this.username = res.data.username;
+                this.role = res.data.role;
             }
         });
 

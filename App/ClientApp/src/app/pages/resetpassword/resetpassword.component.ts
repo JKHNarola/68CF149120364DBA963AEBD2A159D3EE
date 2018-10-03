@@ -59,7 +59,7 @@ export class ResetPasswordComponent implements OnInit {
         this.accountService.resetPassword(model).subscribe(
             res => {
                 if (res.status === 1) {
-                    this.authService.setCurrentUser(res.jsonData);
+                    this.authService.setCurrentUser(res.data);
                     this.toastrService.success("Your password is successfully reset.");
                     this.router.navigate(['/home']);
                 }

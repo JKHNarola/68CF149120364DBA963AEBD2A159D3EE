@@ -63,7 +63,7 @@ export class SetPasswordComponent implements OnInit {
         this.accountService.setPassword(model).subscribe(
             res => {
                 if (res.status === 1) {
-                    this.authService.setCurrentUser(res.jsonData);
+                    this.authService.setCurrentUser(res.data);
                     this.toastrService.success("Your username & password are successfully set.");
                     this.router.navigate(['/home']);
                 }

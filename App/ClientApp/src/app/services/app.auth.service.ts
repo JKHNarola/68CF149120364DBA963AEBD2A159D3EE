@@ -1,5 +1,5 @@
 import { Headers, RequestOptions } from '@angular/http';
-import { CurrUser } from "./models/curruser.model";
+import { CurrUser } from "../models/curruser.model";
 import { Injectable } from '@angular/core';
 import * as jwt_decode from "jwt-decode";
 

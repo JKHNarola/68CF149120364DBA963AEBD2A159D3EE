@@ -19,12 +19,13 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 namespace App
 {
     public class Startup
     {
-        public static byte[] SymmetricSecurityKey = Encoding.ASCII.GetBytes("CarnivalPreCarnivalSale_Carnival_Pre_CarnivalSale_Carnival_PreSale");
+        public static readonly byte[] SymmetricSecurityKey = Encoding.ASCII.GetBytes("CarnivalPreCarnivalSale_Carnival_Pre_CarnivalSale_Carnival_PreSale");
 
         public Startup(IConfiguration configuration)
         {
@@ -106,7 +107,6 @@ namespace App
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
             services.AddScoped<IUserManagementRepository, UserManagementRepository>();
 
 
@@ -144,6 +144,11 @@ namespace App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(AppCommon.UserfilesFolderPath),
+                RequestPath = AppCommon.UserfilesRequestName
+            });
 
             app.UseAuthentication();
 

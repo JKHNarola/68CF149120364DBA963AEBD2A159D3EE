@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ApiRes } from "./models/apires.model";
+import { ApiRes } from "../models/apires.model";
 import { ApiService } from "./apiservice";
 import { LoginModel } from "../models/account/login.model";
 import { RegisterModel } from "../models/account/register.model";
-import { KeyValuePair } from "./models/keyvalue.model";
+import { KeyValuePair } from "../models/keyvalue.model";
 import { SetPasswordModel } from "../models/account/setpassword.model";
 import { ResetPasswordModel } from "../models/account/resetpassword.model";
 import { ChangePasswordModel } from "../models/account/changepassword.model";

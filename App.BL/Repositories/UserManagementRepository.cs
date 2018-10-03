@@ -29,11 +29,7 @@ namespace App.BL.Repositories
 
         public async Task<List<ApplicationUser>> GetUsersAsync(Expression<Func<ApplicationUser, bool>> predicate, bool asNoTracking) => await ListAsync(predicate, asNoTracking);
 
-        public async Task<List<ApplicationRole>> GetRoleListAsync()
-        {
-            var rolesList = _db.ApplicationRoles.ToListAsync();
-            return await rolesList;
-        }
+        public async Task<List<ApplicationRole>> GetRoleListAsync() => await _db.ApplicationRoles.ToListAsync();
 
         public async Task<bool> IsUserExists(string email)
         {

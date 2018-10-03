@@ -52,21 +52,21 @@ export class ChangePasswordComponent implements OnInit {
         this.accountService.changePassword(model).subscribe(
             res => {
                 if (res.status === 1) {
-                    this.authService.setCurrentUser(res.jsonData);
+                    this.authService.setCurrentUser(res.data);
                     this.toastrService.success(
                         "Your password is successfully changed."
                     );
                     this.router.navigate(["/home"]);
                     this.changePasswordForm.reset();
                 } else if (res.status === 2) {
-                    if (res.jsonData[0].code == "PasswordMismatch")
+                    if (res.data[0].code == "PasswordMismatch")
                         this.toastrService.error(
                             "Incorrect current password.<br>Please try again."
                         );
                     else {
                         let msg =
                             "New password must contain followings.<br><br>";
-                        for (let x of res.jsonData) {
+                        for (let x of res.data) {
                             msg += x.description + "<br>";
                         }
                         msg += "<br>Please try again.";

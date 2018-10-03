@@ -34,18 +34,17 @@ namespace App
                         {
                             await SendExceptionEmail(context, contextFeature, config);
                             dataToSend = JsonConvert.SerializeObject(
-                                            new ApiResult<object> { Message = "Some error occured while processing your request." });
+                                            new ApiResult<object> { Message = "Some error occured while processing your request." }, AppCommon.SerializerSettings);
                         }
                         else
                         {
                             dataToSend = JsonConvert.SerializeObject(
-                                            new ApiResult<object> { Message = contextFeature.Error.ToString() });
+                                            new ApiResult<object> { Message = contextFeature.Error.ToString() }, AppCommon.SerializerSettings);
                         }
                         await context.Response.WriteAsync(dataToSend);
                     }
                 });
             });
-
         }
 
         private static async Task SendExceptionEmail(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
@@ -79,7 +78,7 @@ namespace App
                 model.DateTime = model.DateTime.Add(ts);
             else
                 model.DateTime = model.DateTime.Subtract(ts);
- 
+
             var contentType = context.Request.ContentType;
             if (model.RequestMethod == "GET" && context.Request.QueryString.HasValue)
             {

@@ -6,6 +6,11 @@ namespace App.BL
 {
     public static class AppCommon
     {
+        static AppCommon()
+        {
+            Directory.CreateDirectory(UserfilesFolderPath);
+        }
+
         public static JsonSerializerSettings SerializerSettings
         {
             get
@@ -23,68 +28,54 @@ namespace App.BL
 
         private static readonly string currDirectory = Directory.GetCurrentDirectory();
 
-        private const string applicationFilesFolderName = "ApplicationFiles";
-        private const string emailTemplatesFolderName = "EmailTemplates";
+        private const string appfilesFolderName = "Appfiles";
+        private const string emailtemplatesFolderName = "Emailtemplates";
 
-        private const string userFilesFolderName = "UserFiles";
-        private const string userFilesRequestName = "/Userfiles";
+        private const string userfilesFolderName = "Userfiles";
+        private const string userfilesRequestName = "/userfiles";
 
-        public static string UserFilesFolderName { get { return userFilesFolderName; } }
-        public static string UserFilesRequestName { get { return userFilesRequestName; } }
+        public static string UserfilesFolderName { get { return userfilesFolderName; } }
+        public static string UserfilesFolderPath { get { return Path.Combine(currDirectory, userfilesFolderName); } }
+        public static string UserfilesRequestName { get { return userfilesRequestName; } }
 
         public static string ConfirmEmailTemplateFilePath
         {
             get
             {
-                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, emailTemplatesFolderName, "ConfirmEmailTemplate.html");
+                var filePath = Path.Combine(currDirectory, appfilesFolderName, emailtemplatesFolderName, "ConfirmEmail.html");
                 if (File.Exists(filePath))
                     return filePath;
                 else
                     return "";
             }
         }
-
         public static string SetPasswordEmailTemplateFilePath
         {
             get
             {
-                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, emailTemplatesFolderName, "SetPasswordEmailTemplate.html");
+                var filePath = Path.Combine(currDirectory, appfilesFolderName, emailtemplatesFolderName, "SetPassword.html");
                 if (File.Exists(filePath))
                     return filePath;
                 else
                     return "";
             }
         }
-
         public static string ResetPasswordEmailTemplateFilePath
         {
             get
             {
-                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, emailTemplatesFolderName, "ResetPasswordEmailTemplate.html");
+                var filePath = Path.Combine(currDirectory, appfilesFolderName, emailtemplatesFolderName, "ResetPassword.html");
                 if (File.Exists(filePath))
                     return filePath;
                 else
                     return "";
             }
         }
-
         public static string ExceptionEmailTemplateFilePath
         {
             get
             {
-                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, emailTemplatesFolderName, "ExceptionEmailTemplate.html");
-                if (File.Exists(filePath))
-                    return filePath;
-                else
-                    return "";
-            }
-        }
-
-        public static string SendEmailResponseTemplateFilePath
-        {
-            get
-            {
-                var filePath = Path.Combine(currDirectory, applicationFilesFolderName, "SendmailResponseTemplate.html");
+                var filePath = Path.Combine(currDirectory, appfilesFolderName, emailtemplatesFolderName, "Exception.html");
                 if (File.Exists(filePath))
                     return filePath;
                 else

@@ -41,6 +41,5 @@ namespace App
                 })
                 .UseStartup<Startup>();
         }
-
     }
 }

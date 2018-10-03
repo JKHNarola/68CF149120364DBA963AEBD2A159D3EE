@@ -142,7 +142,7 @@ namespace App
         {
             var resObj = new ApiResult<T>()
             {
-                JsonData = data,
+                Data = data,
                 Message = message,
                 Status = status
             };
@@ -175,7 +175,7 @@ namespace App
     public class ApiResult<T> where T : class
     {
         public int? Status { get; set; }
-        public T JsonData { get; set; }
+        public T Data { get; set; }
         public string Message { get; set; }
     }
 }

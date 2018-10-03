@@ -11,7 +11,6 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System.Net;
-using System.IO;
 using App.BL.Data.DTO;
 using App.BL.Data;
 using App.Models;
@@ -357,50 +356,6 @@ namespace App.Controllers
                 return OKResult(1, "username already exist");
 
             return OKResult(0, "username not found");
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("sendemail")]
-        public async Task<IActionResult> SendEmailAsync(string name, string email)
-        {
-            var mailContent = await EmailBodyCreator.CreateResetPasswordEmailBody(GetCurrHost(), name, null, null);
-
-            var color = "";
-            var content = "";
-            var mailstatus = "";
-            try
-            {
-                await _emailService.SendMailAsync(name, email, "", AppCommon.AppName + " - Test mail", mailContent, "");
-                color = "#02815b";
-                mailstatus = "Mail successfully sent";
-                content = "Email successfully sent to <b>" + email + "</b> with name <b>" + name + "</b>. Please check the mailbox.";
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                color = "#b71f1f";
-                mailstatus = "Mail couldn't be sent";
-                content = "Some error occured while sending email.";
-            }
-
-            var responseStr = "";
-            var templatefile = AppCommon.SendEmailResponseTemplateFilePath;
-            using (var reader = new StreamReader(templatefile))
-                responseStr = await reader.ReadToEndAsync();
-
-            responseStr =
-                responseStr
-                .Replace("[color]", color)
-                .Replace("[mailstatus]", mailstatus)
-                .Replace("[content]", content);
-
-            return new ContentResult
-            {
-                ContentType = "text/html",
-                StatusCode = (int)HttpStatusCode.OK,
-                Content = responseStr
-            };
         }
     }
 }

@@ -1,14 +1,35 @@
 using App.BL;
+using App.BL.Interfaces;
+using App.BL.Services;
+using App.Misc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace App.Controllers
 {
     [Route("api/test")]
     public class DemoController : BaseController
     {
+        private readonly EmailService _emailService;
+        private readonly ILogger _logger;
+
+        public DemoController(
+           ILogger<DemoController> logger,
+           IHttpContextAccessor httpContext,
+           IOptions<EmailSettings> emailSettings,
+           IUserManagementRepository userRepo
+           ) : base(httpContext)
+        {
+            _emailService = new EmailService(emailSettings);
+            _logger = logger;
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult Get()
@@ -49,7 +70,13 @@ namespace App.Controllers
             var x = Convert.ToInt32(d.X) / 0;
             return OKResult(1, new { x });
         }
+        public class Data
+        {
+            public string X { get; set; }
+            public string Y { get; set; }
+        }
 
+        [Authorize]
         [HttpGet]
         [Route("statuscode")]
         public IActionResult TestCode()
@@ -57,11 +84,14 @@ namespace App.Controllers
             return OtherResult(HttpStatusCode.BadRequest);
         }
 
-        public class Data
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("sendemail")]
+        public async Task<IActionResult> SendEmailAsync(string name, string email)
         {
-            public string X { get; set; }
-            public string Y { get; set; }
+            var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(GetCurrHost(), name, null, null);
+            await _emailService.SendMailAsync(name, email, "", AppCommon.AppName + " - Test mail", mailContent, "");
+            return OKResult(1, "mail sent to " + email);
         }
-
     }
 }
