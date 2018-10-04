@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class ResponseInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

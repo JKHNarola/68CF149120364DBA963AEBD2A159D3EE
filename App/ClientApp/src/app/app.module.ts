@@ -7,8 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { routes, AuthGuardService } from './app.router';
 import { AuthService } from './services/app.auth.service';
-import { JwtInterceptor } from './misc/JwtInterceptor';
-import { ErrorInterceptor } from './misc/errorinterceptor';
+import { RequestInterceptor } from './misc/httprequest.intereceptor';
+import { ResponseInterceptor } from './misc/httpresponse.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
 import { FusionChartsModule } from 'angular-fusioncharts';
@@ -91,12 +91,12 @@ import { ChangePasswordComponent } from './pages/changepassword/changepassword.c
         AuthGuardService,
         {
             provide: HTTP_INTERCEPTORS,
-            useClass: JwtInterceptor,
+            useClass: RequestInterceptor,
             multi: true,
         },
         {
             provide: HTTP_INTERCEPTORS,
-            useClass: ErrorInterceptor,
+            useClass: ResponseInterceptor,
             multi: true,
         }
     ],

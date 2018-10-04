@@ -27,13 +27,13 @@ namespace App
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.Response.ContentType = "application/json";
 
+                    var dataToSend = "";
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        var dataToSend = "";
                         if (env.IsProduction())
                         {
-                            await SendExceptionEmail(context, contextFeature, config);
+                            await SendExceptionEmailAsync(context, contextFeature, config);
                             dataToSend = JsonConvert.SerializeObject(
                                             new ApiResult<object> { Message = "Some error occured while processing your request." }, AppCommon.SerializerSettings);
                         }
@@ -42,13 +42,14 @@ namespace App
                             dataToSend = JsonConvert.SerializeObject(
                                             new ApiResult<object> { Message = contextFeature.Error.ToString() }, AppCommon.SerializerSettings);
                         }
-                        await context.Response.WriteAsync(dataToSend);
                     }
+
+                    await context.Response.WriteAsync(dataToSend);
                 });
             });
         }
 
-        private static async Task SendExceptionEmail(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
+        private static async Task SendExceptionEmailAsync(HttpContext context, IExceptionHandlerFeature contextFeature, IConfiguration config)
         {
             var emailSettings = new EmailSettings();
             config.GetSection("EmailSettings").Bind(emailSettings);

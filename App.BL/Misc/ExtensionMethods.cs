@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 
 namespace App.BL
@@ -63,6 +65,30 @@ namespace App.BL
                 return role;
             }
             return null;
+        }
+
+        public static bool IsLocal(this HttpRequest req)
+        {
+            var connection = req?.HttpContext?.Connection;
+            if (connection?.RemoteIpAddress != null)
+            {
+                if (IPAddress.IsLoopback(connection?.RemoteIpAddress))
+                {
+                    return true;
+                }
+                else if (connection?.LocalIpAddress != null)
+                {
+                    return connection.RemoteIpAddress.Equals(connection?.LocalIpAddress);
+                }
+            }
+
+            // for in memory TestServer or when dealing with default connection info
+            if (connection?.RemoteIpAddress == null && connection?.LocalIpAddress == null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

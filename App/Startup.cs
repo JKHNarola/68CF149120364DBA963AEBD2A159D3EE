@@ -117,7 +117,7 @@ namespace App
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                configuration.RootPath = "ClientApp/dist/ngapp";
             });
         }
 
@@ -134,7 +134,6 @@ namespace App
                 //Use this if you want to redirect to error page form asp and not from angular app
                 //app.UseExceptionHandler("/Error");
 
-                //For using https and ssl
                 app.UseHsts();
             }
 
@@ -143,12 +142,12 @@ namespace App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(AppCommon.UserfilesFolderPath),
                 RequestPath = AppCommon.UserfilesRequestName
             });
+            app.UseSpaStaticFiles();
 
             app.UseAuthentication();
 

@@ -4,14 +4,16 @@ using App.BL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace App.BL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181004054503_LogTableChanges")]
+    partial class LogTableChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,6 +138,9 @@ namespace App.BL.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(255);
 
+                    b.Property<string>("Payload")
+                        .HasMaxLength(5000);
+
                     b.Property<string>("ReqHeaders")
                         .HasMaxLength(5000);
 
@@ -147,9 +152,6 @@ namespace App.BL.Migrations
 
                     b.Property<string>("ReqPath")
                         .HasMaxLength(255);
-
-                    b.Property<string>("ReqPayload")
-                        .HasMaxLength(5000);
 
                     b.Property<DateTimeOffset>("TimeStamp");
 

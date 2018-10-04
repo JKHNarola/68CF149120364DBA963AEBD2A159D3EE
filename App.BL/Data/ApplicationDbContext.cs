@@ -54,9 +54,12 @@ namespace App.BL.Data
 
             builder.Entity<ExtendedLog>().Property(u => u.Name).HasMaxLength(255);
             builder.Entity<ExtendedLog>().Property(u => u.Browser).HasMaxLength(255);
-            builder.Entity<ExtendedLog>().Property(u => u.User).HasMaxLength(255);
-            builder.Entity<ExtendedLog>().Property(u => u.Host).HasMaxLength(255);
-            builder.Entity<ExtendedLog>().Property(u => u.Path).HasMaxLength(255);
+            builder.Entity<ExtendedLog>().Property(u => u.UserId);
+            builder.Entity<ExtendedLog>().Property(u => u.ReqIp).HasMaxLength(255);
+            builder.Entity<ExtendedLog>().Property(u => u.ReqPath).HasMaxLength(255);
+            builder.Entity<ExtendedLog>().Property(u => u.ReqHeaders).HasMaxLength(5000);
+            builder.Entity<ExtendedLog>().Property(u => u.ReqMethod).HasMaxLength(50);
+            builder.Entity<ExtendedLog>().Property(u => u.ReqPayload).HasMaxLength(5000);
         }
     }
 

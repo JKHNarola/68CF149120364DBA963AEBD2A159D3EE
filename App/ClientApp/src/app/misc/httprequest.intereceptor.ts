@@ -5,7 +5,7 @@ import { AuthService } from "../services/app.auth.service";
 import { AppConsts } from './app.consts';
 
 @Injectable()
-export class JwtInterceptor implements HttpInterceptor {
+export class RequestInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (request.headers.has(AppConsts.interceptorSkipAuthHeader)) {
