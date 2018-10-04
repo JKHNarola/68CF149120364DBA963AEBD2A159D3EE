@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from "../services/app.auth.service";
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
@@ -12,8 +13,10 @@ export class ResponseInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError((error, caught) => {
-            //intercept the respons error and displace it to the console
-            console.log(error);
+
+            if (!environment.production)
+                console.log(error);
+
             this.handleError(error);
             return throwError(error);
         }) as any);
@@ -36,9 +39,9 @@ export class ResponseInterceptor implements HttpInterceptor {
             msg = "Following request error occured.<br><br>";
             msg = msg + err.error.message;
         }
-        else if (err.error.jsonData) {
+        else if (err.error.data) {
             msg = "Following request error(s) occured.<br><br>";
-            for (let x of err.error.jsonData) {
+            for (let x of err.error.data) {
                 for (let y of x) {
                     msg = msg + y.errorMessage + "<br>";
                 }
