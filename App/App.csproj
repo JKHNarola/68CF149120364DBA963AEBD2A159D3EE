@@ -41,6 +41,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Appfiles\Emailtemplates\ConfirmEmail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Appfiles\Emailtemplates\Exception.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Appfiles\Emailtemplates\ResetPassword.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Appfiles\Emailtemplates\SetPassword.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="ApplicationFiles\EmailTemplates\ConfirmEmailTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -165,6 +165,7 @@ namespace App.BL.Data
             catch (Exception ex)
             {
                 logs.Add("[ERROR] " + DateTime.Now.ToString(datetimeFormat) + "   " + ex.ToString());
+                throw ex;
             }
 
 
