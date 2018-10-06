@@ -5,7 +5,7 @@ export const pageSlideUpAnimation =
         transition(':enter', [
             style({
                 opacity: 0,
-                transform: 'translateY(10px)'
+                transform: 'translateY(5px)'
             }),
             animate(
                 '.3s cubic-bezier(0.680, -0.100, 0.265, 1.50)',
@@ -24,7 +24,7 @@ export const pageFadeInAnimation =
                 opacity: 0,
             }),
             animate(
-                '.2s ease-in',
+                '.3s ease-in',
                 style({
                     opacity: 1,
                 })
