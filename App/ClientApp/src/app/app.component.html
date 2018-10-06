@@ -1,1 +1,62 @@
-<router-outlet></router-outlet>
+<div @pageFadeInAnimation>
+    <nav class="navbar sticky-top navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">
+            <i class="fab fa-angular"></i>
+            App
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/page1" routerLinkActive="active">
+                        Fusion Charts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/page2" routerLinkActive="active">
+                        Page 2
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/page3" routerLinkActive="active">
+                        Page 3
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/page4" routerLinkActive="active">
+                        Page 4
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" *ngIf="isUserLoggedIn">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;{{fullname}}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" routerLink="/changepassword">Change password</a>
+                            <a class="dropdown-item" routerLink="" (click)="onLogout()">Logout</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item" *ngIf="!isUserLoggedIn">
+                    <a class="nav-link" routerLink="/login" routerLinkActive="active">
+                        Sign In
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="!isUserLoggedIn">
+                    <a class="nav-link" routerLink="/register" routerLinkActive="active">
+                        Sign Up
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -40,7 +40,6 @@ FusionChartsModule.fcRoot(
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SetPasswordComponent } from './pages/setpassword/setpassword.component';
 import { ConfirmEmailComponent } from './pages/confirmemail/confirmemail.component';
@@ -56,7 +55,6 @@ import { ChangePasswordComponent } from './pages/changepassword/changepassword.c
     declarations: [
         AppComponent,
         LoginComponent,
-        HomeComponent,
         RegisterComponent,
         SetPasswordComponent,
         ConfirmEmailComponent,

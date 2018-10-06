@@ -69,6 +69,6 @@ export class AccountService {
     }
 
     public logout(): Observable<ApiRes> {
-        return this.apiservice.getWithoutAuth("/api/account/logout");
+        return this.apiservice.get("/api/account/logout");
     }
 }

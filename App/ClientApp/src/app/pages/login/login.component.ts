@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
             res => {
                 if (res.status === 1) {
                     this.authService.setCurrentUser(res.data);
-                    this.router.navigate(["/home"]);
+                    this.router.navigate(["/page1"]);
                 } else if (res.status === 0) {
                     this.toastrService.error("Invalid email or password!!");
                 }

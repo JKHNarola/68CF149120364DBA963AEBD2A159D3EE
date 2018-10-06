@@ -1,6 +1,5 @@
 import { Routes, Router } from "@angular/router";
 import { LoginComponent } from "./pages/login/login.component";
-import { HomeComponent } from "./pages/home/home.component";
 import { RegisterComponent } from "./pages/register/register.component";
 import { Injectable } from "@angular/core";
 import { CanActivate } from "@angular/router";
@@ -17,7 +16,7 @@ import { ChangePasswordComponent } from "./pages/changepassword/changepassword.c
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) { }
 
     canActivate() {
         if (
@@ -33,40 +32,21 @@ export class AuthGuardService implements CanActivate {
 }
 
 export const routes: Routes = [
-    { path: "", redirectTo: "/home", pathMatch: "full" },
+    { path: "", redirectTo: "/page1", pathMatch: "full" },
+
     { path: "login", component: LoginComponent },
-    {
-        path: "home",
-        component: HomeComponent,
-        canActivate: [AuthGuardService],
-        children: [
-            {
-                path: "page1",
-                component: Page1Component
-            },
-            {
-                path: "page2",
-                component: Page2Component
-            },
-            {
-                path: "page3",
-                component: Page3Component
-            },
-            {
-                path: "page4",
-                component: Page4Component
-            },
-            {
-                path: "changepassword",
-                component: ChangePasswordComponent
-            }
-        ]
-    },
     { path: "register", component: RegisterComponent },
     { path: "confirmemail", component: ConfirmEmailComponent },
     { path: "setpassword", component: SetPasswordComponent },
     { path: "forgotpassword", component: ForgotPasswordComponent },
     { path: "resetpassword", component: ResetPasswordComponent },
-    { path: "*", redirectTo: "/home" },
-    { path: "**", redirectTo: "/home" }
+
+    { path: "changepassword", component: ChangePasswordComponent, canActivate: [AuthGuardService] },
+    { path: "page1", component: Page1Component, canActivate: [AuthGuardService] },
+    { path: "page2", component: Page2Component, canActivate: [AuthGuardService] },
+    { path: "page3", component: Page3Component, canActivate: [AuthGuardService] },
+    { path: "page4", component: Page4Component, canActivate: [AuthGuardService] },
+
+    { path: "*", redirectTo: "/page1" },
+    { path: "**", redirectTo: "/page1" }
 ];

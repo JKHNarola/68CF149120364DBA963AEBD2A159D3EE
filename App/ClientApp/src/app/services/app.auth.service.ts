@@ -2,9 +2,17 @@ import { Headers, RequestOptions } from '@angular/http';
 import { CurrUser } from "../models/curruser.model";
 import { Injectable } from '@angular/core';
 import * as jwt_decode from "jwt-decode";
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
+
+    private currUserSetSource = new BehaviorSubject<CurrUser>(null);
+    onCurrUserSet: Observable<CurrUser> = this.currUserSetSource.asObservable();
+
+    private currUserRemovedSource = new BehaviorSubject<boolean>(false);
+    onCurrUserRemoved: Observable<boolean> = this.currUserRemovedSource.asObservable();
+
     public getAuthHeader() {
         let currentUser = JSON.parse(String(localStorage.getItem('currentUser')));
         if (currentUser && currentUser.token) {
@@ -67,10 +75,12 @@ export class AuthService {
 
     public setCurrentUser(model: CurrUser) {
         localStorage.setItem('currentUser', JSON.stringify(model));
+        this.currUserSetSource.next(model);
     }
 
     public removeCurrentUser() {
         localStorage.removeItem('currentUser');
+        this.currUserRemovedSource.next(true);
     }
 
     public getTokenExpirationTime(): Date {
