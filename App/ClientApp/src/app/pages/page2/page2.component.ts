@@ -32,15 +32,15 @@ export class Page2Component {
         //    console.log(res);
         //});
 
-        let d = new Data();
-        d.x = "25";
-        this.apiService.post("api/test/error/post", d).subscribe(res => {
-            console.log(res);
-        });
+        //let d = new Data();
+        //d.x = "25";
+        //this.apiService.post("api/test/error/post", d).subscribe(res => {
+        //    console.log(res);
+        //});
     }
 }
 
-class Data {
-    x: string;
-    y: string;
-}
+//class Data {
+//    x: string;
+//    y: string;
+//}
