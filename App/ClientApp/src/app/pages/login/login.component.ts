@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
                     this.authService.setCurrentUser(res.data);
                     this.router.navigate(["/page1"]);
                 } else if (res.status === 0) {
-                    this.toastrService.error("Invalid email or password!!");
+                    this.toastrService.error("Invalid username or password!!");
                 }
                 this.loading = false;
             },

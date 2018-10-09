@@ -39,6 +39,7 @@ namespace App
                         }
                         else
                         {
+                            //await SendExceptionEmailAsync(context, contextFeature, config);
                             dataToSend = JsonConvert.SerializeObject(
                                             new ApiResult<object> { Message = contextFeature.Error.ToString() }, AppCommon.SerializerSettings);
                         }

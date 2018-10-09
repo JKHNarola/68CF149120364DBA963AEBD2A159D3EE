@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { ApiService } from '../../services/apiservice';
+import { KeyValuePair } from '../../models/keyvalue.model';
 
 @Component({
     selector: 'page-two',
@@ -25,12 +26,12 @@ export class Page2Component {
             }
         });
 
-        //let pair = new KeyValuePair();
-        //pair.key = "m";
-        //pair.value = "25";
-        //this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
-        //    console.log(res);
-        //});
+        let pair = new KeyValuePair();
+        pair.key = "m";
+        pair.value = "25";
+        this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
+            console.log(res);
+        });
 
         //let d = new Data();
         //d.x = "25";
