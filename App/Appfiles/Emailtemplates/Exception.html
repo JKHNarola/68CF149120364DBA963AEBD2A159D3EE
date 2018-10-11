@@ -4,62 +4,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>App - Exception</title>
-    <style type="text/css">
-        body {
-            margin: 0;
-            padding: 0;
-            min-width: 100% !important;
-            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: 300;
-        }
-
-        .main-table {
-            width: 100%;
-        }
-
-        .content {
-            width: 100%;
-            max-width: 600px;
-            padding: 25px 20px;
-            border: 1px solid #fb4d4d;
-            background-color: #fff6f6;
-            border-radius: 5px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        hr {
-            border: 0;
-            border-bottom: 1px solid #fb4d4d;
-        }
-
-        .string-break {
-            /* These are technically the same, but use both */
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            -ms-word-break: break-all;
-            /* This is the dangerous one in WebKit, as it breaks things wherever */
-            word-break: break-all;
-            /* Instead use this non-standard one: */
-            word-break: break-word;
-            /* Adds a hyphen where the word breaks, if supported (No Blink) */
-            -ms-hyphens: auto;
-            -moz-hyphens: auto;
-            -webkit-hyphens: auto;
-            hyphens: auto;
-        }
-    </style>
 </head>
 
-<body>
-    <table class="main-table" border="0" cellpadding="0" cellspacing="0">
+<body style='margin: 0;padding: 0;min-width: 100% !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: 300;'>
+    <table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
+                <table style="width: 100%;max-width: 600px;padding: 25px 20px;border: 1px solid #fb4d4d;background-color: #fff6f6;border-radius: 5px;margin-top: 20px;margin-bottom: 20px;" align="center" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <td>
                             <h3 style="color:#fb4141;padding-top:0px;margin-top:0px;">Error occurred!!</h3>
-                            <hr />
+                            <hr style="border: 0; border-bottom: 1px solid #fb4d4d;" />
                         </td>
                     </tr>
                     <tr>
@@ -75,13 +30,13 @@
                                     <td style="padding-top: 20px;color:#fb4141;"><b>Error message</b></td>
                                 </tr>
                                 <tr>
-                                    <td class="string-break">[errmsg]</td>
+                                    <td style="overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">[errmsg]</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: 20px;color:#fb4141;"><b>Exception</b></td>
                                 </tr>
                                 <tr>
-                                    <td class="string-break">[exception]</td>
+                                    <td style="overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">[exception]</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: 20px"><b>User email</b></td>
@@ -105,7 +60,7 @@
                                     <td style="padding-top: 20px"><b>Request</b></td>
                                 </tr>
                                 <tr>
-                                    <td class="string-break"><span style="color: #36c11c;">[reqmethod]</span> - [reqpath]</td>
+                                    <td style="overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;"><span style="color: #36c11c;">[reqmethod]</span> - [reqpath]</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: 20px;" class="string-break"><b>Payload</b></td>
@@ -117,7 +72,7 @@
                                     <td style="padding-top: 20px"><b>Reqeust headers</b></td>
                                 </tr>
                                 <tr>
-                                    <td class="string-break">[reqheaders]</td>
+                                    <td style="overflow-wrap: break-word; word-wrap: break-word; -ms-word-break: break-all; word-break: break-word; -ms-hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; hyphens: auto;">[reqheaders]</td>
                                 </tr>
                                 <tr>
                                     <td style="padding-top: 20px;"><b>Remote ip</b></td>
