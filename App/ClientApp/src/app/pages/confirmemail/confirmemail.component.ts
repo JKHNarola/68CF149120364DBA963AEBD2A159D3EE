@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
-import { ApiService } from '../../services/apiservice';
 import { Router, ActivatedRoute } from '@angular/router';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 
 @Component({
     selector: 'confirm-email',
     templateUrl: './confirmemail.component.html',
-    providers: [ApiService, AccountService],
+    providers: [AccountService],
     animations: [pageSlideUpAnimation]
 })
 export class ConfirmEmailComponent implements OnInit {

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AccountService } from "./services/account.service";
-import { ApiService } from "./services/apiservice";
 import { pageFadeInAnimation } from "./misc/page.animation";
 import { AuthService } from "./services/app.auth.service";
 import { Router } from "@angular/router";
@@ -9,7 +8,7 @@ import { Subscription } from "rxjs";
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
-    providers: [ApiService, AccountService],
+    providers: [AccountService],
     animations: [pageFadeInAnimation]
 })
 export class AppComponent implements OnInit, OnDestroy {

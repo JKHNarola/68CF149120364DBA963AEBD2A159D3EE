@@ -6,7 +6,7 @@ import { ApiRes } from "../models/apires.model";
 import { AppConsts } from "../misc/app.consts";
 
 @Injectable()
-export class ApiService {
+export class BaseApiService {
     private headers = new HttpHeaders().set(AppConsts.interceptorSkipAuthHeader, '');
 
     constructor(private httpClient: HttpClient) {

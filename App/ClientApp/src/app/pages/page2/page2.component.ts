@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
-import { ApiService } from '../../services/apiservice';
+import { BaseApiService } from '../../services/baseapiservice';
 import { KeyValuePair } from '../../models/keyvalue.model';
 
 @Component({
     selector: 'page-two',
     templateUrl: './page2.component.html',
     animations: [pageSlideUpAnimation],
-    providers: [ApiService]
+    providers: [BaseApiService]
 })
 export class Page2Component {
     userId = "";
@@ -15,7 +15,7 @@ export class Page2Component {
     email = "";
     role = "";
 
-    constructor(private apiService: ApiService) {
+    constructor(private apiService: BaseApiService) {
         this.apiService.get("api/test").subscribe(res => {
             console.log(res);
             if (res.status === 1) {
@@ -26,12 +26,12 @@ export class Page2Component {
             }
         });
 
-        let pair = new KeyValuePair();
-        pair.key = "m";
-        pair.value = "25";
-        this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
-            console.log(res);
-        });
+        //let pair = new KeyValuePair();
+        //pair.key = "m";
+        //pair.value = "25";
+        //this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
+        //    console.log(res);
+        //});
 
         //let d = new Data();
         //d.x = "25";

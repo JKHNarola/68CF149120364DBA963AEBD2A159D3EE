@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AccountService } from "../../services/account.service";
-import { ApiService } from "../../services/apiservice";
 import { AuthService } from "../../services/app.auth.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
@@ -11,7 +10,7 @@ import { ChangePasswordModel } from "../../models/account/changepassword.model";
 @Component({
     selector: "change-password",
     templateUrl: "./changepassword.component.html",
-    providers: [ApiService, AccountService],
+    providers: [AccountService],
     animations: [pageSlideUpAnimation]
 })
 export class ChangePasswordComponent implements OnInit {

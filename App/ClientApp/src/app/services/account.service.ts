@@ -1,17 +1,19 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiRes } from "../models/apires.model";
-import { ApiService } from "./apiservice";
+import { BaseApiService } from "./baseapiservice";
 import { LoginModel } from "../models/account/login.model";
 import { RegisterModel } from "../models/account/register.model";
 import { KeyValuePair } from "../models/keyvalue.model";
 import { SetPasswordModel } from "../models/account/setpassword.model";
 import { ResetPasswordModel } from "../models/account/resetpassword.model";
 import { ChangePasswordModel } from "../models/account/changepassword.model";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
-export class AccountService {
-    constructor(private apiservice: ApiService) {
+export class AccountService extends BaseApiService {
+    constructor(_httpClient: HttpClient) {
+        super(_httpClient);
     }
 
     public login(username: string, password: string): Observable<ApiRes> {
@@ -20,11 +22,11 @@ export class AccountService {
         model.password = password;
         model.rememberMe = false;
 
-        return this.apiservice.postWithoutAuth("/api/account/login", model);
+        return this.postWithoutAuth("/api/account/login", model);
     }
 
     public register(model: RegisterModel): Observable<ApiRes> {
-        return this.apiservice.postWithoutAuth("/api/account/register", model);
+        return this.postWithoutAuth("/api/account/register", model);
     }
 
     public confirmEmail(email: string, code: string): Observable<ApiRes> {
@@ -38,18 +40,18 @@ export class AccountService {
         codePair.value = code;
         pairs.push(codePair);
 
-        return this.apiservice.getByParamsWithoutAuth("/api/account/confirmemail", pairs);
+        return this.getByParamsWithoutAuth("/api/account/confirmemail", pairs);
     }
 
     public setPassword(model: SetPasswordModel): Observable<ApiRes> {
-        return this.apiservice.postWithoutAuth("/api/account/setpassword", model);
+        return this.postWithoutAuth("/api/account/setpassword", model);
     }
 
     public checkUserNameExists(username: string): Observable<ApiRes> {
         let pair = new KeyValuePair();
         pair.key = "userName";
         pair.value = username;
-        return this.apiservice.getByParamsWithoutAuth("/api/account/check/usernameexist", [pair]);
+        return this.getByParamsWithoutAuth("/api/account/check/usernameexist", [pair]);
     }
 
     public requestResetPassword(email: string): Observable<ApiRes> {
@@ -57,18 +59,18 @@ export class AccountService {
         emailPair.key = "email";
         emailPair.value = email;
 
-        return this.apiservice.getByParamsWithoutAuth("/api/account/forgotpassword", [emailPair]);
+        return this.getByParamsWithoutAuth("/api/account/forgotpassword", [emailPair]);
     }
 
     public resetPassword(model: ResetPasswordModel): Observable<ApiRes> {
-        return this.apiservice.postWithoutAuth("/api/account/resetpassword", model);
+        return this.postWithoutAuth("/api/account/resetpassword", model);
     }
 
     public changePassword(model: ChangePasswordModel): Observable<ApiRes> {
-        return this.apiservice.post("/api/account/changepassword", model);
+        return this.post("/api/account/changepassword", model);
     }
 
     public logout(): Observable<ApiRes> {
-        return this.apiservice.get("/api/account/logout");
+        return this.get("/api/account/logout");
     }
 }

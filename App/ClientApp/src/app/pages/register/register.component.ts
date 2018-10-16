@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
-import { ApiService } from '../../services/apiservice';
 import { RegisterModel } from '../../models/account/register.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { pageSlideUpAnimation } from '../../misc/page.animation';
 @Component({
     selector: 'register',
     templateUrl: './register.component.html',
-    providers: [ApiService, AccountService],
+    providers: [AccountService],
     animations: [pageSlideUpAnimation]
 })
 export class RegisterComponent implements OnInit {

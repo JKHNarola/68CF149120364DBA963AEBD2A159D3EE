@@ -3,14 +3,13 @@ import { AccountService } from "../../services/account.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/app.auth.service";
 import { Router } from "@angular/router";
-import { ApiService } from "../../services/apiservice";
 import { ToastrService } from "ngx-toastr";
 import { pageSlideUpAnimation } from "../../misc/page.animation";
 
 @Component({
     selector: "login",
     templateUrl: "./login.component.html",
-    providers: [ApiService, AccountService],
+    providers: [AccountService],
     animations: [pageSlideUpAnimation]
 })
 export class LoginComponent implements OnInit {
