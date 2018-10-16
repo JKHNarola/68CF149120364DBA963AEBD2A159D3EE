@@ -34,7 +34,7 @@ namespace App.Controllers
         private readonly ApplicationDbContext _db;
         private readonly EmailService _emailService;
         private readonly AppSettings _appSetting;
-        private readonly IUserManagementRepository _userRepo;
+        private readonly IUserManagementRepository _userService;
 
         public AccountController(
             ILogger<AccountController> logger,
@@ -44,7 +44,7 @@ namespace App.Controllers
             IHttpContextAccessor httpContext,
             IOptions<EmailSettings> emailSettings,
             IOptions<AppSettings> appSettings,
-            IUserManagementRepository userRepo
+            IUserManagementRepository userService
             ) : base(httpContext)
         {
             _userManager = userManager;
@@ -54,7 +54,7 @@ namespace App.Controllers
             _db = db;
             _emailService = new EmailService(emailSettings);
             _appSetting = appSettings.Value;
-            _userRepo = userRepo;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -83,7 +83,7 @@ namespace App.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var user = await _userRepo.GetSingleAsync(x => x.UserName == model.UserName);
+                var user = await _userService.GetSingleAsync(x => x.UserName == model.UserName);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = (Role)Enum.Parse(typeof(Role), roles[0]);
 
@@ -139,7 +139,7 @@ namespace App.Controllers
                 if (!ModelState.IsValid)
                     return InvalidModelStateResult(ModelState);
 
-                var isUserExixts = await _userRepo.IsUserExists(model.Email);
+                var isUserExixts = await _userService.IsUserExists(model.Email);
                 if (isUserExixts)
                     return OKResult(-3, "user already exists for email", model.Email);
 
@@ -324,7 +324,7 @@ namespace App.Controllers
             if (string.IsNullOrEmpty(userid))
                 return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
 
-            var user = await _userRepo.GetSingleAsync(x => x.Id == userid);
+            var user = await _userService.GetSingleAsync(x => x.Id == userid);
             if (user == null)
                 return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
 
@@ -352,7 +352,7 @@ namespace App.Controllers
         [Route("check/usernameexist")]
         public async Task<IActionResult> IsUserNameExistAsync(string userName)
         {
-            var userDetail = await _userRepo.GetSingleUserAsync(true, x => x.UserName == userName);
+            var userDetail = await _userService.GetSingleUserAsync(true, x => x.UserName == userName);
             if (userDetail != null)
                 return OKResult(1, "username already exist");
 
