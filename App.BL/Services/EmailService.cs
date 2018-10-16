@@ -31,7 +31,7 @@ namespace App.BL.Services
             var objMail = new MailMessage();
 
             if (toAddrs == null || toAddrs.Count == 0)
-                throw new Exception("No to email found to send email");
+                throw new Exception("No 'to email address' found to send email");
 
             foreach (var (email, displayName) in toAddrs)
                 objMail.To.Add(new MailAddress(email, displayName));
@@ -70,18 +70,7 @@ namespace App.BL.Services
 
             await objSmtpClient.SendMailAsync(objMail);
         }
-
-        public void SendMails(List<string> emailids, string subject, string bodyText)
-        {
-            Task.Run(() =>
-            {
-                Parallel.ForEach(emailids, async emailid =>
-                {
-                    await SendMailAsync(new List<(string email, string displayName)>() { (emailid, "") }, null, null, subject, bodyText, null);
-                });
-            });
-        }
-    }
+   }
 
     public class EmailSettings
     {
