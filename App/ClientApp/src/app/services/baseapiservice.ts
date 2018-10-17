@@ -14,8 +14,9 @@ export class BaseApiService {
 
     private mapHttpParams(params: KeyValuePair[]): HttpParams {
         let httpParams = new HttpParams();
-        for (let x of params)
+        params.forEach(x => {
             httpParams = httpParams.append(x.key, x.value);
+        });
 
         return httpParams;
     }

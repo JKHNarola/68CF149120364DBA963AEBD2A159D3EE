@@ -179,7 +179,7 @@ namespace App.Controllers
                 var fullName = user.FirstName + " " + user.LastName;
                 try
                 {
-                    await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Confirm Email", mailContent, null);
+                    await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Verify Email", mailContent, null);
                     return OKResult(1, "user successfully created, email sent");
                 }
                 catch (Exception ex)
