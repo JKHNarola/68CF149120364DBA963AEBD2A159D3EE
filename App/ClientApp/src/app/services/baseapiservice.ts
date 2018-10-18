@@ -7,7 +7,7 @@ import { AppConsts } from "../misc/app.consts";
 
 @Injectable()
 export class BaseApiService {
-    private headers = new HttpHeaders().set(AppConsts.interceptorSkipAuthHeader, '');
+    private skipAuthHeaders = new HttpHeaders().set(AppConsts.interceptorSkipAuthHeader, '');
 
     constructor(private httpClient: HttpClient) {
     }
@@ -26,7 +26,7 @@ export class BaseApiService {
     }
 
     public getWithoutAuth(url: string): Observable<ApiRes> {
-        return this.httpClient.get<ApiRes>(url, { headers: this.headers });
+        return this.httpClient.get<ApiRes>(url, { headers: this.skipAuthHeaders });
     }
 
     public getByParams(url: string, params: KeyValuePair[]): Observable<ApiRes> {
@@ -34,7 +34,7 @@ export class BaseApiService {
     }
 
     public getByParamsWithoutAuth(url: string, params: KeyValuePair[]): Observable<ApiRes> {
-        return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params), headers: this.headers });
+        return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params), headers: this.skipAuthHeaders });
     }
 
     public post<T>(url: string, data: T): Observable<ApiRes> {
@@ -42,6 +42,6 @@ export class BaseApiService {
     }
 
     public postWithoutAuth<T>(url: string, data: T): Observable<ApiRes> {
-        return this.httpClient.post<ApiRes>(url, data, { headers: this.headers });
+        return this.httpClient.post<ApiRes>(url, data, { headers: this.skipAuthHeaders });
     }
 }

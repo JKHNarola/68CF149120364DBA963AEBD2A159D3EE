@@ -15,7 +15,7 @@ export class ResponseInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError((error, caught) => {
 
             if (!environment.production)
-                console.log(error);
+                console.log("Error occured", error);
 
             this.handleError(error);
             return throwError(error);
