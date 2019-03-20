@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace App.Controllers
@@ -92,7 +93,7 @@ namespace App.Controllers
         public async Task<IActionResult> SendEmailAsync(string name, string email)
         {
             var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(Utilities.GetCurrHost(_httpContext), name, null, null);
-            await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (email, name) }, null, null, AppCommon.AppName + " - Test mail", mailContent, null);
+            await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(email, name) }, null, null, AppCommon.AppName + " - Test mail", mailContent, null);
             return OKResult(1, "mail sent to " + email);
         }
     }

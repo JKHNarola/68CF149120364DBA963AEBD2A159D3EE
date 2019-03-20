@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 
 namespace App.BL.Repositories
 {
@@ -154,7 +155,7 @@ namespace App.BL.Repositories
             var fullName = user.FirstName + " " + user.LastName;
             try
             {
-                await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Verify Email", mailContent, null);
+                await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(user.Email, fullName) }, null, null, AppCommon.AppName + " - Verify Email", mailContent, null);
                 return new KeyValuePair<int, string>(1, "user successfully created, email sent");
             }
             catch (Exception ex)
@@ -196,7 +197,7 @@ namespace App.BL.Repositories
                 var fullname = user.FirstName + " " + user.LastName;
                 var mailContent = await EmailBodyCreator.CreateSetPasswordEmailBody(Utilities.GetCurrHost(_httpContext), fullname, user.Email, resetCode);
                 var fullName = user.FirstName + " " + user.LastName;
-                await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Set Username & Password", mailContent, null);
+                await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(user.Email, fullName) }, null, null, AppCommon.AppName + " - Set Username & Password", mailContent, null);
 
                 return true;
             }
@@ -234,7 +235,7 @@ namespace App.BL.Repositories
             var fullname = user.FirstName + " " + user.LastName;
             var mailContent = await EmailBodyCreator.CreateResetPasswordEmailBody(Utilities.GetCurrHost(_httpContext), fullname, user.Email, resetCode);
             var fullName = user.FirstName + " " + user.LastName;
-            await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (user.Email, fullName) }, null, null, AppCommon.AppName + " - Reset Password", mailContent, null);
+            await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(user.Email, fullName) }, null, null, AppCommon.AppName + " - Reset Password", mailContent, null);
 
             return true;
         }

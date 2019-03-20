@@ -19,7 +19,7 @@ namespace App.BL.Services
             _settings = settings;
         }
 
-        public async Task SendMailAsync(List<(string email, string displayName)> toAddrs, List<(string email, string displayName)> ccAddrs, List<(string email, string displayName)> bccAddrs, string subject, string bodyText, List<string> attachmentFilepaths)
+        public async Task SendMailAsync(List<MailAddress> toAddrs, List<MailAddress> ccAddrs, List<MailAddress> bccAddrs, string subject, string bodyText, List<string> attachmentFilepaths)
         {
             var mailServerIp = _settings.MailServerIp;
             var systemEmailSenderEmail = _settings.SystemEmailSenderEmail;
@@ -33,16 +33,16 @@ namespace App.BL.Services
             if (toAddrs == null || toAddrs.Count == 0)
                 throw new Exception("No 'to email address' found to send email");
 
-            foreach (var (email, displayName) in toAddrs)
-                objMail.To.Add(new MailAddress(email, displayName));
+            foreach (var add in toAddrs)
+                objMail.To.Add(add);
 
             if (ccAddrs != null && ccAddrs.Count > 0)
-                foreach (var (email, displayName) in ccAddrs)
-                    objMail.CC.Add(new MailAddress(email, displayName));
+                foreach (var add in ccAddrs)
+                    objMail.CC.Add(add);
 
             if (bccAddrs != null && bccAddrs.Count > 0)
-                foreach (var (email, displayName) in bccAddrs)
-                    objMail.Bcc.Add(new MailAddress(email, displayName));
+                foreach (var add in bccAddrs)
+                    objMail.Bcc.Add(add);
 
             objMail.From = new MailAddress(systemEmailSenderEmail, systemEmailSenderName);
 

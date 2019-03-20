@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace App
@@ -114,9 +115,9 @@ namespace App
             var emailService = new EmailService(emailSettings);
             var body = await EmailBodyCreator.CreateExceptionEmailBody(model);
             await emailService.SendMailAsync(
-                new List<(string email, string displayName)>()
+                new List<MailAddress>()
                 {
-                    (appSettings.ExceptionEmailSendTo, appSettings.ExceptionEmailSendToName)
+                    new MailAddress(appSettings.ExceptionEmailSendTo, appSettings.ExceptionEmailSendToName)
                 }, null, null, AppCommon.AppName + " - Exception", body, null);
         }
     }

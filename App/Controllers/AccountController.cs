@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,15 +15,15 @@ namespace App.Controllers
     public class AccountController : BaseController
     {
         private readonly ILogger _logger;
-        private readonly IUserManagementRepository _userService;
+        private readonly IUserManagementRepository _userRepo;
 
         public AccountController(
             ILogger<AccountController> logger,
-            IUserManagementRepository userService
+            IUserManagementRepository userRepo
             ) : base()
         {
             _logger = logger;
-            _userService = userService;
+            _userRepo = userRepo;
         }
 
         [AllowAnonymous]
@@ -34,19 +33,12 @@ namespace App.Controllers
         {
             if (!ModelState.IsValid)
                 return InvalidModelStateResult(ModelState);
-            try
-            {
-                var result = await _userService.LoginAsync(userModel);
-                if (result == null)
-                    return OKResult(0, "invalid username or password");
-                else
-                    return OKResult(1, "success", result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return OtherResult(HttpStatusCode.InternalServerError, ex.Message);
-            }
+
+            var result = await _userRepo.LoginAsync(userModel);
+            if (result == null)
+                return OKResult(0, "invalid username or password");
+
+            return OKResult(1, "success", result);
         }
 
         [HttpGet]
@@ -67,7 +59,7 @@ namespace App.Controllers
             if (!ModelState.IsValid)
                 return InvalidModelStateResult(ModelState);
 
-            var result = await _userService.RegisterAsync(model);
+            var result = await _userRepo.RegisterAsync(model);
             return OKResult(result.Key, result.Value);
         }
 
@@ -79,7 +71,7 @@ namespace App.Controllers
             if (string.IsNullOrEmpty(email) || code == null)
                 return OtherResult(HttpStatusCode.BadRequest, "Email is required.");
 
-            var result = await _userService.ConfirmEmailAsync(email, code);
+            var result = await _userRepo.ConfirmEmailAsync(email, code);
             if (result)
                 return OKResult(1, "email confirmed, mail sent for set password");
 
@@ -94,7 +86,7 @@ namespace App.Controllers
             if (!ModelState.IsValid)
                 return InvalidModelStateResult(ModelState);
 
-            var result = await _userService.SetPasswordAsync(model);
+            var result = await _userRepo.SetPasswordAsync(model);
             switch (result.Key)
             {
                 case 0:
@@ -117,7 +109,7 @@ namespace App.Controllers
             if (string.IsNullOrEmpty(email))
                 return OtherResult(HttpStatusCode.BadRequest, "Email is required.");
 
-            var result = await _userService.ForgotPasswordAsync(email);
+            var result = await _userRepo.ForgotPasswordAsync(email);
 
             if (result)
                 return OKResult(1, "email sent for resetting password");
@@ -133,7 +125,7 @@ namespace App.Controllers
             if (!ModelState.IsValid)
                 return InvalidModelStateResult(ModelState);
 
-            var result = await _userService.ResetPasswordAsync(model);
+            var result = await _userRepo.ResetPasswordAsync(model);
             switch (result.Key)
             {
                 case 0:
@@ -159,11 +151,11 @@ namespace App.Controllers
             if (string.IsNullOrEmpty(userid))
                 return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
 
-            var user = await _userService.GetSingleAsync(x => x.Id == userid);
+            var user = await _userRepo.GetSingleAsync(x => x.Id == userid);
             if (user == null)
                 return OtherResult(HttpStatusCode.BadRequest, "Authorized user not found.");
 
-            var result = await _userService.ChangePasswordAsync(model, user);
+            var result = await _userRepo.ChangePasswordAsync(model, user);
             if (result.Key == 1)
                 return OKResult(result.Key, "password successfully changed. login successfull", result.Value);
 
@@ -174,7 +166,7 @@ namespace App.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _userService.LogoutAsync();
+            await _userRepo.LogoutAsync();
             return OKResult(1, "logout success");
         }
 
@@ -183,7 +175,7 @@ namespace App.Controllers
         [Route("check/usernameexist")]
         public async Task<IActionResult> IsUserNameExistAsync(string userName)
         {
-            var userDetail = await _userService.GetSingleAsync(true, x => x.UserName == userName);
+            var userDetail = await _userRepo.GetSingleAsync(true, x => x.UserName == userName);
             if (userDetail != null)
                 return OKResult(1, "username already exist");
 
