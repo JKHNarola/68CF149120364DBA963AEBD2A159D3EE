@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace App.Models
+namespace App.BL.Data.ViewModel
 {
-    public class LoginModel
+    public class LoginViewModel
     {
         [Required(ErrorMessage = "Username is required.")]
         public string UserName { get; set; }
@@ -14,7 +14,7 @@ namespace App.Models
         public bool RememberMe { get; set; }
     }
 
-    public class LoginSuccessModel
+    public class LoginSuccessViewModel
     {
         public string Id { get; set; }
 
@@ -31,7 +31,7 @@ namespace App.Models
         public int RoleId { get; set; }
     }
 
-    public class RegisterModel
+    public class RegisterViewModel
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Email is not valid.")]
@@ -46,7 +46,7 @@ namespace App.Models
         public string LastName { get; set; }
     }
 
-    public class SetPasswordModel
+    public class SetPasswordViewModel
     {
         [Required(ErrorMessage = "Username is required.")]
         public string UserName { get; set; }
@@ -63,7 +63,7 @@ namespace App.Models
         public string Code { get; set; }
     }
 
-    public class ResetPasswordModel
+    public class ResetPasswordViewModel
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Email is not valid.")]
@@ -77,7 +77,7 @@ namespace App.Models
         public string Code { get; set; }
     }
 
-    public class ChangePasswordModel
+    public class ChangePasswordViewModel
     {
         [Required(ErrorMessage = "New password is required.")]
         [DataType(DataType.Password)]

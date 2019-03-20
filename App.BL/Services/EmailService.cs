@@ -70,7 +70,7 @@ namespace App.BL.Services
 
             await objSmtpClient.SendMailAsync(objMail);
         }
-   }
+    }
 
     public class EmailSettings
     {

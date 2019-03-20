@@ -1,11 +1,9 @@
-﻿using App.BL;
-using App.Models;
-using System;
+﻿using App.BL.Models;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace App.Misc
+namespace App.BL
 {
     public static class EmailBodyCreator
     {

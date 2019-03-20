@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.IO;
+using System.Text;
 
 namespace App.BL
 {
@@ -25,6 +26,8 @@ namespace App.BL
             }
         }
         public const string AppName = "App";
+
+        public static readonly byte[] SymmetricSecurityKey = Encoding.ASCII.GetBytes("CarnivalPreCarnivalSale_Carnival_Pre_CarnivalSale_Carnival_PreSale");
 
         private static readonly string currDirectory = Directory.GetCurrentDirectory();
 

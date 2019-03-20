@@ -25,8 +25,6 @@ namespace App
 {
     public class Startup
     {
-        public static readonly byte[] SymmetricSecurityKey = Encoding.ASCII.GetBytes("CarnivalPreCarnivalSale_Carnival_Pre_CarnivalSale_Carnival_PreSale");
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -83,7 +81,7 @@ namespace App
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(SymmetricSecurityKey),
+                    IssuerSigningKey = new SymmetricSecurityKey(AppCommon.SymmetricSecurityKey),
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
                     ValidateIssuer = false,

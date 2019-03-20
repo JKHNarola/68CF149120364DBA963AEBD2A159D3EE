@@ -1,7 +1,6 @@
 ﻿using App.BL;
+using App.BL.Models;
 using App.BL.Services;
-using App.Misc;
-using App.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;

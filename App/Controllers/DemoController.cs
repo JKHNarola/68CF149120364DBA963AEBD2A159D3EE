@@ -1,7 +1,6 @@
 using App.BL;
 using App.BL.Interfaces;
 using App.BL.Services;
-using App.Misc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +18,16 @@ namespace App.Controllers
     {
         private readonly EmailService _emailService;
         private readonly ILogger _logger;
+        private readonly IHttpContextAccessor _httpContext;
 
         public DemoController(
            ILogger<DemoController> logger,
-           IHttpContextAccessor httpContext,
            IOptions<EmailSettings> emailSettings,
+           IHttpContextAccessor httpContext,
            IUserManagementRepository userRepo
-           ) : base(httpContext)
+           ) : base()
         {
+            _httpContext = httpContext;
             _emailService = new EmailService(emailSettings);
             _logger = logger;
         }
@@ -90,7 +91,7 @@ namespace App.Controllers
         [Route("sendemail")]
         public async Task<IActionResult> SendEmailAsync(string name, string email)
         {
-            var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(GetCurrHost(), name, null, null);
+            var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(Utilities.GetCurrHost(_httpContext), name, null, null);
             await _emailService.SendMailAsync(new List<(string email, string displayName)>() { (email, name) }, null, null, AppCommon.AppName + " - Test mail", mailContent, null);
             return OKResult(1, "mail sent to " + email);
         }

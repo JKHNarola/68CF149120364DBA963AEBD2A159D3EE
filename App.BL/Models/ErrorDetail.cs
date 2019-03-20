@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 
-namespace App.Models
+namespace App.BL.Models
 {
     public class ErrorDetail
     {
