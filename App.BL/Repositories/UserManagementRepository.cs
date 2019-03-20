@@ -117,7 +117,7 @@ namespace App.BL.Repositories
         {
             var isUserExixts = await IsUserExists(model.Email);
             if (isUserExixts)
-                return new KeyValuePair<int, string>(-3, "user already exists for " + model.Email);
+                return new KeyValuePair<int, string>(-3, "User already exists for " + model.Email + " email.");
 
             var user = new ApplicationUser
             {
@@ -144,10 +144,10 @@ namespace App.BL.Repositories
                 if (!resDeleteUser.Succeeded)
                 {
                     _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + roleRes.Errors.ToSerializedJsonString());
-                    return new KeyValuePair<int, string>(-7, "user successfully created but failed to set role, tried to remove user but error occured");
+                    return new KeyValuePair<int, string>(-7, "User successfully created but failed to set role, tried to remove user but error occured.");
                 }
 
-                return new KeyValuePair<int, string>(-8, "user successfully created but failed to set role, removed user");
+                return new KeyValuePair<int, string>(-8, "User successfully created but failed to set role, removed user.");
             }
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var fullname = user.FirstName + " " + user.LastName;
@@ -156,7 +156,7 @@ namespace App.BL.Repositories
             try
             {
                 await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(user.Email, fullName) }, null, null, AppCommon.AppName + " - Verify Email", mailContent, null);
-                return new KeyValuePair<int, string>(1, "user successfully created, email sent");
+                return new KeyValuePair<int, string>(1, "User successfully created, email sent.");
             }
             catch (Exception ex)
             {
@@ -167,7 +167,7 @@ namespace App.BL.Repositories
                 if (!resRemoveFromRole.Succeeded)
                 {
                     _logger.LogError("Couldn't remove user " + user.Email + " from role " + Role.WebUser.ToString() + ", Error(s) : " + resRemoveFromRole.Errors.ToSerializedJsonString());
-                    return new KeyValuePair<int, string>(-6, "user successfully created but failed to sent email, tried to remove user but error occured");
+                    return new KeyValuePair<int, string>(-6, "User successfully created but failed to sent email, tried to remove user but error occured.");
                 }
 
                 _logger.LogWarning("Deleting user : " + user.Email);
@@ -175,12 +175,11 @@ namespace App.BL.Repositories
                 if (!resDeleteUser.Succeeded)
                 {
                     _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + resRemoveFromRole.Errors.ToSerializedJsonString());
-                    return new KeyValuePair<int, string>(-6, "user successfully created but failed to sent email, tried to remove user but error occured");
+                    return new KeyValuePair<int, string>(-6, "User successfully created but failed to sent email, tried to remove user but error occured.");
                 }
 
-                return new KeyValuePair<int, string>(-4, "user successfully created but failed to sent email, deleted user");
+                return new KeyValuePair<int, string>(-4, "User successfully created but failed to sent email, deleted user.");
             }
-
         }
 
         public async Task<bool> ConfirmEmailAsync(string email, string code)

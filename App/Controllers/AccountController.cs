@@ -36,9 +36,9 @@ namespace App.Controllers
 
             var result = await _userRepo.LoginAsync(userModel);
             if (result == null)
-                return OKResult(0, "invalid username or password");
+                return OKResult(0, "Invalid username or password.");
 
-            return OKResult(1, "success", result);
+            return OKResult(1, "Success", result);
         }
 
         [HttpGet]
@@ -46,9 +46,9 @@ namespace App.Controllers
         public IActionResult CheckAlreadyLoggedIn()
         {
             if (User.Identity.IsAuthenticated)
-                return OKResult(1, "already loggedin");
+                return OKResult(1, "Already loggedin.");
 
-            return OKResult(0, "not loggedin");
+            return OKResult(0, "Not loggedin.");
         }
 
         [AllowAnonymous]
@@ -73,9 +73,9 @@ namespace App.Controllers
 
             var result = await _userRepo.ConfirmEmailAsync(email, code);
             if (result)
-                return OKResult(1, "email confirmed, mail sent for set password");
+                return OKResult(1, "Email confirmed, mail sent for set password.");
 
-            return OKResult(0, "link expired");
+            return OKResult(0, "Link expired.");
         }
 
         [HttpPost]
@@ -92,9 +92,9 @@ namespace App.Controllers
                 case 0:
                     return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
                 case 1:
-                    return OKResult(1, "password successfully changed. login successfull", result.Value);
+                    return OKResult(1, "Password successfully changed. Login successfull.", result.Value);
                 case 2:
-                    return OKResult(2, "link exipred");
+                    return OKResult(2, "Link exipred.");
             }
 
             //Will never come to this
@@ -112,7 +112,7 @@ namespace App.Controllers
             var result = await _userRepo.ForgotPasswordAsync(email);
 
             if (result)
-                return OKResult(1, "email sent for resetting password");
+                return OKResult(1, "Email sent for resetting password.");
 
             return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
         }
@@ -131,9 +131,9 @@ namespace App.Controllers
                 case 0:
                     return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
                 case 1:
-                    return OKResult(1, "password successfully reset. login successfull", result.Value);
+                    return OKResult(1, "Password successfully reset. Login successfull.", result.Value);
                 case 2:
-                    return OKResult(2, "link expired");
+                    return OKResult(2, "Link expired.");
             }
 
             //Will never come to this
@@ -157,9 +157,9 @@ namespace App.Controllers
 
             var result = await _userRepo.ChangePasswordAsync(model, user);
             if (result.Key == 1)
-                return OKResult(result.Key, "password successfully changed. login successfull", result.Value);
+                return OKResult(result.Key, "Password successfully changed. Login successfull.", result.Value);
 
-            return OKResult(result.Key, "change password falied", result.Value);
+            return OKResult(result.Key, "Change password falied.", result.Value);
         }
 
         [HttpGet]
@@ -167,7 +167,7 @@ namespace App.Controllers
         public async Task<IActionResult> Logout()
         {
             await _userRepo.LogoutAsync();
-            return OKResult(1, "logout success");
+            return OKResult(1, "Logout success.");
         }
 
         [HttpGet]
@@ -177,9 +177,9 @@ namespace App.Controllers
         {
             var userDetail = await _userRepo.GetSingleAsync(true, x => x.UserName == userName);
             if (userDetail != null)
-                return OKResult(1, "username already exist");
+                return OKResult(1, "Username already exists.");
 
-            return OKResult(0, "username not found");
+            return OKResult(0, "Username not found.");
         }
     }
 }
