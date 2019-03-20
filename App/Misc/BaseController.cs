@@ -1,8 +1,10 @@
 ﻿using App.BL;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Net.Http.Headers;
+using System.IO;
 using System.Linq;
 using System.Net;
 
@@ -130,6 +132,22 @@ namespace App
             };
 
             return res;
+        }
+
+        public IActionResult FileResult(string filepath, string contentDispositionHeaderValue = "attachment")
+        {
+            var stream = new FileStream(filepath, FileMode.Open);
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filepath, out string contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            var filename = Path.GetFileName(filepath);
+            var contentDisposition = new ContentDispositionHeaderValue(contentDispositionHeaderValue);
+            contentDisposition.SetHttpFileName(filename);
+            Response.Headers[HeaderNames.ContentDisposition] = contentDisposition.ToString();
+
+            return File(stream, contentType, filename);
         }
 
         private ApiResult<T> PrepareResultObject<T>(int? status, string message, T data) where T : class
