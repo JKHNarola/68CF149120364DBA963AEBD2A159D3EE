@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace App.Controllers
         [Authorize]
         [HttpGet]
         [Route("error")]
-        public IActionResult TestError([FromQuery] string m)
+        public IActionResult TestError(string m)
         {
             var x = Convert.ToInt32(m) / 0;
             return OKResult(1, new { x });
@@ -95,6 +96,14 @@ namespace App.Controllers
             var mailContent = await EmailBodyCreator.CreateConfirmEmailBody(Utilities.GetCurrHost(_httpContext), name, null, null);
             await _emailService.SendMailAsync(new List<MailAddress>() { new MailAddress(email, name) }, null, null, AppCommon.AppName + " - Test mail", mailContent, null);
             return OKResult(1, "mail sent to " + email);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("download")]
+        public async Task<IActionResult> DownloadFile()
+        {
+            return await FileResultAsync(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ConfirmEmail.html"));
         }
     }
 }

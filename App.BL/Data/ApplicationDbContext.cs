@@ -128,7 +128,6 @@ namespace App.BL.Data
                         },
                     };
                     _context.ApplicationRoles.AddRange(roles);
-
                     await _context.SaveChangesAsync();
                 }
 
@@ -156,9 +155,19 @@ namespace App.BL.Data
                     sysUser.PasswordHash = hashed;
 
                     _context.ApplicationUsers.Add(sysUser);
+                    await _context.SaveChangesAsync();
+                }
 
-                    //TODO: Add user to role
+                logs.Add("[Info] " + DateTime.Now.ToString(datetimeFormat) + "    " + "Verifying Role for System user");
+                if (!_context.ApplicationUserRoles.Any(x => x.UserId == sysUser.Id && x.RoleId == "3"))
+                {
+                    var userRole = new ApplicationUserRole()
+                    {
+                        UserId = sysUser.Id,
+                        RoleId = "3"
+                    };
 
+                    _context.ApplicationUserRoles.Add(userRole);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -167,7 +176,6 @@ namespace App.BL.Data
                 logs.Add("[ERROR] " + DateTime.Now.ToString(datetimeFormat) + "   " + ex.ToString());
                 throw ex;
             }
-
 
             logs.Add(Environment.NewLine);
 

@@ -80,6 +80,8 @@ namespace App.BL.Repositories
                 var user = await GetSingleAsync(x => x.UserName == model.UserName);
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = (Role)Enum.Parse(typeof(Role), roles[0]);
+                 
+                if(role == Role.System) return null;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -89,7 +91,7 @@ namespace App.BL.Repositories
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.Role, roles[0])
+                        new Claim(ClaimTypes.Role, role.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddSeconds(_appSetting.TokenAliveTime),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(AppCommon.SymmetricSecurityKey),

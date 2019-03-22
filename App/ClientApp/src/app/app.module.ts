@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -50,6 +50,7 @@ import { Page4Component } from './pages/page4/page4.component';
 import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.component';
 import { ChangePasswordComponent } from './pages/changepassword/changepassword.component';
+import { GlobalErrorHandler } from './misc/global.errorhandler';
 
 @NgModule({
     declarations: [
@@ -96,6 +97,10 @@ import { ChangePasswordComponent } from './pages/changepassword/changepassword.c
             provide: HTTP_INTERCEPTORS,
             useClass: ResponseInterceptor,
             multi: true,
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler
         }
     ],
     bootstrap: [AppComponent]

@@ -7,6 +7,7 @@ using Microsoft.Net.Http.Headers;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace App
 {
@@ -134,9 +135,14 @@ namespace App
             return res;
         }
 
-        public IActionResult FileResult(string filepath, string contentDispositionHeaderValue = "attachment")
+        public async Task<IActionResult> FileResultAsync(string filepath, string contentDispositionHeaderValue = "attachment")
         {
-            var stream = new FileStream(filepath, FileMode.Open);
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filepath, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
             var provider = new FileExtensionContentTypeProvider();
             if (!provider.TryGetContentType(filepath, out string contentType))
             {
@@ -147,7 +153,7 @@ namespace App
             contentDisposition.SetHttpFileName(filename);
             Response.Headers[HeaderNames.ContentDisposition] = contentDisposition.ToString();
 
-            return File(stream, contentType, filename);
+            return File(memory, contentType, filename);
         }
 
         private ApiResult<T> PrepareResultObject<T>(int? status, string message, T data) where T : class

@@ -92,7 +92,7 @@ namespace App.Controllers
                 case 0:
                     return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
                 case 1:
-                    return OKResult(1, "Password successfully changed. Login successfull.", result.Value);
+                    return OKResult(1, "Password successfully changed. Login successful.", result.Value);
                 case 2:
                     return OKResult(2, "Link exipred.");
             }
@@ -131,7 +131,7 @@ namespace App.Controllers
                 case 0:
                     return OtherResult(HttpStatusCode.BadRequest, "User not found for provided email.");
                 case 1:
-                    return OKResult(1, "Password successfully reset. Login successfull.", result.Value);
+                    return OKResult(1, "Password successfully reset. Login successful.", result.Value);
                 case 2:
                     return OKResult(2, "Link expired.");
             }
@@ -157,7 +157,7 @@ namespace App.Controllers
 
             var result = await _userRepo.ChangePasswordAsync(model, user);
             if (result.Key == 1)
-                return OKResult(result.Key, "Password successfully changed. Login successfull.", result.Value);
+                return OKResult(result.Key, "Password successfully changed. Login successful.", result.Value);
 
             return OKResult(result.Key, "Change password falied.", result.Value);
         }
@@ -167,7 +167,7 @@ namespace App.Controllers
         public async Task<IActionResult> Logout()
         {
             await _userRepo.LogoutAsync();
-            return OKResult(1, "Logout success.");
+            return OKResult(1, "Logout successful.");
         }
 
         [HttpGet]

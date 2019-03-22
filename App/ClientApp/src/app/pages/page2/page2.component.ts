@@ -17,7 +17,6 @@ export class Page2Component {
 
     constructor(private apiService: BaseApiService) {
         this.apiService.get("api/test").subscribe(res => {
-            console.log(res);
             if (res.status === 1) {
                 this.userId = res.data.id;
                 this.email = res.data.email;
@@ -26,12 +25,12 @@ export class Page2Component {
             }
         });
 
-        //let pair = new KeyValuePair();
-        //pair.key = "m";
-        //pair.value = "25";
-        //this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
-        //    console.log(res);
-        //});
+        let pair = new KeyValuePair();
+        pair.key = "m";
+        pair.value = "25";
+        this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
+            console.log(res);
+        });
 
         //let d = new Data();
         //d.x = "25";

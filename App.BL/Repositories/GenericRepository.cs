@@ -12,7 +12,6 @@ namespace App.BL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
     {
-
         internal readonly ApplicationDbContext _context;
 
         public GenericRepository(ApplicationDbContext context)
@@ -152,7 +151,6 @@ namespace App.BL.Repositories
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);
             _context.Set<T>().Add(entity);
         }
-
         public virtual void Update(T entity)
         {
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);

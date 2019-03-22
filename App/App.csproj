@@ -36,6 +36,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\ConfirmEmail.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\misc\global.errorhandler.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\App.BL\App.BL.csproj" />
   </ItemGroup>
 
@@ -68,6 +76,16 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\ConfirmEmail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\misc\global.errorhandler.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

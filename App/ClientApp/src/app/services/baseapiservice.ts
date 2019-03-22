@@ -29,6 +29,14 @@ export class BaseApiService {
         return this.httpClient.get<ApiRes>(url, { headers: this.skipAuthHeaders });
     }
 
+    public getFile(url: string): Observable<ArrayBuffer> {
+        return this.httpClient.get(url, { responseType: 'arraybuffer' });
+    }
+
+    public getFileWithoutAuth(url: string): Observable<ArrayBuffer> {
+        return this.httpClient.get(url, { responseType: 'arraybuffer', headers: this.skipAuthHeaders });
+    }
+
     public getByParams(url: string, params: KeyValuePair[]): Observable<ApiRes> {
         return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params) });
     }
