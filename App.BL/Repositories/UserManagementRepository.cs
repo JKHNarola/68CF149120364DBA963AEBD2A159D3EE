@@ -140,12 +140,12 @@ namespace App.BL.Repositories
             var roleRes = await _userManager.AddToRoleAsync(user, Role.WebUser.ToString());
             if (!roleRes.Succeeded)
             {
-                _logger.LogError("Couldn't add user to role. " + roleRes.Errors.ToSerializedJsonString());
+                _logger.LogError("Couldn't add user to role. " + roleRes.Errors.ToJsonString());
                 _logger.LogWarning("Deleting user : " + user.Email);
                 var resDeleteUser = await _userManager.DeleteAsync(user);
                 if (!resDeleteUser.Succeeded)
                 {
-                    _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + roleRes.Errors.ToSerializedJsonString());
+                    _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + roleRes.Errors.ToJsonString());
                     return new KeyValuePair<int, string>(-7, "User successfully created but failed to set role, tried to remove user but error occured.");
                 }
 
@@ -168,7 +168,7 @@ namespace App.BL.Repositories
                 var resRemoveFromRole = await _userManager.RemoveFromRoleAsync(user, Role.WebUser.ToString());
                 if (!resRemoveFromRole.Succeeded)
                 {
-                    _logger.LogError("Couldn't remove user " + user.Email + " from role " + Role.WebUser.ToString() + ", Error(s) : " + resRemoveFromRole.Errors.ToSerializedJsonString());
+                    _logger.LogError("Couldn't remove user " + user.Email + " from role " + Role.WebUser.ToString() + ", Error(s) : " + resRemoveFromRole.Errors.ToJsonString());
                     return new KeyValuePair<int, string>(-6, "User successfully created but failed to sent email, tried to remove user but error occured.");
                 }
 
@@ -176,7 +176,7 @@ namespace App.BL.Repositories
                 var resDeleteUser = await _userManager.DeleteAsync(user);
                 if (!resDeleteUser.Succeeded)
                 {
-                    _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + resRemoveFromRole.Errors.ToSerializedJsonString());
+                    _logger.LogError("Couldn't delete user " + user.Email + ", Error(s) : " + resRemoveFromRole.Errors.ToJsonString());
                     return new KeyValuePair<int, string>(-6, "User successfully created but failed to sent email, tried to remove user but error occured.");
                 }
 

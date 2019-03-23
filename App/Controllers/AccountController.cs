@@ -66,7 +66,7 @@ namespace App.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("confirmemail")]
-        public async Task<IActionResult> ConfirmEmail([FromQuery]string email, string code)
+        public async Task<IActionResult> ConfirmEmail(string email, string code)
         {
             if (string.IsNullOrEmpty(email) || code == null)
                 return OtherResult(HttpStatusCode.BadRequest, "Email is required.");
@@ -104,7 +104,7 @@ namespace App.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword([FromQuery]string email)
+        public async Task<IActionResult> ForgotPassword(string email)
         {
             if (string.IsNullOrEmpty(email))
                 return OtherResult(HttpStatusCode.BadRequest, "Email is required.");

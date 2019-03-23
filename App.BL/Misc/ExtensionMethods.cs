@@ -10,7 +10,7 @@ namespace App.BL
 {
     public static class ExtensionMethods
     {
-        public static string Description(this Enum value)
+        public static string GetDescription(this Enum value)
         {
             var field = value.GetType().GetField(value.ToString());
             var attributes = field.GetCustomAttributes(false);
@@ -25,7 +25,7 @@ namespace App.BL
             return displayAttribute?.Description ?? null;
         }
 
-        public static string DescriptionAttr<T>(this T source)
+        public static string GetDescriptionAttribute<T>(this T source)
         {
             var fi = source.GetType().GetField(source.ToString());
 
@@ -36,7 +36,7 @@ namespace App.BL
             else return source.ToString();
         }
 
-        public static string ToSerializedJsonString<T>(this T obj)
+        public static string ToJsonString<T>(this T obj)
         {
             return JsonConvert.SerializeObject(obj, AppCommon.SerializerSettings);
         }

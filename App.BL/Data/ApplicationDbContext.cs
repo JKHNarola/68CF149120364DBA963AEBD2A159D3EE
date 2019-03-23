@@ -23,6 +23,17 @@ namespace App.BL.Data
         public virtual DbSet<ApplicationRole> ApplicationRoles { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<ExtendedLog> Logs { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<Shipper> Shippers { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<Territory> Territories { get; set; }
+        public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -60,6 +71,11 @@ namespace App.BL.Data
             builder.Entity<ExtendedLog>().Property(u => u.ReqHeaders).HasMaxLength(5000);
             builder.Entity<ExtendedLog>().Property(u => u.ReqMethod).HasMaxLength(50);
             builder.Entity<ExtendedLog>().Property(u => u.ReqPayload).HasMaxLength(5000);
+
+
+            //Composite Primarykey
+            builder.Entity<EmployeeTerritory>().HasKey(x => new { x.EmployeeID, x.TerritoryID });
+            builder.Entity<OrderDetail>().HasKey(x => new { x.OrderID, x.ProductID });
         }
     }
 
