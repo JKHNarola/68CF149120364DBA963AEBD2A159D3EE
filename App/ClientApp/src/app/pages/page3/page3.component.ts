@@ -10,7 +10,10 @@ import { BaseApiService } from 'src/app/services/baseapiservice';
 })
 export class Page3Component {
     constructor(private apiService: BaseApiService) {
-        //throw new Error("sadasda");
+        this.apiService.get("api/product/list").subscribe(result => {
+            console.log(result);
+        });
+
         //this.apiService.getFile("api/test/download").subscribe(x => {
         //    console.log(x);
         //    // It is necessary to create a new blob object with mime-type explicitly set

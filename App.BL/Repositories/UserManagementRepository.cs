@@ -45,7 +45,6 @@ namespace App.BL.Repositories
             _signInManager = signInManager;
             _userManager = userManager;
             _httpContext = httpContext;
-            _db = db;
             _emailService = new EmailService(emailSettings);
             _appSetting = appSettings.Value;
             _logger = logger;

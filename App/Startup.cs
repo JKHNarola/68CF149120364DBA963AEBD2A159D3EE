@@ -106,7 +106,7 @@ namespace App
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IUserManagementRepository, UserManagementRepository>();
-
+            services.AddScoped<IProductManagementRepository, ProductManagementRepository>();
 
 
 
