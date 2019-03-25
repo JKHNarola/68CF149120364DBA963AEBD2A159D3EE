@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Linq.Dynamic;
 using DynamicExpression = System.Linq.Dynamic.DynamicExpression;
+using Newtonsoft.Json.Linq;
 
 namespace App.BL
 {
@@ -53,42 +54,96 @@ namespace App.BL
                     {
                         case Operator.Gt:
                             wc.Append(x.ColumnName + ">@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.Lt:
                             wc.Append(x.ColumnName + "<@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.Eq:
                             wc.Append(x.ColumnName + "=@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.Le:
                             wc.Append(x.ColumnName + "<=@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.Ge:
                             wc.Append(x.ColumnName + ">=@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.Ne:
                             wc.Append(x.ColumnName + "!=@" + valueIndex + " ");
+                            values.Add(x.Value);
+                            valueIndex++;
+                            break;
+                        case Operator.IsNull:
+                            wc.Append(x.ColumnName + " = null ");
+                            break;
+                        case Operator.IsNotNull:
+                            wc.Append(x.ColumnName + " != null ");
+                            break;
+                        case Operator.IsEmpty:
+                            wc.Append("string.IsNullOrEmpty(" + x.ColumnName + ") ");
+                            break;
+                        case Operator.IsNotEmpty:
+                            wc.Append("!string.IsNullOrEmpty(" + x.ColumnName + ") ");
                             break;
                         case Operator.Contains:
                             wc.Append(x.ColumnName + ".Contains(@" + valueIndex + ") ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.NotContains:
                             wc.Append("!" + x.ColumnName + ".Contains(@" + valueIndex + ") ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.StartsWith:
                             wc.Append(x.ColumnName + ".StartsWith(@" + valueIndex + ") ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.EndsWith:
                             wc.Append(x.ColumnName + ".EndsWith(@" + valueIndex + ") ");
+                            values.Add(x.Value);
+                            valueIndex++;
                             break;
                         case Operator.In:
-                            //TODO 
+                            object[] lst;
+                            try
+                            {
+                                lst = ((JArray)x.Value).ToObject<object[]>();
+                            }
+                            catch
+                            {
+                                lst = (object[])x.Value;
+                            }
+                            wc.Append("@" + valueIndex + ".Contains(" + x.ColumnName + ") ");
+                            values.Add(lst);
+                            valueIndex++;
+                            break;
+                        case Operator.NotIn:
+                            try
+                            {
+                                lst = ((JArray)x.Value).ToObject<object[]>();
+                            }
+                            catch
+                            {
+                                lst = (object[])x.Value;
+                            }
+                            wc.Append("!@" + valueIndex + ".Contains(" + x.ColumnName + ") ");
+                            values.Add(lst);
+                            valueIndex++;
                             break;
                         default:
                             throw new NotImplementedException("Operator " + x.Operator.ToString() + " not implemented.");
                     }
-                    values.Add(x.Value);
-                    valueIndex++;
                 }
             }
             if (wc.Length != 0)

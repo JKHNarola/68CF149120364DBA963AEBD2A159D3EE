@@ -25,6 +25,8 @@ namespace App.BL.Repositories
         {
             var q = new Q(0, 0);
             q.AddCondition("UnitPrice", 20, Operator.Ge);
+            q.AddOr();
+            q.AddCondition("CategoryID", new object[] { 6, 7, 8 }, Operator.In);
             var query = GetAll(true);
             var result = await query.ToDatsSourceResultAsync(q);
             return result.Data;

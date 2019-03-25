@@ -51,9 +51,19 @@ namespace App.BL
             _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value });
         }
 
-        public void AddLogic(Logic logic)
+        public void AddLogic(Logic logic = Logic.And)
         {
             _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = logic });
+        }
+
+        public void AddAnd()
+        {
+            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.And });
+        }
+
+        public void AddOr()
+        {
+            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.Or });
         }
 
         public void AddSort(string columnName, SortOrder direction)

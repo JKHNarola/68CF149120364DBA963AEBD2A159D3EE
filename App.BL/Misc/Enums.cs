@@ -16,11 +16,16 @@
         Le,
         Ge,
         Ne,
+        IsNull,
+        IsNotNull,
+        IsEmpty,
+        IsNotEmpty,
         Contains,
         NotContains,
         StartsWith,
         EndsWith,
-        In
+        In,
+        NotIn
     }
 
     public enum SortOrder
