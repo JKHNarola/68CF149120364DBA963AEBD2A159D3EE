@@ -17,6 +17,7 @@
         Ge,
         Ne,
         Contains,
+        NotContains,
         StartsWith,
         EndsWith,
         In
@@ -26,5 +27,11 @@
     {
         Asc,
         Desc
+    }
+
+    public enum Logic
+    {
+        And,
+        Or
     }
 }

@@ -4,10 +4,6 @@ using App.BL.Interfaces;
 using App.BL.Data;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Linq.Dynamic.Core;
 
 namespace App.BL.Repositories
 {
@@ -27,16 +23,11 @@ namespace App.BL.Repositories
 
         public async Task<List<Product>> ListAsync()
         {
-            //var pNameWhr = DynamicLinqHelper.CreateDynamicExpression<Product>("ProductName",
-            //        Operator.Contains, "Boysenberry", typeof(string));
-            //var qtyWhr = DynamicLinqHelper.CreateDynamicExpression<Product>("QuantityPerUnit",
-            //        Operator.StartsWith, "12", typeof(string));
-
-            //Expression.And(pNameWhr, qtyWhr);
-
-
-
-            return await AllIncluding(false, x => x.Category).Where("").ToListAsync();
+            var q = new Q(0, 0);
+            q.AddCondition("UnitPrice", 20, Operator.Ge);
+            var query = GetAll(true);
+            var result = await query.ToDatsSourceResultAsync(q);
+            return result.Data;
         }
     }
 }
