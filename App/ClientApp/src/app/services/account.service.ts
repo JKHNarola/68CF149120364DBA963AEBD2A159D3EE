@@ -4,12 +4,10 @@ import { ApiRes } from "../models/apires.model";
 import { BaseApiService } from "./baseapiservice";
 import { LoginModel } from "../models/account/login.model";
 import { RegisterModel } from "../models/account/register.model";
-import { KeyValuePair } from "../models/keyvalue.model";
 import { SetPasswordModel } from "../models/account/setpassword.model";
 import { ResetPasswordModel } from "../models/account/resetpassword.model";
 import { ChangePasswordModel } from "../models/account/changepassword.model";
 import { HttpClient } from "@angular/common/http";
-import { Dictionary } from "../misc/query";
 
 @Injectable()
 export class AccountService extends BaseApiService {
@@ -31,9 +29,7 @@ export class AccountService extends BaseApiService {
     }
 
     public confirmEmail(email: string, code: string): Observable<ApiRes> {
-        var params = new Dictionary<any>();
-        params.add("email", email);
-        params.add("code", code);
+        let params = { email: email, code: code };
         return this.getByParamsWithoutAuth("/api/account/confirmemail", params);
     }
 
@@ -42,16 +38,11 @@ export class AccountService extends BaseApiService {
     }
 
     public checkUserNameExists(username: string): Observable<ApiRes> {
-        let params = new Dictionary<any>();
-        params.add("userName", username)
-        return this.getByParamsWithoutAuth("/api/account/check/usernameexist", params);
+        return this.getByParamsWithoutAuth("/api/account/check/usernameexist", { userName: username });
     }
 
     public requestResetPassword(email: string): Observable<ApiRes> {
-        var params = new Dictionary<any>();
-        params.add("email", email);
-
-        return this.getByParamsWithoutAuth("/api/account/forgotpassword", params);
+        return this.getByParamsWithoutAuth("/api/account/forgotpassword", { email: email });
     }
 
     public resetPassword(model: ResetPasswordModel): Observable<ApiRes> {

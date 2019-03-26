@@ -23,14 +23,17 @@ export class Page3Component implements OnInit {
 
     getProducts() {
         let q: Query = new Query(this.paginator.pageNo, this.paginator.pageSize);
-        this.apiService.getByParams("api/product/list", new Dictionary<any>([{ key: "q", value: q }])).subscribe(result => {
+        this.apiService.getByParams("api/product/list", { q: q }).subscribe(result => {
             this.paginator.totalItems = result.data.total;
             this.data = result.data.data;
+
+            console.log(this.data);
         });
     }
 
     onPageChanged(e) {
         this.paginator.pageNo = e.page;
+        this.paginator.pageSize = e.itemsPerPage;
         this.getProducts();
     }
 }

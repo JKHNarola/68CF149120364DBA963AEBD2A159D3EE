@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { BaseApiService } from '../../services/baseapiservice';
-import { Dictionary } from 'src/app/misc/query';
 
 @Component({
     selector: 'page-two',
@@ -25,9 +24,7 @@ export class Page2Component {
             }
         });
 
-        let pair = new Dictionary<any>();
-        pair.add("m", "25")
-        this.apiService.getByParams("api/test/error", pair).subscribe(res => {
+        this.apiService.getByParams("api/test/error", { m: "25" }).subscribe(res => {
             console.log(res);
         });
 

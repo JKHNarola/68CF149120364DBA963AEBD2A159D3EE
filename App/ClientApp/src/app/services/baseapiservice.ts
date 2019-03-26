@@ -1,10 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { KeyValuePair } from "../models/keyvalue.model";
 import { ApiRes } from "../models/apires.model";
 import { AppConsts } from "../misc/app.consts";
-import { Dictionary } from "../misc/query";
 
 @Injectable()
 export class BaseApiService {
@@ -13,7 +11,7 @@ export class BaseApiService {
     constructor(private httpClient: HttpClient) {
     }
 
-    private mapHttpParams(params: Dictionary<any>): HttpParams {
+    private mapHttpParams(params: any): HttpParams {
         let httpParams = new HttpParams();
         for (let x in params) {
             var val = params[x];
@@ -43,11 +41,11 @@ export class BaseApiService {
         return this.httpClient.get(url, { responseType: 'arraybuffer', headers: this.skipAuthHeaders });
     }
 
-    public getByParams(url: string, params: Dictionary<any>): Observable<ApiRes> {
+    public getByParams(url: string, params: any): Observable<ApiRes> {
         return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params) });
     }
 
-    public getByParamsWithoutAuth(url: string, params: Dictionary<any>): Observable<ApiRes> {
+    public getByParamsWithoutAuth(url: string, params: any): Observable<ApiRes> {
         return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params), headers: this.skipAuthHeaders });
     }
 

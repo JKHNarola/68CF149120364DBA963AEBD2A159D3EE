@@ -38,6 +38,7 @@ FusionChartsModule.fcRoot(
     ZuneTheme,
     FintTheme);
 import { PaginationModule} from 'ngx-bootstrap/pagination';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -87,7 +88,8 @@ import { AppPaginationComponent } from './components/app.pagination';
             closeButton: true
         }),
         FusionChartsModule,
-        PaginationModule.forRoot()
+        PaginationModule.forRoot(),
+        BsDropdownModule.forRoot()
     ],
     providers: [
         AuthService,

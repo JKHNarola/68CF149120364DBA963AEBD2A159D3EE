@@ -17,6 +17,7 @@ export class AppPaginationComponent implements OnInit {
     }
 
     pageChanged(e) {
+        this.pageNo = e.page;
         this.onPageChanged.emit(e);
     }
 }

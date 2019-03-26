@@ -1,5 +1,33 @@
 <div class="row">
-    <div class="col-xs-12 col-12">
-        <pagination [totalItems]="total" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
+    <div class="col-xs-12 col-6">
+        <div class="btn-group" dropdown>
+            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-basic">
+                <b>{{pageSize}}</b> Items per page <span class="caret"></span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=10;pageChanged({page:pageNo, itemsPerPage=pageSize})">10</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=20;pageChanged({page:pageNo, itemsPerPage=pageSize})">25</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=50;pageChanged({page:pageNo, itemsPerPage=pageSize})">50</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=100;pageChanged({page:pageNo, itemsPerPage=pageSize})">100</span></li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem">
+                    <span class="dropdown-item" (click)="pageSize=0;pageChanged({page:pageNo, itemsPerPage=pageSize})">All</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-6">
+        <div class="float-right">
+            <pagination [totalItems]="total" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-6">
+    </div>
+    <div class="col-xs-12 col-6">
+        <div class="float-right">Total <b>{{total}}</b> items</div>
     </div>
 </div>
