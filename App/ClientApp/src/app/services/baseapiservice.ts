@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { KeyValuePair } from "../models/keyvalue.model";
 import { ApiRes } from "../models/apires.model";
 import { AppConsts } from "../misc/app.consts";
+import { Dictionary } from "../misc/query";
 
 @Injectable()
 export class BaseApiService {
@@ -12,11 +13,16 @@ export class BaseApiService {
     constructor(private httpClient: HttpClient) {
     }
 
-    private mapHttpParams(params: KeyValuePair[]): HttpParams {
+    private mapHttpParams(params: Dictionary<any>): HttpParams {
         let httpParams = new HttpParams();
-        params.forEach(x => {
-            httpParams = httpParams.append(x.key, x.value);
-        });
+        for (let x in params) {
+            var val = params[x];
+            if (typeof val === "object")
+                val = JSON.stringify(val);
+            else
+                val = val.toString();
+            httpParams = httpParams.append(x, val);
+        }
 
         return httpParams;
     }
@@ -37,11 +43,11 @@ export class BaseApiService {
         return this.httpClient.get(url, { responseType: 'arraybuffer', headers: this.skipAuthHeaders });
     }
 
-    public getByParams(url: string, params: KeyValuePair[]): Observable<ApiRes> {
+    public getByParams(url: string, params: Dictionary<any>): Observable<ApiRes> {
         return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params) });
     }
 
-    public getByParamsWithoutAuth(url: string, params: KeyValuePair[]): Observable<ApiRes> {
+    public getByParamsWithoutAuth(url: string, params: Dictionary<any>): Observable<ApiRes> {
         return this.httpClient.get<ApiRes>(url, { params: this.mapHttpParams(params), headers: this.skipAuthHeaders });
     }
 

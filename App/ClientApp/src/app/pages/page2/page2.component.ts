@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { BaseApiService } from '../../services/baseapiservice';
-import { KeyValuePair } from '../../models/keyvalue.model';
+import { Dictionary } from 'src/app/misc/query';
 
 @Component({
     selector: 'page-two',
@@ -25,10 +25,9 @@ export class Page2Component {
             }
         });
 
-        let pair = new KeyValuePair();
-        pair.key = "m";
-        pair.value = "25";
-        this.apiService.getByParams("api/test/error", [pair]).subscribe(res => {
+        let pair = new Dictionary<any>();
+        pair.add("m", "25")
+        this.apiService.getByParams("api/test/error", pair).subscribe(res => {
             console.log(res);
         });
 

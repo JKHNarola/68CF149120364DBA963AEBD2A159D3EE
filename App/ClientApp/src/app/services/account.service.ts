@@ -9,6 +9,7 @@ import { SetPasswordModel } from "../models/account/setpassword.model";
 import { ResetPasswordModel } from "../models/account/resetpassword.model";
 import { ChangePasswordModel } from "../models/account/changepassword.model";
 import { HttpClient } from "@angular/common/http";
+import { Dictionary } from "../misc/query";
 
 @Injectable()
 export class AccountService extends BaseApiService {
@@ -30,17 +31,10 @@ export class AccountService extends BaseApiService {
     }
 
     public confirmEmail(email: string, code: string): Observable<ApiRes> {
-        let pairs = new Array<KeyValuePair>();
-        let emailPair = new KeyValuePair();
-        emailPair.key = "email";
-        emailPair.value = email;
-        pairs.push(emailPair);
-        let codePair = new KeyValuePair();
-        codePair.key = "code";
-        codePair.value = code;
-        pairs.push(codePair);
-
-        return this.getByParamsWithoutAuth("/api/account/confirmemail", pairs);
+        var params = new Dictionary<any>();
+        params.add("email", email);
+        params.add("code", code);
+        return this.getByParamsWithoutAuth("/api/account/confirmemail", params);
     }
 
     public setPassword(model: SetPasswordModel): Observable<ApiRes> {
@@ -48,18 +42,16 @@ export class AccountService extends BaseApiService {
     }
 
     public checkUserNameExists(username: string): Observable<ApiRes> {
-        let pair = new KeyValuePair();
-        pair.key = "userName";
-        pair.value = username;
-        return this.getByParamsWithoutAuth("/api/account/check/usernameexist", [pair]);
+        let params = new Dictionary<any>();
+        params.add("userName", username)
+        return this.getByParamsWithoutAuth("/api/account/check/usernameexist", params);
     }
 
     public requestResetPassword(email: string): Observable<ApiRes> {
-        let emailPair = new KeyValuePair();
-        emailPair.key = "email";
-        emailPair.value = email;
+        var params = new Dictionary<any>();
+        params.add("email", email);
 
-        return this.getByParamsWithoutAuth("/api/account/forgotpassword", [emailPair]);
+        return this.getByParamsWithoutAuth("/api/account/forgotpassword", params);
     }
 
     public resetPassword(model: ResetPasswordModel): Observable<ApiRes> {

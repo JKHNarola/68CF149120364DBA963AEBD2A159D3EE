@@ -40,7 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\misc\app.enums.ts" />
     <None Remove="ClientApp\src\app\misc\global.errorhandler.ts" />
+    <None Remove="ClientApp\src\app\misc\query.ts" />
+    <None Remove="ClientApp\src\app\pages\page3\productViewModel.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,7 +88,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\misc\app.enums.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\misc\global.errorhandler.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\misc\query.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pages\page3\productViewModel.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

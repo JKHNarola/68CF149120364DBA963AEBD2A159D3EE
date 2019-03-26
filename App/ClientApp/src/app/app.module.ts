@@ -37,6 +37,7 @@ FusionChartsModule.fcRoot(
     OceanTheme,
     ZuneTheme,
     FintTheme);
+import { PaginationModule} from 'ngx-bootstrap/pagination';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -51,6 +52,7 @@ import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.c
 import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.component';
 import { ChangePasswordComponent } from './pages/changepassword/changepassword.component';
 import { GlobalErrorHandler } from './misc/global.errorhandler';
+import { AppPaginationComponent } from './components/app.pagination';
 
 @NgModule({
     declarations: [
@@ -65,7 +67,8 @@ import { GlobalErrorHandler } from './misc/global.errorhandler';
         Page4Component,
         ForgotPasswordComponent,
         ResetPasswordComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        AppPaginationComponent 
     ],
     imports: [
         BrowserModule,
@@ -83,7 +86,8 @@ import { GlobalErrorHandler } from './misc/global.errorhandler';
             resetTimeoutOnDuplicate: true,
             closeButton: true
         }),
-        FusionChartsModule
+        FusionChartsModule,
+        PaginationModule.forRoot()
     ],
     providers: [
         AuthService,

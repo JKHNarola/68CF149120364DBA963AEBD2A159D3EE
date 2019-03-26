@@ -13,7 +13,7 @@ namespace App.BL
 {
     public static class DynamicLinqHelper
     {
-        public static async Task<DataSourceResult<T>> ToDatsSourceResultAsync<T>(this IQueryable<T> queryable, Q q)
+        public static async Task<DataSourceResult<T>> ToDatsSourceResultAsync<T>(this IQueryable<T> queryable, Query q)
         {
             try
             {
@@ -35,19 +35,19 @@ namespace App.BL
                 throw ex;
             }
         }
-        private static IQueryable<T> PrepareWhereClause<T>(IQueryable<T> queryable, Q q)
+        private static IQueryable<T> PrepareWhereClause<T>(IQueryable<T> queryable, Query q)
         {
             var wc = new StringBuilder();
             var values = new List<object>();
             var valueIndex = 0;
-            foreach (var x in q.GetWhereClauseParts())
+            foreach (var x in q.WhereClauseParts)
             {
                 if (x.IsStartBracket)
-                    wc.Append(" ( ");
+                    wc.Append("( ");
                 else if (x.IsEndBracket)
-                    wc.Append(" ) ");
+                    wc.Append(") ");
                 else if (x.Logic.HasValue)
-                    wc.Append(" " + x.Logic.ToString() + " ");
+                    wc.Append(x.Logic.ToString().ToUpper() + " ");
                 else
                 {
                     switch (x.Operator)
@@ -115,31 +115,33 @@ namespace App.BL
                             valueIndex++;
                             break;
                         case Operator.In:
-                            object[] lst;
-                            try
+                            //https://stackoverflow.com/questions/3074713/in-vs-or-in-the-sql-where-clause
+                            //Converted In to Ors
+                            var lst = ((JArray)x.Value).ToObject<object[]>();
+                            wc.Append("( ");
+                            var or = " ";
+                            foreach (var o in lst)
                             {
-                                lst = ((JArray)x.Value).ToObject<object[]>();
+                                wc.Append(or + x.ColumnName + "=@" + valueIndex);
+                                or = " OR ";
+                                values.Add(o);
+                                valueIndex++;
                             }
-                            catch
-                            {
-                                lst = (object[])x.Value;
-                            }
-                            wc.Append("@" + valueIndex + ".Contains(" + x.ColumnName + ") ");
-                            values.Add(lst);
-                            valueIndex++;
+                            wc.Append(") ");
                             break;
                         case Operator.NotIn:
-                            try
+                            //Converted NotIn to Ands
+                            lst = ((JArray)x.Value).ToObject<object[]>();
+                            wc.Append("( ");
+                            var and = " ";
+                            foreach (var o in lst)
                             {
-                                lst = ((JArray)x.Value).ToObject<object[]>();
+                                wc.Append(and + x.ColumnName + "!=@" + valueIndex);
+                                and = " AND ";
+                                values.Add(o);
+                                valueIndex++;
                             }
-                            catch
-                            {
-                                lst = (object[])x.Value;
-                            }
-                            wc.Append("!@" + valueIndex + ".Contains(" + x.ColumnName + ") ");
-                            values.Add(lst);
-                            valueIndex++;
+                            wc.Append(") ");
                             break;
                         default:
                             throw new NotImplementedException("Operator " + x.Operator.ToString() + " not implemented.");
@@ -154,10 +156,10 @@ namespace App.BL
             else
                 return queryable;
         }
-        private static IQueryable<T> PrepareSort<T>(IQueryable<T> queryable, Q q)
+        private static IQueryable<T> PrepareSort<T>(IQueryable<T> queryable, Query q)
         {
             var ordering = "";
-            var sorts = q.GetSorts();
+            var sorts = q.Sorts;
             if (sorts != null)
                 ordering = string.Join(",", sorts.Select(s => s.ColumnName + " " + s.Direction.ToString()));
 
@@ -165,9 +167,9 @@ namespace App.BL
 
             return queryable.OrderBy(ordering);
         }
-        private static object PrepareAggregate<T>(IQueryable<T> queryable, Q q)
+        private static object PrepareAggregate<T>(IQueryable<T> queryable, Query q)
         {
-            var aggregates = q.GetAggregators();
+            var aggregates = q.Aggregates;
             if (aggregates != null && aggregates.Any())
             {
                 var objProps = new Dictionary<DynamicProperty, object>();

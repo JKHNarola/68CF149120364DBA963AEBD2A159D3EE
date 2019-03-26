@@ -1,7 +1,9 @@
+using App.BL;
 using App.BL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace App.Controllers
@@ -24,9 +26,10 @@ namespace App.Controllers
         [Authorize]
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> ListAsync()
+        public async Task<IActionResult> ListAsync(string q)
         {
-            var res = await _prodRepo.ListAsync();
+            var query = JsonConvert.DeserializeObject<Query>(q, AppCommon.SerializerSettings);
+            var res = await _prodRepo.ListAsync(query);
             return OKResult(res);
         }
     }

@@ -7,95 +7,113 @@ using System.Reflection;
 
 namespace App.BL
 {
-    public class Q
+    public class Query
     {
-        private List<ConditionPart> _whereClauseParts = null;
-        private Dictionary<string, object> _extras = null;
-        private List<Sort> _sorts = null;
-        private List<Aggregator> _aggregates = null;
+        public List<ConditionPart> WhereClauseParts = null;
+        public Dictionary<string, object> Extras = null;
+        public List<Sort> Sorts = null;
+        public List<Aggregator> Aggregates = null;
         public int PageNo { get; set; } = 1;
         public int PageSize { get; set; } = 10;
 
-        public Q(int pageNo, int pageSize)
+        public Query(int pageNo, int pageSize)
         {
             PageNo = pageNo;
             PageSize = pageSize;
             Init();
         }
 
-        public Q()
+        public Query()
         {
             Init();
         }
 
         private void Init()
         {
-            _whereClauseParts = new List<ConditionPart>();
-            _aggregates = new List<Aggregator>();
-            _sorts = new List<Sort>();
-            _extras = new Dictionary<string, object>();
+            WhereClauseParts = new List<ConditionPart>();
+            Aggregates = new List<Aggregator>();
+            Sorts = new List<Sort>();
+            Extras = new Dictionary<string, object>();
         }
 
         public void AddStartBracket()
         {
-            _whereClauseParts.Add(new ConditionPart() { IsStartBracket = true, IsEndBracket = false });
+            WhereClauseParts.Add(new ConditionPart() { IsStartBracket = true, IsEndBracket = false });
         }
 
         public void AddEndBracket()
         {
-            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = true, IsStartBracket = false });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = true, IsStartBracket = false });
         }
 
         public void AddCondition(string columnName, object value, Operator op = Operator.Eq)
         {
-            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value });
+        }
+
+        public void AddConditionIsNull(string columnName)
+        {
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNull, Value = null });
+        }
+
+        public void AddConditionIsNotNull(string columnName)
+        {
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotNull, Value = null });
+        }
+
+        public void AddConditionIsEmpty(string columnName)
+        {
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsEmpty, Value = null });
+        }
+
+        public void AddConditionIsNotEmpty(string columnName)
+        {
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotEmpty, Value = null });
         }
 
         public void AddLogic(Logic logic = Logic.And)
         {
-            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = logic });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = logic });
         }
 
         public void AddAnd()
         {
-            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.And });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.And });
         }
 
         public void AddOr()
         {
-            _whereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.Or });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.Or });
         }
 
         public void AddSort(string columnName, SortOrder direction)
         {
-            //TODO Check not repeated
-            _sorts.Add(new Sort()
-            {
-                ColumnName = columnName,
-                Direction = direction
-            });
+            var s = Sorts.FirstOrDefault(x => x.ColumnName.ToLower() == columnName.ToLower());
+            if (s != null) s.Direction = direction;
+            else
+                Sorts.Add(new Sort()
+                {
+                    ColumnName = columnName,
+                    Direction = direction
+                });
         }
 
         public void AddAggregate(string columnName, string aggregate)
         {
-            //TODO Check not repeated
-            _aggregates.Add(new Aggregator()
-            {
-                ColumnName = columnName,
-                Aggregate = aggregate
-            });
+            var a = Aggregates.FirstOrDefault(x => x.ColumnName.ToLower() == columnName.ToLower());
+            if (a != null) a.Aggregate = aggregate;
+            else
+                Aggregates.Add(new Aggregator()
+                {
+                    ColumnName = columnName,
+                    Aggregate = aggregate
+                });
         }
 
         public void AddExtra(string key, object value)
         {
-            _extras.Add(key, value);
+            Extras.Add(key, value);
         }
-
-        public List<Sort> GetSorts() => _sorts;
-
-        public List<ConditionPart> GetWhereClauseParts() => _whereClauseParts;
-
-        public List<Aggregator> GetAggregators() => _aggregates;
     }
 
     public class Sort

@@ -1,3 +1,22 @@
 <div class="my-2" @pageSlideUpAnimation>
     <h3>Page 3</h3>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let t of data;">
+                    <td>{{t.ProductName}}</td>
+                    <td>{{t.CategoryName}}</td>
+                    <td>{{t.UnitPrice}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <app-pagination [pageSize]="paginator.pageSize" [pageNo]="paginator.pageNo" [total]="paginator.totalItems" (onPageChanged)="onPageChanged($event)"></app-pagination>
 </div>

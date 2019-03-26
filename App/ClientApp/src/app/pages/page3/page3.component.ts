@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { BaseApiService } from 'src/app/services/baseapiservice';
+import { Query, Dictionary, Paginator } from '../../misc/query';
+import { Operator, SortOrder } from 'src/app/misc/app.enums';
+import { ProductViewModel } from './productViewModel';
 
 @Component({
     selector: 'page-three',
@@ -8,40 +11,26 @@ import { BaseApiService } from 'src/app/services/baseapiservice';
     animations: [pageSlideUpAnimation],
     providers: [BaseApiService]
 })
-export class Page3Component {
+export class Page3Component implements OnInit {
+    paginator = new Paginator(10, 1, 0);
+    data: Array<ProductViewModel> = [];
     constructor(private apiService: BaseApiService) {
-        this.apiService.get("api/product/list").subscribe(result => {
-            console.log(result);
+    }
+
+    ngOnInit(): void {
+        this.getProducts();
+    }
+
+    getProducts() {
+        let q: Query = new Query(this.paginator.pageNo, this.paginator.pageSize);
+        this.apiService.getByParams("api/product/list", new Dictionary<any>([{ key: "q", value: q }])).subscribe(result => {
+            this.paginator.totalItems = result.data.total;
+            this.data = result.data.data;
         });
+    }
 
-        //this.apiService.getFile("api/test/download").subscribe(x => {
-        //    console.log(x);
-        //    // It is necessary to create a new blob object with mime-type explicitly set
-        //    // otherwise only Chrome works like it should
-        //    var newBlob = new Blob([x], { type: "text/html" });
-
-        //    // IE doesn't allow using a blob object directly as link href
-        //    // instead it is necessary to use msSaveOrOpenBlob
-        //    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        //        window.navigator.msSaveOrOpenBlob(newBlob);
-        //        return;
-        //    }
-
-        //    // For other browsers: 
-        //    // Create a link pointing to the ObjectURL containing the blob.
-        //    const data = window.URL.createObjectURL(newBlob);
-
-        //    var link = document.createElement('a');
-        //    link.href = data;
-        //    link.download = "abc.html";
-        //    // this is necessary as link.click() does not work on the latest firefox
-        //    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-        //    setTimeout(function () {
-        //        // For Firefox it is necessary to delay revoking the ObjectURL
-        //        window.URL.revokeObjectURL(data);
-        //        link.remove();
-        //    }, 100);
-        //});
+    onPageChanged(e) {
+        this.paginator.pageNo = e.page;
+        this.getProducts();
     }
 }
