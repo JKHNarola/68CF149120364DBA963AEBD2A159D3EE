@@ -140,14 +140,3 @@ export class Dictionary<T> {
         return true;
     }
 }
-
-export class Paginator {
-    public pageSize: number;
-    public pageNo: number;
-    public totalItems: number;
-    constructor(size: number, no: number, totalItems: number) {
-        this.pageSize = size;
-        this.pageNo = no;
-        this.totalItems = totalItems;
-    }
-}

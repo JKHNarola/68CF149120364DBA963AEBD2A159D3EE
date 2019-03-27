@@ -21,7 +21,7 @@ namespace App.BL
                 var total = queryable.Count();
                 var aggregate = PrepareAggregate(queryable, q);
                 queryable = PrepareSort(queryable, q);
-                if (q.PageNo > 0)
+                if (q.PageNo > 0 && q.PageSize > 0)
                     queryable = PreparePage(queryable, q.PageNo, q.PageSize);
                 return new DataSourceResult<T>
                 {

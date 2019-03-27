@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { routes, AuthGuardService } from './app.router';
 import { AuthService } from './services/app.auth.service';
@@ -74,6 +75,7 @@ import { AppPaginationComponent } from './components/app.pagination';
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         BrowserAnimationsModule,

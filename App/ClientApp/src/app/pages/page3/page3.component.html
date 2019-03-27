@@ -18,5 +18,5 @@
             </tbody>
         </table>
     </div>
-    <app-pagination [pageSize]="paginator.pageSize" [pageNo]="paginator.pageNo" [total]="paginator.totalItems" (onPageChanged)="onPageChanged($event)"></app-pagination>
+    <app-pagination [pageSize]="10" [total]="totalItems" (onPageChanged)="onPageChanged($event)"></app-pagination>
 </div>

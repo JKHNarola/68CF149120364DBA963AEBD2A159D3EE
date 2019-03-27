@@ -6,4 +6,3 @@ var ProductViewModel = /** @class */ (function () {
     return ProductViewModel;
 }());
 exports.ProductViewModel = ProductViewModel;
-//# sourceMappingURL=productViewModel.js.map

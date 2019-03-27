@@ -1,26 +1,33 @@
 <div class="row">
-    <div class="col-xs-12 col-6">
+    <hr />
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <div>Showing <b>{{pageNo}}</b> of total <b>{{totalPages}}</b> pages</div>
+    </div>
+    <div class="col-sm-3">
         <div class="btn-group" dropdown>
-            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+            <button id="button-basic" dropdownToggle type="button" class="btn dropdown-toggle"
                     aria-controls="dropdown-basic">
-                <b>{{pageSize}}</b> Items per page <span class="caret"></span>
+                <b *ngIf="pageSize==0">All</b><b *ngIf="pageSize>0">{{pageSize}}</b> items per page <span class="caret"></span>
             </button>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
                 role="menu" aria-labelledby="button-basic">
-                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=10;pageChanged({page:pageNo, itemsPerPage=pageSize})">10</span></li>
-                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=20;pageChanged({page:pageNo, itemsPerPage=pageSize})">25</span></li>
-                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=50;pageChanged({page:pageNo, itemsPerPage=pageSize})">50</span></li>
-                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=100;pageChanged({page:pageNo, itemsPerPage=pageSize})">100</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=5;">5</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=10;">10</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=25;">25</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=50;">50</span></li>
+                <li role="menuitem"><span class="dropdown-item" (click)="pageSize=100;">100</span></li>
                 <li class="divider dropdown-divider"></li>
                 <li role="menuitem">
-                    <span class="dropdown-item" (click)="pageSize=0;pageChanged({page:pageNo, itemsPerPage=pageSize})">All</span>
+                    <span class="dropdown-item" (click)="pageSize=0;">All</span>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="col-xs-12 col-6">
+    <div class="col-sm-6">
         <div class="float-right">
-            <pagination [totalItems]="total" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"></pagination>
+            <pagination [totalItems]="total" [maxSize]="10" [itemsPerPage]="pageSize" [(ngModel)]="pageNo" (numPages)="numPages($event)" (pageChanged)="pageChanged($event)"></pagination>
         </div>
     </div>
 </div>

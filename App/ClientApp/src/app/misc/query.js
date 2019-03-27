@@ -113,13 +113,3 @@ var Dictionary = /** @class */ (function () {
     return Dictionary;
 }());
 exports.Dictionary = Dictionary;
-var Paginator = /** @class */ (function () {
-    function Paginator(size, no, totalItems) {
-        this.pageSize = size;
-        this.pageNo = no;
-        this.totalItems = totalItems;
-    }
-    return Paginator;
-}());
-exports.Paginator = Paginator;
-//# sourceMappingURL=query.js.map
