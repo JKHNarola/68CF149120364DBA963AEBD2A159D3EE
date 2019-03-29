@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { BaseApiService } from 'src/app/services/baseapiservice';
 import { Query, Sort, Paginator } from '../../misc/query';
@@ -14,6 +14,7 @@ export class Page3Component implements OnInit {
     sort: Sort = new Sort(null, null);
     paginator: Paginator = new Paginator(1, 5);
     data: Array<ProductViewModel> = [];
+    loading = false;
 
     constructor(private apiService: BaseApiService) {
     }
@@ -24,9 +25,11 @@ export class Page3Component implements OnInit {
     getProducts() {
         let q: Query = new Query(this.paginator.pageNo, this.paginator.pageSize);
         q.addSort(this.sort.columnName, this.sort.direction);
+        this.loading = true;
         this.apiService.getByParams("api/product/list", { q: q }).subscribe(result => {
             this.paginator.totalItems = result.data.total;
             this.data = result.data.data;
+            this.loading = false;
         });
     }
 }
