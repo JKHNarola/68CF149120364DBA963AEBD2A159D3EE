@@ -44,11 +44,13 @@ var Query = /** @class */ (function () {
         this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, app_enums_1.Logic.Or));
     };
     Query.prototype.addSort = function (columnName, direction) {
-        var filtered = this.sorts.filter(function (x) { return x.columnName.toLowerCase() == columnName.toLowerCase(); });
-        if (filtered != null && filtered.length >= 1)
-            filtered[0].direction = direction;
-        else
-            this.sorts.push(new Sort(columnName, direction));
+        if (columnName && direction) {
+            var filtered = this.sorts.filter(function (x) { return x.columnName.toLowerCase() == columnName.toLowerCase(); });
+            if (filtered != null && filtered.length >= 1)
+                filtered[0].direction = direction;
+            else
+                this.sorts.push(new Sort(columnName, direction));
+        }
     };
     Query.prototype.addExtra = function (key, value) {
         this.extras.add(key, value);
@@ -113,3 +115,11 @@ var Dictionary = /** @class */ (function () {
     return Dictionary;
 }());
 exports.Dictionary = Dictionary;
+var Paginator = /** @class */ (function () {
+    function Paginator(pageNo, pageSize) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+    return Paginator;
+}());
+exports.Paginator = Paginator;

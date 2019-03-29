@@ -1,0 +1,45 @@
+<div *ngIf="paginator.totalItems>0">
+    <div class="row">
+        <div class="col-12 col-sm-8">
+            <div class="float-left pr-2">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-sm btn-outline-primary" id="drpPageSize" ngbDropdownToggle>
+                        <b *ngIf="paginator.pageSize==0">All</b><b *ngIf="paginator.pageSize>0">{{paginator.pageSize}}</b> items per page <span class="caret"></span>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="drpPageSize">
+                        <button *ngFor="let x of drpItemsPerPage" role="menuitem" ngbDropdownItem (click)="onPageSizeChanged(x)">{{x}}</button>
+                        <button role="menuitem" ngbDropdownItem (click)="onPageSizeChanged(0)">All</button>
+                    </div>
+                </div>
+            </div>
+            <div class="float-left">
+                <ngb-pagination [collectionSize]="paginator.totalItems"
+                                [(page)]="paginator.pageNo"
+                                [maxSize]="paginator.maxSize"
+                                [pageSize]="paginator.pageSize == 0 ? paginator.totalItems : paginator.pageSize"
+                                (pageChange)="onPageChanged()"
+                                [rotate]="true"
+                                [ellipses]="false"
+                                [boundaryLinks]="true" size="sm"></ngb-pagination>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="text-right small">
+                Showing <b>{{recordStart}}</b> to <b>{{recordEnd}}</b> of total <b>{{paginator.totalItems}}</b> items&nbsp;&nbsp;
+                <button class="btn btn-refresh" (click)="onPageChanged()">
+                    <i class="fa fa-sync"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div *ngIf="paginator.totalItems<1">
+    <div class="row">
+        <div class="col-3 mx-auto">
+            <div class="text-center my-2 text-secondary">
+                <i>No records to display</i>
+            </div>
+        </div>
+    </div>
+</div>

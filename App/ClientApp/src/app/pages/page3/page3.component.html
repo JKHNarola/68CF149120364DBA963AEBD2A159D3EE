@@ -1,12 +1,12 @@
 <div class="my-2" @pageSlideUpAnimation>
-    <h3>Page 3</h3>
+    <h3>Products</h3>
     <div class="row">
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Price</th>
+                    <th sort [model]="sort" (getData)="getProducts()" [title]="'Name '" [columnName]="'productName'" scope="col"></th>
+                    <th sort [model]="sort" (getData)="getProducts()" [title]="'Category '" [columnName]="'categoryName'" scope="col"></th>
+                    <th sort [model]="sort" (getData)="getProducts()" [title]="'Price '" [columnName]="'unitPrice'" scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -18,5 +18,5 @@
             </tbody>
         </table>
     </div>
-    <app-pagination [pageSize]="10" [total]="totalItems" (onPageChanged)="onPageChanged($event)"></app-pagination>
+    <app-pagination [paginator]="paginator" (getData)="getProducts()"></app-pagination>
 </div>

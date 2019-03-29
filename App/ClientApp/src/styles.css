@@ -14,9 +14,17 @@ body {
     background-attachment: fixed;
     background-color: rgb(240, 240, 240);
     /* For browsers that do not support gradients */
-    background-image: linear-gradient(to bottom right, 
-    rgb(226, 230, 245), 
-    rgb(250, 245, 231));
+    background-image: linear-gradient(to bottom right, rgb(226, 230, 245), rgb(250, 245, 231));
     /* Standard syntax (must be last) */
+}
 
+.paginator-divider {
+    border-top: 1px solid #dee2e6;
+}
+
+.btn-refresh {
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    line-height: 1.0;
+    border-radius: 2.2rem;
 }

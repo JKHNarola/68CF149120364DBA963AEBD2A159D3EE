@@ -38,8 +38,7 @@ FusionChartsModule.fcRoot(
     OceanTheme,
     ZuneTheme,
     FintTheme);
-import { PaginationModule} from 'ngx-bootstrap/pagination';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -54,7 +53,8 @@ import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.c
 import { ResetPasswordComponent } from './pages/resetpassword/resetpassword.component';
 import { ChangePasswordComponent } from './pages/changepassword/changepassword.component';
 import { GlobalErrorHandler } from './misc/global.errorhandler';
-import { AppPaginationComponent } from './components/app.pagination';
+import { AppPaginationComponent } from './components/pagination/app.pagination';
+import { AppSortComponent } from './components/sort/app.sort';
 
 @NgModule({
     declarations: [
@@ -70,7 +70,8 @@ import { AppPaginationComponent } from './components/app.pagination';
         ForgotPasswordComponent,
         ResetPasswordComponent,
         ChangePasswordComponent,
-        AppPaginationComponent 
+        AppPaginationComponent,
+        AppSortComponent
     ],
     imports: [
         BrowserModule,
@@ -90,8 +91,7 @@ import { AppPaginationComponent } from './components/app.pagination';
             closeButton: true
         }),
         FusionChartsModule,
-        PaginationModule.forRoot(),
-        BsDropdownModule.forRoot()
+        NgbModule
     ],
     providers: [
         AuthService,

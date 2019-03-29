@@ -1,0 +1,3 @@
+<div (click)="onSort()">
+    {{title}}<i class="fa" [ngClass]="{'fa-sort':model.columnName!=columnName,'fa-caret-down':model.direction == SO.Desc ,'fa-caret-up':model.direction == SO.Asc }"></i>
+</div>

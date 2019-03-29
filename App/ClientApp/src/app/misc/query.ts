@@ -59,10 +59,12 @@ export class Query {
     }
 
     public addSort(columnName: string, direction: SortOrder) {
-        let filtered = this.sorts.filter(x => x.columnName.toLowerCase() == columnName.toLowerCase());
-        if (filtered != null && filtered.length >= 1) filtered[0].direction = direction;
-        else
-            this.sorts.push(new Sort(columnName, direction));
+        if (columnName && direction) {
+            let filtered = this.sorts.filter(x => x.columnName.toLowerCase() == columnName.toLowerCase());
+            if (filtered != null && filtered.length >= 1) filtered[0].direction = direction;
+            else
+                this.sorts.push(new Sort(columnName, direction));
+        }
     }
 
     public addExtra(key: string, value: any) {
@@ -138,5 +140,16 @@ export class Dictionary<T> {
     containsKey(key: string) {
         if (typeof this[key] === "undefined") return false;
         return true;
+    }
+}
+
+export class Paginator {
+    public pageNo: number;
+    public pageSize: number;
+    public totalItems: number;
+    public maxSize: number;
+    constructor(pageNo: number, pageSize: number) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
     }
 }
