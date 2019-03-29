@@ -1,6 +1,27 @@
 <div class="my-2" @pageSlideUpAnimation>
     <h3>Products</h3>
     <div class="row">
+        <div class="col-sm-3 form-group">
+            <label for="filterName">Name</label>
+            <input id="filterName" type="text" class="form-control" [(ngModel)]="filter.name" />
+        </div>
+        <div class="col-sm-2 form-group">
+            <label for="filterPGT">Price >=</label>
+            <input id="filterPGT" type="text" class="form-control" [(ngModel)]="filter.pricegt" />
+        </div>
+        <div class="col-sm-2 form-group">
+            <label for="filterPLT">Price <=</label>
+            <input id="filterPLT" type="text" class="form-control" [(ngModel)]="filter.pricelt" />
+        </div>
+        <div class="col-sm-4 form-group">
+            <label for="filterBtns">&nbsp;</label>
+            <div id="filterBtns" class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-primary" [disabled]="!filter" (click)="getProducts();" >Serach</button>
+                <button class="btn btn-danger" [disabled]="!filter" (click)="filter={};getProducts();" >Reset</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <table class="table">
             <thead>
                 <tr>
