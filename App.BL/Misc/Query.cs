@@ -36,9 +36,9 @@ namespace App.BL
             Extras = new Dictionary<string, object>();
         }
 
-        public void AddStartBracket()
+        public void AddStartBracket(Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsStartBracket = true, IsEndBracket = false });
+            WhereClauseParts.Add(new ConditionPart() { IsStartBracket = true, IsEndBracket = false, Logic = logic });
         }
 
         public void AddEndBracket()
@@ -46,44 +46,29 @@ namespace App.BL
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = true, IsStartBracket = false });
         }
 
-        public void AddCondition(string columnName, object value, Operator op = Operator.Eq)
+        public void AddCondition(string columnName, object value, Operator op = Operator.Eq, Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value, Logic = logic });
         }
 
-        public void AddConditionIsNull(string columnName)
+        public void AddConditionIsNull(string columnName, Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNull, Value = null });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNull, Value = null, Logic = logic });
         }
 
-        public void AddConditionIsNotNull(string columnName)
+        public void AddConditionIsNotNull(string columnName, Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotNull, Value = null });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotNull, Value = null, Logic = logic });
         }
 
-        public void AddConditionIsEmpty(string columnName)
+        public void AddConditionIsEmpty(string columnName, Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsEmpty, Value = null });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsEmpty, Value = null, Logic = logic });
         }
 
-        public void AddConditionIsNotEmpty(string columnName)
+        public void AddConditionIsNotEmpty(string columnName, Logic? logic = null)
         {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotEmpty, Value = null });
-        }
-
-        public void AddLogic(Logic logic = Logic.And)
-        {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = logic });
-        }
-
-        public void AddAnd()
-        {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.And });
-        }
-
-        public void AddOr()
-        {
-            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, Logic = Logic.Or });
+            WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotEmpty, Value = null, Logic = logic });
         }
 
         public void AddSort(string columnName, SortOrder direction)

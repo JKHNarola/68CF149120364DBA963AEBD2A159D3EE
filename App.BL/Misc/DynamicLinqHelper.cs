@@ -42,15 +42,15 @@ namespace App.BL
             var valueIndex = 0;
             foreach (var x in q.WhereClauseParts)
             {
+                if (x.Logic.HasValue)
+                    wc.Append(x.Logic.Value.ToString().ToUpper() + " ");
                 if (x.IsStartBracket)
                     wc.Append("( ");
-                else if (x.IsEndBracket)
+                if (x.IsEndBracket)
                     wc.Append(") ");
-                else if (x.Logic.HasValue)
-                    wc.Append(x.Logic.ToString().ToUpper() + " ");
-                else
+                if (x.Operator.HasValue)
                 {
-                    switch (x.Operator)
+                    switch (x.Operator.Value)
                     {
                         case Operator.Gt:
                             wc.Append(x.ColumnName + ">@" + valueIndex + " ");

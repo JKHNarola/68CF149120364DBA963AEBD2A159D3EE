@@ -9,39 +9,28 @@ var Query = /** @class */ (function () {
         this.sorts = [];
         this.extras = new Dictionary();
     }
-    Query.prototype.addStartBracket = function () {
-        this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, null));
+    Query.prototype.addStartBracket = function (logic) {
+        this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, logic));
     };
     Query.prototype.addEndBracket = function () {
         this.whereClauseParts.push(new ConditionPart(false, true, null, null, null, null));
     };
-    Query.prototype.addCondition = function (columnName, value, op) {
+    Query.prototype.addCondition = function (columnName, value, op, logic) {
         if (op == null)
             op = app_enums_1.Operator.Eq;
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, null));
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, logic));
     };
-    Query.prototype.addConditionIsNull = function (columnName) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNull, null, null));
+    Query.prototype.addConditionIsNull = function (columnName, logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNull, null, logic));
     };
-    Query.prototype.addConditionIsNotNull = function (columnName) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotNull, null, null));
+    Query.prototype.addConditionIsNotNull = function (columnName, logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotNull, null, logic));
     };
-    Query.prototype.addConditionIsEmpty = function (columnName) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsEmpty, null, null));
+    Query.prototype.addConditionIsEmpty = function (columnName, logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsEmpty, null, logic));
     };
-    Query.prototype.addConditionIsNotEmpty = function (columnName) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotEmpty, null, null));
-    };
-    Query.prototype.addLogic = function (logic) {
-        if (logic == null)
-            logic = app_enums_1.Logic.And;
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, logic));
-    };
-    Query.prototype.addAnd = function () {
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, app_enums_1.Logic.And));
-    };
-    Query.prototype.addOr = function () {
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, app_enums_1.Logic.Or));
+    Query.prototype.addConditionIsNotEmpty = function (columnName, logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotEmpty, null, logic));
     };
     Query.prototype.addSort = function (columnName, direction) {
         if (columnName && direction) {

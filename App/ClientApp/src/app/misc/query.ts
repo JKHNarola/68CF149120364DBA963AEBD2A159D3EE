@@ -16,46 +16,33 @@ export class Query {
         this.extras = new Dictionary<any>();
     }
 
-    public addStartBracket() {
-        this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, null));
+    public addStartBracket(logic?: Logic) {
+        this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, logic));
     }
 
     public addEndBracket() {
         this.whereClauseParts.push(new ConditionPart(false, true, null, null, null, null));
     }
 
-    public addCondition(columnName: string, value: any, op?: Operator) {
+    public addCondition(columnName: string, value: any, op?: Operator, logic?: Logic) {
         if (op == null) op = Operator.Eq;
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, null));
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, logic));
     }
 
-    public addConditionIsNull(columnName: string) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNull, null, null));
+    public addConditionIsNull(columnName: string, logic?: Logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNull, null, logic));
     }
 
-    public addConditionIsNotNull(columnName: string) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotNull, null, null));
+    public addConditionIsNotNull(columnName: string, logic?: Logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotNull, null, logic));
     }
 
-    public addConditionIsEmpty(columnName: string) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsEmpty, null, null));
+    public addConditionIsEmpty(columnName: string, logic?: Logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsEmpty, null, logic));
     }
 
-    public addConditionIsNotEmpty(columnName: string) {
-        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotEmpty, null, null));
-    }
-
-    public addLogic(logic?: Logic) {
-        if (logic == null) logic = Logic.And;
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, logic));
-    }
-
-    public addAnd() {
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, Logic.And));
-    }
-
-    public addOr() {
-        this.whereClauseParts.push(new ConditionPart(false, false, null, null, null, Logic.Or));
+    public addConditionIsNotEmpty(columnName: string, logic?: Logic) {
+        this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotEmpty, null, logic));
     }
 
     public addSort(columnName: string, direction: SortOrder) {

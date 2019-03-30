@@ -5,7 +5,7 @@ import { Query, Sort, Paginator } from '../../misc/query';
 import { ProductViewModel } from './productViewModel';
 import { filter } from 'rxjs/operators';
 import { isNumber } from 'util';
-import { Operator } from 'src/app/misc/app.enums';
+import { Operator, Logic } from 'src/app/misc/app.enums';
 
 @Component({
     selector: 'page-three',
@@ -34,17 +34,12 @@ export class Page3Component implements OnInit {
         let q: Query = new Query(this.paginator.pageNo, this.paginator.pageSize);
         q.addSort(this.sort.columnName, this.sort.direction);
 
-        if (this.filter.name)
+        if (this.filter.name) 
             q.addCondition("ProductName", this.filter.name.trim(), Operator.StartsWith);
-
-        if (this.filter.pricegt && isNumber(Number(this.filter.pricegt))) {
-            q.addAnd();
-            q.addCondition("UnitPrice", Number(this.filter.pricegt.trim()), Operator.Ge);
-        }
-        if (this.filter.pricelt && isNumber(Number(this.filter.pricelt))) {
-            q.addAnd();
-            q.addCondition("UnitPrice", Number(this.filter.pricelt.trim()), Operator.Le);
-        }
+        if (this.filter.pricegt && isNumber(Number(this.filter.pricegt)))
+            q.addCondition("UnitPrice", Number(this.filter.pricegt.trim()), Operator.Ge, Logic.And);
+        if (this.filter.pricelt && isNumber(Number(this.filter.pricelt)))
+            q.addCondition("UnitPrice", Number(this.filter.pricelt.trim()), Operator.Le, Logic.And);
 
         this.loading = true;
         this.apiService.getByParams("api/product/list", { q: q }).subscribe(result => {
