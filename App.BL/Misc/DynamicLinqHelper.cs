@@ -42,7 +42,7 @@ namespace App.BL
             var valueIndex = 0;
             foreach (var x in q.WhereClauseParts)
             {
-                if (x.Logic.HasValue)
+                if (x.Logic.HasValue && wc.Length > 0)
                     wc.Append(x.Logic.Value.ToString().ToUpper() + " ");
                 if (x.IsStartBracket)
                     wc.Append("( ");

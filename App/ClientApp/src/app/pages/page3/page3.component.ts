@@ -37,9 +37,9 @@ export class Page3Component implements OnInit {
         if (this.filter.name) 
             q.addCondition("ProductName", this.filter.name.trim(), Operator.StartsWith);
         if (this.filter.pricegt && isNumber(Number(this.filter.pricegt)))
-            q.addCondition("UnitPrice", Number(this.filter.pricegt.trim()), Operator.Ge, Logic.And);
+            q.addCondition("UnitPrice", Number(this.filter.pricegt.trim()), Operator.Ge);
         if (this.filter.pricelt && isNumber(Number(this.filter.pricelt)))
-            q.addCondition("UnitPrice", Number(this.filter.pricelt.trim()), Operator.Le, Logic.And);
+            q.addCondition("UnitPrice", Number(this.filter.pricelt.trim()), Operator.Le);
 
         this.loading = true;
         this.apiService.getByParams("api/product/list", { q: q }).subscribe(result => {

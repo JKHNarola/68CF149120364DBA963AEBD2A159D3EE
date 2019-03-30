@@ -17,6 +17,7 @@ export class Query {
     }
 
     public addStartBracket(logic?: Logic) {
+        if (!logic) logic = Logic.And;
         this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, logic));
     }
 
@@ -26,6 +27,7 @@ export class Query {
 
     public addCondition(columnName: string, value: any, op?: Operator, logic?: Logic) {
         if (op == null) op = Operator.Eq;
+        if (!logic) logic = Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, logic));
     }
 
@@ -34,14 +36,17 @@ export class Query {
     }
 
     public addConditionIsNotNull(columnName: string, logic?: Logic) {
+        if (!logic) logic = Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotNull, null, logic));
     }
 
     public addConditionIsEmpty(columnName: string, logic?: Logic) {
+        if (!logic) logic = Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsEmpty, null, logic));
     }
 
     public addConditionIsNotEmpty(columnName: string, logic?: Logic) {
+        if (!logic) logic = Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotEmpty, null, logic));
     }
 

@@ -10,6 +10,8 @@ var Query = /** @class */ (function () {
         this.extras = new Dictionary();
     }
     Query.prototype.addStartBracket = function (logic) {
+        if (!logic)
+            logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(true, false, null, null, null, logic));
     };
     Query.prototype.addEndBracket = function () {
@@ -18,18 +20,26 @@ var Query = /** @class */ (function () {
     Query.prototype.addCondition = function (columnName, value, op, logic) {
         if (op == null)
             op = app_enums_1.Operator.Eq;
+        if (!logic)
+            logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, op, value, logic));
     };
     Query.prototype.addConditionIsNull = function (columnName, logic) {
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNull, null, logic));
     };
     Query.prototype.addConditionIsNotNull = function (columnName, logic) {
+        if (!logic)
+            logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotNull, null, logic));
     };
     Query.prototype.addConditionIsEmpty = function (columnName, logic) {
+        if (!logic)
+            logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsEmpty, null, logic));
     };
     Query.prototype.addConditionIsNotEmpty = function (columnName, logic) {
+        if (!logic)
+            logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotEmpty, null, logic));
     };
     Query.prototype.addSort = function (columnName, direction) {
