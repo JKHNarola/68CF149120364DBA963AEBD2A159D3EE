@@ -50,12 +50,12 @@ export class Query {
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, Operator.IsNotEmpty, null, logic));
     }
 
-    public addSort(columnName: string, direction: SortOrder) {
-        if (columnName && direction) {
-            let filtered = this.sorts.filter(x => x.columnName.toLowerCase() == columnName.toLowerCase());
-            if (filtered != null && filtered.length >= 1) filtered[0].direction = direction;
+    public addSort(sort: Sort) {
+        if (sort && sort.columnName) {
+            let filtered = this.sorts.filter(x => x.columnName.toLowerCase() == sort.columnName.toLowerCase());
+            if (filtered != null && filtered.length >= 1) filtered[0].direction = sort.direction;
             else
-                this.sorts.push(new Sort(columnName, direction));
+                this.sorts.push(sort);
         }
     }
 
@@ -74,9 +74,9 @@ export class Query {
 export class Sort {
     public columnName: string;
     public direction: SortOrder;
-    constructor(columnName: string, direction: SortOrder) {
-        this.columnName = columnName;
-        this.direction = direction;
+    constructor() {
+        this.columnName = null;
+        this.direction = SortOrder.Asc;
     }
 }
 
@@ -140,8 +140,9 @@ export class Paginator {
     public pageSize: number;
     public totalItems: number;
     public maxSize: number;
-    constructor(pageNo: number, pageSize: number) {
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+    constructor(pageNo?: number, pageSize?: number, maxSize?: number) {
+        this.pageNo = pageNo || pageNo == 0 ? pageNo : 1;
+        this.pageSize = pageSize || pageSize == 0 ? pageSize : 10;
+        this.maxSize = maxSize ? maxSize : 10;
     }
 }

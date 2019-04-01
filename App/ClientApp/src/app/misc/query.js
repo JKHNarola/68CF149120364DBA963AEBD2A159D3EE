@@ -42,13 +42,13 @@ var Query = /** @class */ (function () {
             logic = app_enums_1.Logic.And;
         this.whereClauseParts.push(new ConditionPart(false, false, columnName, app_enums_1.Operator.IsNotEmpty, null, logic));
     };
-    Query.prototype.addSort = function (columnName, direction) {
-        if (columnName && direction) {
-            var filtered = this.sorts.filter(function (x) { return x.columnName.toLowerCase() == columnName.toLowerCase(); });
+    Query.prototype.addSort = function (sort) {
+        if (sort && sort.columnName) {
+            var filtered = this.sorts.filter(function (x) { return x.columnName.toLowerCase() == sort.columnName.toLowerCase(); });
             if (filtered != null && filtered.length >= 1)
-                filtered[0].direction = direction;
+                filtered[0].direction = sort.direction;
             else
-                this.sorts.push(new Sort(columnName, direction));
+                this.sorts.push(sort);
         }
     };
     Query.prototype.addExtra = function (key, value) {
@@ -65,9 +65,9 @@ var Query = /** @class */ (function () {
 }());
 exports.Query = Query;
 var Sort = /** @class */ (function () {
-    function Sort(columnName, direction) {
-        this.columnName = columnName;
-        this.direction = direction;
+    function Sort() {
+        this.columnName = null;
+        this.direction = app_enums_1.SortOrder.Asc;
     }
     return Sort;
 }());
@@ -115,9 +115,10 @@ var Dictionary = /** @class */ (function () {
 }());
 exports.Dictionary = Dictionary;
 var Paginator = /** @class */ (function () {
-    function Paginator(pageNo, pageSize) {
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+    function Paginator(pageNo, pageSize, maxSize) {
+        this.pageNo = pageNo || pageNo == 0 ? pageNo : 1;
+        this.pageSize = pageSize || pageSize == 0 ? pageSize : 10;
+        this.maxSize = maxSize ? maxSize : 10;
     }
     return Paginator;
 }());

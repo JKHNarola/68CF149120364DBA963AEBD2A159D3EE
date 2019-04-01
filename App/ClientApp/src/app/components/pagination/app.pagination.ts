@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
 import { Paginator } from "src/app/misc/query";
+import { NgbDropdownConfig } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: "app-pagination",
     templateUrl: "./app.pagination.html",
+    providers: [NgbDropdownConfig]
 })
 export class AppPaginationComponent implements OnInit {
     @Input() paginator: Paginator = null;
@@ -19,7 +21,9 @@ export class AppPaginationComponent implements OnInit {
         return this.paginator.pageSize == 0 || this.paginator.totalItems < this.paginator.pageSize * this.paginator.pageNo ? this.paginator.totalItems : (this.paginator.pageSize * this.paginator.pageNo);
     }
 
-    constructor() {
+    constructor(config: NgbDropdownConfig) {
+        config.placement = 'top-left';
+        config.autoClose = true;
     }
 
     ngOnInit(): void {
@@ -45,8 +49,9 @@ export class AppPaginationComponent implements OnInit {
         }
         else {
             let totalPages = Math.ceil(this.paginator.totalItems / this.paginator.pageSize);
-            if (this.paginator.pageNo > totalPages) this.paginator.pageNo = totalPages;
-            else this.getData.emit();
+            if (this.paginator.pageNo > totalPages)
+                this.paginator.pageNo = totalPages;
+            this.getData.emit();
         }
     }
 }

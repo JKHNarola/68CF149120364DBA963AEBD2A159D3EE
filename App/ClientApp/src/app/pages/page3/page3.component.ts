@@ -3,9 +3,8 @@ import { pageSlideUpAnimation } from '../../misc/page.animation';
 import { BaseApiService } from 'src/app/services/baseapiservice';
 import { Query, Sort, Paginator } from '../../misc/query';
 import { ProductViewModel } from './productViewModel';
-import { filter } from 'rxjs/operators';
 import { isNumber } from 'util';
-import { Operator, Logic } from 'src/app/misc/app.enums';
+import { Operator } from 'src/app/misc/app.enums';
 
 @Component({
     selector: 'page-three',
@@ -14,8 +13,8 @@ import { Operator, Logic } from 'src/app/misc/app.enums';
     providers: [BaseApiService]
 })
 export class Page3Component implements OnInit {
-    sort: Sort = new Sort(null, null);
-    paginator: Paginator = new Paginator(1, 5);
+    sort: Sort = new Sort();
+    paginator: Paginator = new Paginator();
     data: Array<ProductViewModel> = [];
     loading = false;
     filter: any = {
@@ -32,9 +31,9 @@ export class Page3Component implements OnInit {
 
     getProducts() {
         let q: Query = new Query(this.paginator.pageNo, this.paginator.pageSize);
-        q.addSort(this.sort.columnName, this.sort.direction);
+        q.addSort(this.sort);
 
-        if (this.filter.name) 
+        if (this.filter.name)
             q.addCondition("ProductName", this.filter.name.trim(), Operator.StartsWith);
         if (this.filter.pricegt && isNumber(Number(this.filter.pricegt)))
             q.addCondition("UnitPrice", Number(this.filter.pricegt.trim()), Operator.Ge);
@@ -47,5 +46,14 @@ export class Page3Component implements OnInit {
             this.data = result.data.data;
             this.loading = false;
         });
+    }
+
+    resetFilters() {
+        this.filter.name = null;
+        this.filter.pricegt = null;
+        this.filter.pricelt = null;
+        this.sort = new Sort();
+        this.paginator = new Paginator();
+        this.getProducts();
     }
 }

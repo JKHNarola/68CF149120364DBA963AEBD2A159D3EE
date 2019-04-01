@@ -17,9 +17,6 @@ export class AppSortComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.model == null) {
-            this.model = new Sort(null, null);
-        }
     }
 
     onSort() {
