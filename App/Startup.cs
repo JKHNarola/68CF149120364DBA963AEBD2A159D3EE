@@ -107,7 +107,7 @@ namespace App
 
             services.AddScoped<IUserManagementRepository, UserManagementRepository>();
             services.AddScoped<IProductManagementRepository, ProductManagementRepository>();
-
+            services.AddScoped<ICategoryManagementRepository, CategoryManagementRepository>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -43,7 +43,8 @@
     <None Remove="ClientApp\src\app\misc\app.enums.ts" />
     <None Remove="ClientApp\src\app\misc\global.errorhandler.ts" />
     <None Remove="ClientApp\src\app\misc\query.ts" />
-    <None Remove="ClientApp\src\app\pages\page3\productViewModel.ts" />
+    <None Remove="ClientApp\src\app\pages\page3\category.viewmodel.ts" />
+    <None Remove="ClientApp\src\app\pages\page3\product.viewmodel.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -91,7 +92,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\misc\app.enums.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\misc\global.errorhandler.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\misc\query.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\pages\page3\productViewModel.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pages\page3\category.viewmodel.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pages\page3\product.viewmodel.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

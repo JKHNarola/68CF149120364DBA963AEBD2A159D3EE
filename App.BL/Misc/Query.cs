@@ -105,6 +105,13 @@ namespace App.BL
         {
             Extras.Add(key, value);
         }
+
+        public T? GetExtraValue<T>(string key) where T : struct
+        {
+            if (Extras.ContainsKey(key))
+                return (T)Extras[key];
+            return null;
+        }
     }
 
     public class Sort
