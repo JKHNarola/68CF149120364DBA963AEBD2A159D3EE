@@ -24,8 +24,8 @@ namespace App.BL.Repositories
 
         public async Task<DataSourceResult<CategoryViewModel>> ListAsync(Query q)
         {
-            var withImages = q.GetExtraValue<bool>("WithImages");
-            if (!withImages.HasValue) withImages = false;
+            var withImagesExt = q.GetExtraValue("WithImages");
+            var withImages = withImagesExt != null ? (bool)withImagesExt : false;
 
             var query = from c in _db.Categories
                         select new CategoryViewModel()
@@ -33,7 +33,7 @@ namespace App.BL.Repositories
                             CategoryID = c.CategoryID,
                             Name = c.CategoryName,
                             Description = c.Description,
-                            Picture = withImages.Value ? c.Picture : null
+                            Picture = withImages ? c.Picture : null
                         };
             return await query.ToDatsSourceResultAsync(q);
         }

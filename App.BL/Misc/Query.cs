@@ -106,10 +106,10 @@ namespace App.BL
             Extras.Add(key, value);
         }
 
-        public T? GetExtraValue<T>(string key) where T : struct
+        public object GetExtraValue(string key)
         {
-            if (Extras.ContainsKey(key))
-                return (T)Extras[key];
+            if (Extras != null && Extras.ContainsKey(key))
+                return Extras[key];
             return null;
         }
     }

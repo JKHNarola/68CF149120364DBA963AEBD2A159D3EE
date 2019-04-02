@@ -18,7 +18,7 @@ namespace App.BL
             try
             {
                 queryable = PrepareWhereClause(queryable, q);
-                var total = queryable.Count();
+                var total = await queryable.CountAsync();
                 var aggregate = PrepareAggregate(queryable, q);
                 queryable = PrepareSort(queryable, q);
                 if (q.PageNo > 0 && q.PageSize > 0)
@@ -163,7 +163,8 @@ namespace App.BL
             if (sorts != null)
                 ordering = string.Join(",", sorts.Select(s => s.ColumnName + " " + s.Direction.ToString()));
 
-            if (string.IsNullOrEmpty(ordering.Trim())) ordering = typeof(T).GetProperties()[0].Name;
+            if (string.IsNullOrEmpty(ordering.Trim()))
+                return queryable;
 
             return queryable.OrderBy(ordering);
         }
