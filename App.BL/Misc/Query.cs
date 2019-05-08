@@ -49,31 +49,31 @@ namespace App.BL
 
         public void AddCondition(string columnName, object value, Operator op = Operator.Eq, Logic? logic = null)
         {
-            if (logic == null) logic = Logic.And;
+            if (!logic.HasValue) logic = Logic.And;
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = op, Value = value, Logic = logic });
         }
 
         public void AddConditionIsNull(string columnName, Logic? logic = null)
         {
-            if (logic == null) logic = Logic.And;
+            if (!logic.HasValue) logic = Logic.And;
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNull, Value = null, Logic = logic });
         }
 
         public void AddConditionIsNotNull(string columnName, Logic? logic = null)
         {
-            if (logic == null) logic = Logic.And;
+            if (!logic.HasValue) logic = Logic.And;
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotNull, Value = null, Logic = logic });
         }
 
         public void AddConditionIsEmpty(string columnName, Logic? logic = null)
         {
-            if (logic == null) logic = Logic.And;
+            if (!logic.HasValue) logic = Logic.And;
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsEmpty, Value = null, Logic = logic });
         }
 
         public void AddConditionIsNotEmpty(string columnName, Logic? logic = null)
         {
-            if (logic == null) logic = Logic.And;
+            if (!logic.HasValue) logic = Logic.And;
             WhereClauseParts.Add(new ConditionPart() { IsEndBracket = false, IsStartBracket = false, ColumnName = columnName, Operator = Operator.IsNotEmpty, Value = null, Logic = logic });
         }
 
