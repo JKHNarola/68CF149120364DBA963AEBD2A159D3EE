@@ -31,7 +31,7 @@ namespace App.BL.Services
             var objMail = new MailMessage();
 
             if (toAddrs == null || toAddrs.Count == 0)
-                throw new Exception("No 'to email address' found to send email");
+                throw new AppException("No 'to email address' found to send email");
 
             foreach (var add in toAddrs)
                 objMail.To.Add(add);
